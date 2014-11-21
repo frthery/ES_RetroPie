@@ -1,0 +1,59 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides: btDaemon.sh
+# Required-Start: $network $local_fs $remote_fs
+# Required-Stop: $network $local_fs $remote_fs
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: btDaemon init script.
+# Description: Starts and stops btDaemon service.
+### END INIT INFO
+
+#VAR
+RUN="/home/pi/btDaemon.sh"
+BTD_PID=$(ps -eo pid,command | grep "/bin/bash $RUN" | grep -v grep | awk '{print $1}')
+
+serviceStatus() {
+   if [ ! -z "$BTD_PID" ]; then
+      echo -e '\033[0mservice btDaemon.sh ['$BTD_PID'] [\033[33;32m OK \033[0m]'
+   else
+      echo -e '\033[0mservice btDaemon.sh [\033[33;31m KO \033[0m]'
+   fi
+}
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+   start)
+      echo "Starting script $RUN ..."
+      if [ -z "$BTD_PID" ]; then
+         nice -n 19 $RUN&
+
+         if [ $? -eq 0 ]; then
+            echo -e "\033[0mscript $RUN [\033[33;32m STARTED \033[0m]"
+         fi
+      else
+         echo "script $RUN already started ['$BTD_PID']!"
+      fi
+      #serviceStatus
+   ;;
+   stop)
+      echo "Stopping script $RUN ..."
+      if [ ! -z "$BTD_PID" ]; then
+         kill $BTD_PID
+
+         if [ $? -eq 0 ]; then
+            echo -e "\033[0mscript $RUN [\033[33;31m STOPPED \033[0m]"
+         fi
+      fi
+      #serviceStatus
+   ;;
+   status)
+      serviceStatus
+   ;;
+   *)
+      echo "Usage: /etc/init.d/btService {start | stop | status}"
+      exit 1
+   ;;
+esac
+
+exit 0
