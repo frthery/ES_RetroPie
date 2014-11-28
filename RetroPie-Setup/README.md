@@ -11,6 +11,7 @@ usage:
 
 build_libretro.sh [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]
 
+
 samples:
 
 listing all modules: ./build_libretro.sh -l
