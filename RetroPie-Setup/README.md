@@ -8,7 +8,6 @@ A simple script for building, installing and configuring emulators and libretroc
 - Copy new libretrocores scripts into your ./scriptmodules/libretrocores folder.
 
 usage:
-
 build_libretro.sh [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]
 
 samples:
