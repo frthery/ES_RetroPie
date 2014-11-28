@@ -3,6 +3,7 @@ build_libretro.sh
 A simple script for building, installing and configuring emulators and libretrocores.
 
 - Place build_libretro.sh script into your RetroPie-Setup folder. 
+- Execute "sudo chmod 755 build_libretro.sh" for giving good permissions.
 - Execute "git pull" command for updating your repository.
 - Copy new libretrocores scripts into your ./scriptmodules/libretrocores folder.
 
