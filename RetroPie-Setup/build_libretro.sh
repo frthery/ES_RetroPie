@@ -34,8 +34,6 @@ function registerModule() {
     [[ $error -eq 1 ]] && exit 1
 
     rp_registerFunction "$module_idx" "$rp_module_id" "$rp_module_desc" "$rp_module_menus"
-
-    #logger 0 "Register Module: [$module_idx] $rp_module_id"
 }
 
 # function from: https://github.com/petrockblog/RetroPie-Setup/blob/master/scriptmodules/packages.sh
@@ -55,7 +53,6 @@ function registerAllModules() {
     registerModuleDir 300 "supplementary"
 }
 
-# function from: https://github.com/petrockblog/RetroPie-Setup/blob/master/scriptmodules/packages.sh
 function showModuleFunctions() {
     local mod_id=$1
 
