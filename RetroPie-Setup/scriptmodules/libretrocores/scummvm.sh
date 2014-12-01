@@ -8,8 +8,8 @@ function sources_scummvm() {
 
 function build_scummvm() {
     pushd "$rootdir/emulatorcores/scummvm/backends/platform/libretro/build/"
-	make clean
-	make 
+    make clean
+    make 
     popd
     if [[ -z `find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name "*libretro*.so"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile SCUMMVM core."

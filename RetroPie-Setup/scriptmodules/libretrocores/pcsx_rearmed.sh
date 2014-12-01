@@ -10,8 +10,8 @@ function build_pcsx_rearmed() {
     pushd "$rootdir/emulatorcores/pcsx_rearmed"
     ./configure --platform=libretro
     make clean
-	make -f Makefile.libretro USE_DYNAREC=1 BUILTIN_GPU=neon
-	popd
+    make -f Makefile.libretro USE_DYNAREC=1 BUILTIN_GPU=neon
+    popd
     if [[ -z `find $rootdir/emulatorcores/pcsx_rearmed/ -name "*libretro*.so"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile Playstation core."
     fi

@@ -53,6 +53,15 @@ function registerAllModules() {
     registerModuleDir 300 "supplementary"
 }
 
+function showModules() {
+    local module_idx=$1
+    while [ "${__mod_id[$module_idx]}" != "" ]; do
+        logger 0 "Register Module: [$module_idx] ${__mod_id[$module_idx]}"
+
+        ((module_idx++))
+    done
+}
+
 function showModuleFunctions() {
     local mod_id=$1
 
@@ -74,15 +83,6 @@ function showModuleFunctions() {
     fi
 }
 
-function showModules() {
-    local module_idx=$1
-    while [ "${__mod_id[$module_idx]}" != "" ]; do
-        logger 0 "Register Module: [$module_idx] ${__mod_id[$module_idx]}"
-
-        ((module_idx++))
-    done
-}
-
 function execModule() {
     local mod_id=$1
 
@@ -95,9 +95,9 @@ function execModule() {
 
     if [ $opt_build -eq 1 ]; then
         # echo "Checking, if function ${!__function} exists"
-        fn_exists $funcSrc || __ERRMSGS="ERROR: function -> $funcSrc not found"
-        fn_exists $funcBuild || __ERRMSGS="ERROR: function -> $funcBuild not found"
-        [ -z "$__ERRMSGS" ] || return
+        fn_exists $funcSrc || logger 0 "WARN: function -> $funcSrc not found" # __ERRMSGS="WARN: function -> $funcSrc not found"
+        fn_exists $funcBuild || logger 0 "WARN: function -> $funcBuild not found" # __ERRMSGS="WARN: function -> $funcBuild not found"
+        #[ -z "$__ERRMSGS" ] || return
     fi
 
     # echo "Printing function name"
@@ -195,6 +195,7 @@ while [ "$1" != "" ]; do
             opt_build=1
             opt_install=1
             opt_configure=1
+			rootdir=$default_rootdir
             ;;
         -b | --build)
             opt_build=1

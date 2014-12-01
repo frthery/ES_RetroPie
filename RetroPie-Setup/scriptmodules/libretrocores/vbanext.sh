@@ -9,8 +9,8 @@ function sources_vbanext() {
 function build_vbanext() {
     pushd "$rootdir/emulatorcores/vbanext/"
     make -f Makefile.libretro clean
-	#make -f Makefile.libretro platform=armvhardfloat
-	make -f Makefile.libretro
+    #make -f Makefile.libretro platform=armvhardfloat
+    make -f Makefile.libretro
     popd
     if [[ -z `find $rootdir/emulatorcores/vbanext/ -name "*libretro*.so"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile YABAUSE core."
