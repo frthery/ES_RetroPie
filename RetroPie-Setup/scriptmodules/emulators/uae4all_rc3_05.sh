@@ -24,11 +24,12 @@ function sources_uae4all_rc3_05() {
 function configure_uae4all_rc3_05() {
     mkdir -p $romdir/amiga
 
-    chown -R pi:pi "$rootdir/emulators/uae4all_rc3_05"
-
     #startAmigaDisk.sh
-    #wget http://fdarcel.free.fr/uae4all-src-rc3.chips.0.5.tar.bz2
+    wget https://raw.githubusercontent.com/frthery/ES_RetroPie/master/RetroPie-Setup/supplementary/startAmigaDisk.sh
     mv startAmigaDisk.sh "$rootdir/emulators/uae4all_rc3_05/"
+
+    chmod 755 "$rootdir/emulators/uae4all_rc3_05/startAmigaDisk.sh"
+    chown -R pi:pi "$rootdir/emulators/uae4all_rc3_05"
 
     #rps_retronet_prepareConfig
     #setESSystem "Amiga" "amiga" "~/RetroPie/roms/amiga" ".adf .ADF" "$rootdir/emulators/uae4all_rc3_05/startAmigaDisk.sh %ROM%" "amiga" "amiga"

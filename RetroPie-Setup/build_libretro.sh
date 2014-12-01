@@ -95,8 +95,8 @@ function execModule() {
 
     if [ $opt_build -eq 1 ]; then
         # echo "Checking, if function ${!__function} exists"
-        fn_exists $funcSrc || logger 0 "WARN: function -> $funcSrc not found" # __ERRMSGS="WARN: function -> $funcSrc not found"
-        fn_exists $funcBuild || logger 0 "WARN: function -> $funcBuild not found" # __ERRMSGS="WARN: function -> $funcBuild not found"
+        fn_exists $funcSrc || logger 0 "WARN: function -> $funcSrc not found" # __ERRMSGS="function -> $funcSrc not found"
+        fn_exists $funcBuild || logger 0 "WARN: function -> $funcBuild not found" # __ERRMSGS="function -> $funcBuild not found"
         #[ -z "$__ERRMSGS" ] || return
     fi
 
