@@ -146,19 +146,19 @@ function execAllModules() {
 
 function updateModules() {
     [ -d temporary ] && rm -R ./tmp/*
-	[ -f master.zip ] && rm master.zip
-	
-	logger 1 "WGET: ES_RetroPie to .tmp"
-	wget https://github.com/frthery/ES_RetroPie/archive/master.zip
-	unzip master.zip -d "./tmp"
-	
-	logger 1 "COPY: ES_RetroPie Modules"
-	cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/scriptmodules/ ./
-	cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/supplementary/ ./
-	
-	# clean
-	logger 1 "CLEAN: ES_RetroPie ./tmp"
-	rm -R ./tmp/*
+    [ -f master.zip ] && rm master.zip
+
+    logger 1 "WGET: ES_RetroPie to .tmp"
+    wget https://github.com/frthery/ES_RetroPie/archive/master.zip
+    unzip master.zip -d "./tmp"
+
+    logger 1 "COPY: ES_RetroPie Modules"
+    cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/scriptmodules/ ./
+    cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/supplementary/ ./
+
+    # clean
+    logger 1 "CLEAN: ES_RetroPie ./tmp"
+    rm -R ./tmp/*
 }
 
 function logger() {
@@ -209,14 +209,14 @@ while [ "$1" != "" ]; do
         -l | --list)
             opt_list=1
             ;;
-		-u | --update)
+        -u | --update)
             opt_update=1
             ;;
         -a | --all)
             opt_build=1
             opt_install=1
             opt_configure=1
-			rootdir=$default_rootdir
+            rootdir=$default_rootdir
             ;;
         -b | --build)
             opt_build=1
