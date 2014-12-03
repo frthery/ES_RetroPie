@@ -144,13 +144,30 @@ function execAllModules() {
     done
 }
 
+function updateModules() {
+    [ -d temporary ] && rm -R ./tmp/*
+	[ -f master.zip ] && rm master.zip
+	
+	logger 1 "WGET: ES_RetroPie to .tmp"
+	wget https://github.com/frthery/ES_RetroPie/archive/master.zip
+	unzip master.zip -d "./tmp"
+	
+	logger 1 "COPY: ES_RetroPie Modules"
+	cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/scriptmodules/ ./
+	cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/supplementary/ ./
+	
+	# clean
+	logger 1 "CLEAN: ES_RetroPie ./tmp"
+	rm -R ./tmp/*
+}
+
 function logger() {
     [ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------"
     [ $1 == 1 ] || echo $2
 }
 
 function usage() {
-    echo "build_libretro.sh [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]"
+    echo "build_libretro.sh [-u|update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]"
 }
 # END FUNCTIONS
 
@@ -161,6 +178,7 @@ rootdir=$scriptdir/build
 romdir='/home/pi/RetroPie/roms'
 so_filter='*libretro*.so'
 
+opt_update=0
 opt_build=0
 opt_install=0
 opt_configure=0
@@ -190,6 +208,9 @@ while [ "$1" != "" ]; do
             ;;
         -l | --list)
             opt_list=1
+            ;;
+		-u | --update)
+            opt_update=1
             ;;
         -a | --all)
             opt_build=1
@@ -224,10 +245,12 @@ while [ "$1" != "" ]; do
 done
 
 #VERBOSE
-logger 0 "OPTIONS: -build[$opt_build],-install[$opt_install],-config[$opt_configure],-all[$opt_all] filter:[$so_filter]"
+logger 0 "OPTIONS: -update[$opt_update],-build[$opt_build],-install[$opt_install],-config[$opt_configure],-all[$opt_all] filter:[$so_filter]"
 logger 0 "DIR: scriptdir=[$scriptdir]"
 logger 0 "DIR: rootdir=[$rootdir]"
 logger 0 "DIR: romdir=[$romdir]"
+
+[ $opt_update -eq 1 ] && updateModules
 
 registerModuleDir 100 "emulators" 
 registerModuleDir 200 "libretrocores" 
