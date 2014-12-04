@@ -9,9 +9,11 @@ A simple script for building, installing and configuring emulators and libretroc
 
 Usage:
 ======
-build_libretro.sh [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]
+build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]
 
 Samples:<br>
+update (from github) and listing all modules: ./build_libretro.sh -u -l<br>
+
 listing all modules: ./build_libretro.sh -l
 
 build module: ./build_libretro.sh -b -name=[idx]<br>
