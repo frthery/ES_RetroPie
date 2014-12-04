@@ -84,6 +84,9 @@ function showModuleFunctions() {
 }
 
 function execModule() {
+    # exit if no module idx
+    [ "$1" = "" ] && return
+
     local mod_id=$1
 
     #func="${func}_${mod_id}"
