@@ -21,4 +21,5 @@ This command will build a specific module, result is placed into ./bin folder.
 
 execute module: ./build_libretro.sh -a -name=[idx]<br>
 This command will execute all module's functions. (b:build and source functions, i:install function, c: configure function)
+Some actions need more privileges, in this case execute this command with sudo.
 
