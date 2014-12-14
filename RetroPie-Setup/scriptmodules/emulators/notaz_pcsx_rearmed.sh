@@ -12,9 +12,12 @@ function sources_notaz_pcsx_rearmed() {
 
 function build_notaz_pcsx_rearmed() {
     pushd "$rootdir/emulators/pcsx_rearmed"
+    
+    git submodule init && git submodule update
     ./configure --sound-drivers=sdl
-    make clean
+    #make clean
     make
+    
     popd
 }
 
@@ -22,6 +25,6 @@ function configure_notaz_pcsx_rearmed() {
     mkdir -p $romdir/psx
 
     #rps_retronet_prepareConfig
-	#sample: ./pcsx -cdfile /home/pi/RidgeRacer/ridgeracer.cue
-    #setESSystem "Sony Playstation 1" "psx" "~/RetroPie/roms/psx" ".img .IMG .bin .BIN .cue .CUE" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/pcsx_rearmed/./pcsx -cdfile %ROM%\"" "psx" "psx"
+    #sample: ./pcsx -cdfile /home/pi/RidgeRacer/ridgeracer.cue
+    #setESSystem "Sony Playstation 1" "psx" "~/RetroPie/roms/psx" ".img .IMG .bin .BIN .cue .CUE" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/pcsx_rearmed/pcsx -cdfile %ROM%\"" "psx" "psx"
 }
