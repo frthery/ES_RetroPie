@@ -15,7 +15,7 @@ function sources_uae4all_rc3_05() {
     rmDirExists "$rootdir/emulators/uae4all_rc3_05"
     #mkdir "$rootdir/emulators/uae4all_rc3_05"
     #pushd "$rootdir/emulators/uae4all_rc3_05"
-	[ -f uae4all-src-rc3.chips.0.5.tar.bz2 ] && rm uae4all-src-rc3.chips.0.5.tar.bz2
+    [ -f uae4all-src-rc3.chips.0.5.tar.bz2 ] && rm uae4all-src-rc3.chips.0.5.tar.bz2
     wget http://fdarcel.free.fr/uae4all-src-rc3.chips.0.5.tar.bz2
     tar xjvf uae4all-src-rc3.chips.0.5.tar.bz2 -C "$rootdir/emulators/" && rm uae4all-src-rc3.chips.0.5.tar.bz2
     mv "$rootdir/emulators/uae4all-rpi" "$rootdir/emulators/uae4all_rc3_05"
