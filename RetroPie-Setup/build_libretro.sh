@@ -86,8 +86,8 @@ function showModuleFunctions() {
 function execModule() {
     # exit if no module idx
     [ "$1" = "" ] && return
-
-    local mod_id=$1
+    
+	local mod_id=$1
 
     #func="${func}_${mod_id}"
     local funcDepends="depends_${mod_id}"
@@ -175,10 +175,26 @@ function usage() {
 # END FUNCTIONS
 
 # GLOBAL VARIABLES
-scriptdir=$(pwd)
 default_rootdir='/opt/retropie/'
+
+scriptdir=$(pwd)
 rootdir=$scriptdir/build
 romdir='/home/pi/RetroPie/roms'
+__swapdir="$scriptdir/tmp/"
+
+# init compiler flags: retropie_packages.sh
+__default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
+__default_asflags=""
+__default_makeflags=""
+__default_gcc_version="4.7"
+
+[[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
+[[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
+[[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
+[[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
+
+__memory=$(free -t -m | awk '/^Total:/{print $2}')
+
 so_filter='*libretro*.so'
 
 opt_update=0
@@ -200,6 +216,10 @@ fi
 logger 1 "--- INITIALIZE --------------------------------------------"
 source $scriptdir/scriptmodules/helpers.sh
 logger 0 "LOADED: ./scriptmodules/helpers.sh"
+
+#rps_checkNeededPackages git dialog gcc-4.7 g++-4.7
+# set default gcc version
+#gcc_version $__default_gcc_version
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
