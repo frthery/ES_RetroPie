@@ -8,12 +8,16 @@ function sources_virtualjaguar() {
 
 function build_virtualjaguar() {
     pushd "$rootdir/emulatorcores/virtualjaguar"
-    make clean
-    make 
-    popd
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
+    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+
+    [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/virtualjaguar/ -name "*libretro*.so"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile YABAUSE core."
     fi
+    
+    popd
 }
 
 function configure_virtualjaguar() {
@@ -21,4 +25,9 @@ function configure_virtualjaguar() {
 
     #rps_retronet_prepareConfig
     #setESSystem "Virtual Jaguar" "virtualjaguar" "~/RetroPie/roms/virtualjaguar" ".img .IMG .7z .7Z .pbp .PBP .bin .BIN .cue .CUE" "$rootdir/supplementary/runcommand/runcommand.sh 2 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/virtualjaguar/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/virtualjaguar/retroarch.cfg $__tmpnetplaymode$__tmpnetplayhostip_cfile$__tmpnetplayport$__tmpnetplayframes %ROM%\"" "virtualjaguar" "virtualjaguar"
+}
+
+function copy_virtualjaguar() {
+    [ -z "$so_filter" ] && so_filter="*libretro*.so"
+    find $rootdir/emulatorcores/virtualjaguar/ -name $so_filter | xargs cp -t ./bin
 }

@@ -8,12 +8,16 @@ function sources_scummvm() {
 
 function build_scummvm() {
     pushd "$rootdir/emulatorcores/scummvm/backends/platform/libretro/build/"
-    make clean
-    make 
-    popd
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
+    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+
+    [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name "*libretro*.so"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile SCUMMVM core."
     fi
+
+    popd
 }
 
 function configure_scummvm() {
@@ -21,4 +25,9 @@ function configure_scummvm() {
 
     #rps_retronet_prepareConfig
     #setESSystem "SCUMMVM" "scummvm" "~/RetroPie/roms/scummvm" ".exe" "$rootdir/supplementary/runcommand/runcommand.sh 2 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/scummvm/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/summvm/retroarch.cfg $__tmpnetplaymode$__tmpnetplayhostip_cfile$__tmpnetplayport$__tmpnetplayframes %ROM%\"" "scummvm" "summvm"
+}
+
+function copy_scummvm() {
+    [ -z "$so_filter" ] && so_filter="*libretro*.so"
+    find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name $so_filter | xargs cp -t ./bin
 }
