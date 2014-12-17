@@ -194,6 +194,21 @@ function execModule() {
     fi
 }
 
+function execModules() {
+    # split modules
+    local mods=($(echo $1 | sed 's/,/\n/g'))
+
+    while [ "${mods[$module_idx]}" != "" ]; do
+        showModuleFunctions ${mods[$module_idx]}
+        # EXEC SPECIFIC MODULE
+        execModule ${mods[$module_idx]}
+
+        # check errors
+        [ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
+        ((module_idx++))
+    done
+}
+
 function execAllModules() {
     local module_idx=$1
     while [ "${__mod_id[$module_idx]}" != "" ]; do
@@ -365,18 +380,7 @@ if [ $opt_all -eq 1 ]; then
     #execAllModules 100
     execAllModules 200
 else
-    # split modules
-    mods=($(echo $mod_id | sed 's/,/\n/g'))
-	
-	while [ "${mods[$module_idx]}" != "" ]; do
-	    showModuleFunctions ${mods[$module_idx]}
-		# EXEC SPECIFIC MODULE
-		execModule ${mods[$module_idx]}
-		
-		# check errors
-        [ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
-		((module_idx++))
-	done
+    execModules $mod_id
 fi
 
 logger 1 "--- EXIT --------------------------------------------------"
