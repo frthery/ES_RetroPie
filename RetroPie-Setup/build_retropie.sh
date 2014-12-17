@@ -22,7 +22,7 @@ if [ "$HOST_CC" ]; then
    #[ "$HOST_CC" != "default" ] && export STRIP=x86_64-w64-mingw32-strip
    [ "$HOST_CC" != "default" ] && export COMPILER="CC=${CC} CXX=${CXX}"
 
-   [ "$HOST_CC" = "x86_64-w64-mingw32" ] && FORMAT_COMPILER_TARGET="win"
+   [ "$HOST_CC" = "x86_64-w64-mingw32" ] || [ "$HOST_CC" = "i686-w64-mingw32" ] && FORMAT_COMPILER_TARGET="win"
 
    if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
        #echo "--- CROSS COMPILATION ---"
@@ -352,7 +352,6 @@ if [ $opt_list -eq 1 ]; then
     exit
 fi
 
-showModuleFunctions $mod_id
 [ $opt_build -eq 1 ] && showCompilerFlags
 
 # init folders
@@ -366,11 +365,18 @@ if [ $opt_all -eq 1 ]; then
     #execAllModules 100
     execAllModules 200
 else
-    # EXEC SPECIFIC MODULE
-    execModule $mod_id
-
-    # check errors
-    [ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
+    # split modules
+    mods=($(echo $mod_id | sed 's/,/\n/g'))
+	
+	while [ "${mods[$module_idx]}" != "" ]; do
+	    showModuleFunctions ${mods[$module_idx]}
+		# EXEC SPECIFIC MODULE
+		execModule ${mods[$module_idx]}
+		
+		# check errors
+        [ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
+		((module_idx++))
+	done
 fi
 
 logger 1 "--- EXIT --------------------------------------------------"

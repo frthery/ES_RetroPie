@@ -3,11 +3,15 @@ rp_module_desc="Playstation 1 pcsx_rearmed"
 rp_module_menus="2+"
 
 #function depends_notaz_pcsx_rearmed() {
-#	rps_checkNeededPackages libpng-dev libsdl1.2-dev
+#rps_checkNeededPackages libpng-dev libsdl1.2-dev
 #}
 
 function sources_notaz_pcsx_rearmed() {
     gitPullOrClone "$rootdir/emulators/pcsx_rearmed" git://github.com/notaz/pcsx_rearmed.git
+
+    pushd "$rootdir/emulators/pcsx_rearmed"
+    git submodule init && git submodule update
+    popd
 }
 
 function build_notaz_pcsx_rearmed() {
