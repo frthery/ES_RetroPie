@@ -13,7 +13,7 @@ function build_scummvm() {
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name "*libretro*.so"` ]]; then
+    if [[ -z `find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name "$so_filter"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile SCUMMVM core."
     fi
 

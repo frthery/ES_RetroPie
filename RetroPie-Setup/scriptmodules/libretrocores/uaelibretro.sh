@@ -13,7 +13,7 @@ function build_uae() {
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/libretro-uae/build/ -name "*libretro*.so"` ]]; then
+    if [[ -z `find $rootdir/emulatorcores/libretro-uae/build/ -name "$so_filter"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile UAE core."
     fi
 
