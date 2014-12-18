@@ -17,7 +17,7 @@ function build_imamelibretro() {
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/imame4all-libretro/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile MAME core."
+        __ERRMSGS="$__ERRMSGS Could not successfully compile iMAME4all core."
     fi
 
     popd

@@ -110,7 +110,7 @@ function registerAllModules() {
 function showModules() {
     local module_idx=$1
     while [ "${__mod_id[$module_idx]}" != "" ]; do
-        logger 0 "Register Module: [$module_idx] ${__mod_id[$module_idx]}"
+        logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
 
         ((module_idx++))
     done
@@ -175,6 +175,7 @@ function execModule() {
         $funcBuild
 
         # check compilation errors
+		[ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id} core"
         [ -z "$__ERRMSGS" ] || return
     fi
 
