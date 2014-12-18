@@ -1,8 +1,8 @@
-rp_module_id="picodrive"
+rp_module_id="picodrivelibretro"
 rp_module_desc="Genesis LibretroCore Picodrive"
 rp_module_menus="2+"
 
-function sources_picodrive() {
+function sources_picodrivelibretro() {
     gitPullOrClone "$rootdir/emulatorcores/picodrive" https://github.com/libretro/picodrive.git
     
     pushd "$rootdir/emulatorcores/picodrive"
@@ -10,7 +10,7 @@ function sources_picodrive() {
     popd
 }
 
-function build_picodrive() {
+function build_picodrivelibretro() {
     pushd "$rootdir/emulatorcores/picodrive"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean [code=$?] !"
@@ -27,7 +27,7 @@ function build_picodrive() {
     popd
 }
 
-function configure_picodrive() {
+function configure_picodrivelibretro() {
     mkdir -p $romdir/megadrive
     mkdir -p $romdir/mastersystem
     mkdir -p $romdir/segacd
@@ -49,7 +49,7 @@ function configure_picodrive() {
     # <!-- <command>export LD_LIBRARY_<path>"$rootdir/supplementary/dispmanx/SDL12-kms-dispmanx/build/.libs"; $rootdir/emulators/dgen-sdl/dgen %ROM%</path></command> -->
 }
 
-function copy_picodrive() {
+function copy_picodrivelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t ./bin
 }

@@ -1,8 +1,8 @@
-rp_module_id="pocketsnes"
+rp_module_id="pocketsneslibretro"
 rp_module_desc="SNES LibretroCore PocketSNES"
 rp_module_menus="2+"
 
-function sources_pocketsnes() {
+function sources_pocketsneslibretro() {
     gitPullOrClone "$rootdir/emulatorcores/pocketsnes-libretro" git://github.com/ToadKing/pocketsnes-libretro.git
 
     pushd "$rootdir/emulatorcores/pocketsnes-libretro"
@@ -10,7 +10,7 @@ function sources_pocketsnes() {
     popd
 }
 
-function build_pocketsnes() {
+function build_pocketsneslibretro() {
     pushd "$rootdir/emulatorcores/pocketsnes-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
@@ -24,7 +24,7 @@ function build_pocketsnes() {
     popd
 }
 
-function configure_pocketsnes() {
+function configure_pocketsneslibretro() {
     mkdir -p $romdir/snes
 
     rps_retronet_prepareConfig
@@ -33,7 +33,7 @@ function configure_pocketsnes() {
     # <!-- alternatively: <command>$rootdir/emulators/pisnes/snes9x %ROM%</command> -->
 }
 
-function copy_pocketsnes() {
+function copy_pocketsneslibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/pocketsnes-libretro/ -name $so_filter | xargs cp -t ./bin
 }

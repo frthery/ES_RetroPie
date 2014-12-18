@@ -256,7 +256,9 @@ function showCompilerFlags() {
 
 function logger() {
     [ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------"
-    [ $1 == 1 ] || echo $2
+	[ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------" >> $log_file
+    [ $1 == 1 ] || echo $2 
+	[ $1 == 1 ] || echo $2 >> $log_file
 }
 
 function usage() {
@@ -265,6 +267,9 @@ function usage() {
 # END FUNCTIONS
 
 # GLOBAL VARIABLES
+now=`date +%Y%m%d`
+log_file=$now'_build_retropie.log'
+echo $log_file
 default_rootdir='/opt/retropie/'
 
 scriptdir=$(pwd)
@@ -372,7 +377,8 @@ fi
 # init folders
 [ ! -d $rootdir ] && mkdir $rootdir
 [ ! -d $scriptdir/bin ] && mkdir $scriptdir/bin
-[ ! -d $rootdir/emulatorcores ] && mkdir $sdir/emulatorcores
+[ ! -d $scriptdir/bin/$now ] && mkdir $scriptdir/bin/$now
+[ ! -d $rootdir/emulatorcores ] && mkdir $rootdir/emulatorcores
 [ ! -d $rootdir/emulators ] && mkdir $rootdir/emulators
 
 if [ $opt_all -eq 1 ]; then
@@ -384,5 +390,6 @@ else
 fi
 
 logger 1 "--- EXIT --------------------------------------------------"
+[ $opt_build -eq 1 ] && mv $log_file $scriptdir/bin/$now 
 exit 0
 # END MAIN
