@@ -3,7 +3,7 @@ rp_module_desc="JAGUAR LibretroCore VirtualJaguar"
 rp_module_menus="2+"
 
 function sources_virtualjaguarlibretro() {
-    gitPullOrClone "$rootdir/emulatorcores/virtualjaguar-libretro" https://github.com/libretro/virtualjaguar-libretro.git
+    gitPullOrClone "$rootdir/emulatorcores/virtualjaguar-libretro" git://github.com/libretro/virtualjaguar-libretro.git
 }
 
 function build_virtualjaguarlibretro() {

@@ -3,7 +3,7 @@ rp_module_desc="Genesis LibretroCore Picodrive"
 rp_module_menus="2+"
 
 function sources_picodrivelibretro() {
-    gitPullOrClone "$rootdir/emulatorcores/picodrive" https://github.com/libretro/picodrive.git
+    gitPullOrClone "$rootdir/emulatorcores/picodrive" git://github.com/libretro/picodrive.git
     
     pushd "$rootdir/emulatorcores/picodrive"
     git submodule init && git submodule update

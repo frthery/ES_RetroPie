@@ -3,7 +3,7 @@ rp_module_desc="TurboGrafx 16 LibretroCore mednafen-pce"
 rp_module_menus="2+"
 
 function sources_turbografx16libretro() {
-    gitPullOrClone "$rootdir/emulatorcores/mednafen-pce-libretro/" https://github.com/petrockblog/mednafen-pce-libretro.git
+    gitPullOrClone "$rootdir/emulatorcores/mednafen-pce-libretro/" git://github.com/petrockblog/mednafen-pce-libretro.git
 }
 
 function build_turbografx16libretro() {

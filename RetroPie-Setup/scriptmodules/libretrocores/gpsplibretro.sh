@@ -3,7 +3,7 @@ rp_module_desc="GBA LibretroCore gpsp"
 rp_module_menus="2+"
 
 function sources_gpsplibretro() {
-    gitPullOrClone "$rootdir/emulatorcores/gpsp" https://github.com/libretro/gpsp.git
+    gitPullOrClone "$rootdir/emulatorcores/gpsp" git://github.com/libretro/gpsp.git
 }
 
 function build_gpsplibretro() {

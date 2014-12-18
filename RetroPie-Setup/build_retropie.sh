@@ -233,7 +233,7 @@ function updateModules() {
     [ -f master.zip ] && rm master.zip
 
     logger 1 "WGET: ES_RetroPie to .tmp"
-    wget https://github.com/frthery/ES_RetroPie/archive/master.zip
+    wget http://github.com/frthery/ES_RetroPie/archive/master.zip
     unzip master.zip -d "./tmp"
 
     logger 1 "COPY: ES_RetroPie Modules"

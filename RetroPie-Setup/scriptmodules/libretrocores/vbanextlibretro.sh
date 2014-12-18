@@ -3,7 +3,7 @@ rp_module_desc="GBA LibretroCore VbaNext"
 rp_module_menus="2+"
 
 function sources_vbanextlibretro() {
-    gitPullOrClone "$rootdir/emulatorcores/vba-next" https://github.com/libretro/vba-next
+    gitPullOrClone "$rootdir/emulatorcores/vba-next" git://github.com/libretro/vba-next
 }
 
 function build_vbanextlibretro() {
