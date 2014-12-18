@@ -38,5 +38,5 @@ function configure_armsneslibretro() {
 
 function copy_armsneslibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t $outputdir
 }

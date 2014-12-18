@@ -29,5 +29,5 @@ function configure_uaelibretro() {
 
 function copy_uaelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/libretro-uae/build/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/libretro-uae/build/ -name $so_filter | xargs cp -t $outputdir
 }

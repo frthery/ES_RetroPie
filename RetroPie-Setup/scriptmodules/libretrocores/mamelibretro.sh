@@ -30,5 +30,5 @@ function configure_mamelibretro() {
 
 function copy_mamelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/mame-libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/mame-libretro/ -name $so_filter | xargs cp -t $outputdir
 }

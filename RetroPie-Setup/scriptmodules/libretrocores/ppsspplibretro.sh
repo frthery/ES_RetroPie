@@ -33,5 +33,5 @@ function configure_ppsspplibretro() {
 
 function copy_ppsspplibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/ppsspp/libretro-ppsspp/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/ppsspp/libretro-ppsspp/ -name $so_filter | xargs cp -t $outputdir
 }

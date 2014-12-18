@@ -28,5 +28,5 @@ function configure_genesislibretro() {
 
 function copy_genesislibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/Genesis-Plus-GX/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/Genesis-Plus-GX/ -name $so_filter | xargs cp -t $outputdir
 }

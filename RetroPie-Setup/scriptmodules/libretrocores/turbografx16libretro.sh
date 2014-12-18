@@ -29,5 +29,5 @@ function configure_turbografx16libretro() {
 
 function copy_turbografx16libretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/mednafen-pce-libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/mednafen-pce-libretro/ -name $so_filter | xargs cp -t $outputdir
 }

@@ -35,5 +35,5 @@ function configure_pocketsneslibretro() {
 
 function copy_pocketsneslibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/pocketsnes-libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/pocketsnes-libretro/ -name $so_filter | xargs cp -t $outputdir
 }

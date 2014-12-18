@@ -199,7 +199,9 @@ function execModules() {
     local mods=($(echo $1 | sed 's/,/\n/g'))
 
     while [ "${mods[$module_idx]}" != "" ]; do
-        showModuleFunctions ${mods[$module_idx]}
+        __ERRMSGS=""
+		
+		showModuleFunctions ${mods[$module_idx]}
         # EXEC SPECIFIC MODULE
         execModule ${mods[$module_idx]}
 
@@ -212,7 +214,10 @@ function execModules() {
 function execAllModules() {
     local module_idx=$1
     while [ "${__mod_id[$module_idx]}" != "" ]; do
-        #echo [$module_idx]
+	    __ERRMSGS=""
+        
+		showModuleFunctions ${mods[$module_idx]}
+        # EXEC SPECIFIC MODULE
         execModule ${__mod_id[$module_idx]}
 
         # check errors
@@ -242,15 +247,15 @@ function updateModules() {
 function showCompilerFlags() {
     # SHOW COMPILER FLAGS
     logger 1 "--- COMPILER OPTIONS --------------------------------------"
-    echo "FORMAT_COMPILER_TARGET: [$FORMAT_COMPILER_TARGET]"
-    echo "HOST_CC:   [$HOST_CC]"
-    echo "COMPILER:  [$COMPILER]"
-    #echo "CC:        [$CC]"
-    #echo "CXX:       [$CXX]"
-    echo "CFLAGS:    [$CFLAGS]"
-    echo "CXXFLAGS:  [$CXXFLAGS]"
-    echo "ASFLAGS:   [$ASFLAGS]"
-    echo "MAKEFLAGS: [$MAKEFLAGS]"
+    logger 0 "FORMAT_COMPILER_TARGET: [$FORMAT_COMPILER_TARGET]"
+    logger 0 "HOST_CC:   [$HOST_CC]"
+    logger 0 "COMPILER:  [$COMPILER]"
+    #logger 0 "CC:        [$CC]"
+    #logger 0 "CXX:       [$CXX]"
+    logger 0 "CFLAGS:    [$CFLAGS]"
+    logger 0 "CXXFLAGS:  [$CXXFLAGS]"
+    logger 0 "ASFLAGS:   [$ASFLAGS]"
+    logger 0 "MAKEFLAGS: [$MAKEFLAGS]"
     #echo "PATH: [$PATH]"
 }
 
@@ -269,11 +274,13 @@ function usage() {
 # GLOBAL VARIABLES
 now=`date +%Y%m%d`
 log_file=$now'_build_retropie.log'
-echo $log_file
+[ -f $log_file ] && rm $log_file
+
 default_rootdir='/opt/retropie/'
 
 scriptdir=$(pwd)
 rootdir=$scriptdir/build
+outputdir=$scriptdir/bin/$now
 romdir='/home/pi/RetroPie/roms'
 
 __swapdir="$scriptdir/tmp/"
@@ -377,7 +384,7 @@ fi
 # init folders
 [ ! -d $rootdir ] && mkdir $rootdir
 [ ! -d $scriptdir/bin ] && mkdir $scriptdir/bin
-[ ! -d $scriptdir/bin/$now ] && mkdir $scriptdir/bin/$now
+[ ! -d $outputdir ] && mkdir $outputdir
 [ ! -d $rootdir/emulatorcores ] && mkdir $rootdir/emulatorcores
 [ ! -d $rootdir/emulators ] && mkdir $rootdir/emulators
 
@@ -390,6 +397,6 @@ else
 fi
 
 logger 1 "--- EXIT --------------------------------------------------"
-[ $opt_build -eq 1 ] && mv $log_file $scriptdir/bin/$now 
+[ $opt_build -eq 1 ] && mv $log_file $outputdir
 exit 0
 # END MAIN

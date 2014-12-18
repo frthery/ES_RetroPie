@@ -29,5 +29,5 @@ function configure_yabauselibretro() {
 
 function copy_yabauselibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/yabause/libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/yabause/libretro/ -name $so_filter | xargs cp -t $outputdir
 }

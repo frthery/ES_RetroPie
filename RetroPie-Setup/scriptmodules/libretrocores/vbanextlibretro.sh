@@ -29,5 +29,5 @@ function configure_vbanextlibretro() {
 
 function copy_vbanextlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/vba-next/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/vba-next/ -name $so_filter | xargs cp -t $outputdir
 }

@@ -33,5 +33,5 @@ function configure_gpsplibretro() {
 
 function copy_gpsplibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/gpsp/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/gpsp/ -name $so_filter | xargs cp -t $outputdir
 }

@@ -56,5 +56,5 @@ _EOF_
 
 function copy_prboomlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/libretro-prboom/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/libretro-prboom/ -name $so_filter | xargs cp -t $outputdir
 }

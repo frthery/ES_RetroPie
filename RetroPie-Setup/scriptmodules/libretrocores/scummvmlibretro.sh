@@ -29,5 +29,5 @@ function configure_scummvmlibretro() {
 
 function copy_scummvmlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name $so_filter | xargs cp -t $outputdir
 }

@@ -29,5 +29,5 @@ function configure_pcsx_rearmedlibretro() {
 
 function copy_pcsx_rearmedlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/pcsx_rearmed/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/pcsx_rearmed/ -name $so_filter | xargs cp -t $outputdir
 }

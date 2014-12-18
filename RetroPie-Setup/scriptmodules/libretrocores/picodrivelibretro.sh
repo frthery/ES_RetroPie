@@ -51,5 +51,5 @@ function configure_picodrivelibretro() {
 
 function copy_picodrivelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t $outputdir
 }

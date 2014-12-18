@@ -29,5 +29,5 @@ function configure_stellalibretro() {
 
 function copy_stellalibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/stella-libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/stella-libretro/ -name $so_filter | xargs cp -t $outputdir
 }

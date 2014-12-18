@@ -31,5 +31,5 @@ function configure_snes9xnextlibretro() {
 
 function copy_snes9xnextlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/snes9x-next/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/snes9x-next/ -name $so_filter | xargs cp -t $outputdir
 }

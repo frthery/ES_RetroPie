@@ -33,5 +33,5 @@ function configure_gambattelibretro() {
 
 function copy_gambattelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/gambatte-libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/gambatte-libretro/ -name $so_filter | xargs cp -t $outputdir
 }

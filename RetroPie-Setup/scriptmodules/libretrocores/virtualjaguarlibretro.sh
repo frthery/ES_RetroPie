@@ -29,5 +29,5 @@ function configure_virtualjaguarlibretro() {
 
 function copy_virtualjaguarlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/virtualjaguar-libretro/ -name $so_filter | xargs cp -t ./bin
+    find $rootdir/emulatorcores/virtualjaguar-libretro/ -name $so_filter | xargs cp -t $outputdir
 }
