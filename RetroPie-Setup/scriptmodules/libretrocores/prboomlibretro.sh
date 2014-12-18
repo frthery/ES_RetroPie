@@ -1,12 +1,12 @@
-rp_module_id="doom"
-rp_module_desc="Doom LibretroCore"
+rp_module_id="prboomlibretro"
+rp_module_desc="Doom LibretroCore prboom"
 rp_module_menus="2+"
 
-function sources_doom() {
+function sources_prboomlibretro() {
     gitPullOrClone "$rootdir/emulatorcores/libretro-prboom" git://github.com/libretro/libretro-prboom.git
 }
 
-function build_doom() {
+function build_prboomlibretro() {
     pushd "$rootdir/emulatorcores/libretro-prboom"
 
    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
@@ -20,7 +20,7 @@ function build_doom() {
     popd
 }
 
-function install_doom() {
+function install_prboomlibretro() {
     mkdir -p $romdir/ports/doom
     cp $rootdir/emulatorcores/libretro-prboom/prboom.wad $romdir/ports/doom 
 
@@ -41,7 +41,7 @@ function install_doom() {
     popd
 }
 
-function configure_doom() {
+function configure_prboomlibretro() {
     mkdir -p $romdir/ports/doom
     cp $rootdir/emulatorcores/libretro-prboom/prboom.wad $romdir/ports/doom
 
@@ -54,7 +54,7 @@ _EOF_
     setESSystem 'Ports' 'ports' '~/RetroPie/roms/ports' '.sh .SH' '%ROM%' 'pc' 'ports'    
 }
 
-function copy_doom() {
+function copy_prboomlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/libretro-prboom/ -name $so_filter | xargs cp -t ./bin
 }

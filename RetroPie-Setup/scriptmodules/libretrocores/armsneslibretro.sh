@@ -1,8 +1,8 @@
-rp_module_id="armsnes"
-rp_module_desc="SNES LibretroCore ARMSNES"
+rp_module_id="armsneslibretro"
+rp_module_desc="SNES LibretroCore armsnes"
 rp_module_menus="4+"
 
-function sources_armsnes() {
+function sources_armsneslibretro() {
     gitPullOrClone "$rootdir/emulatorcores/armsnes-libretro" git://github.com/rmaz/ARMSNES-libretro
     
     pushd "$rootdir/emulatorcores/armsnes-libretro"
@@ -10,7 +10,7 @@ function sources_armsnes() {
     popd
 }
 
-function build_armsnes() {
+function build_armsneslibretro() {
     pushd "$rootdir/emulatorcores/armsnes-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
@@ -27,7 +27,7 @@ function build_armsnes() {
     popd
 }
 
-function configure_armsnes() {
+function configure_armsneslibretro() {
     mkdir -p $romdir/snes
 
     rps_retronet_prepareConfig
@@ -36,7 +36,7 @@ function configure_armsnes() {
     # <!-- alternatively: <command>$rootdir/emulators/pisnes/snes9x %ROM%</command> -->
 }
 
-function copy_armsnes() {
+function copy_armsneslibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t ./bin
 }
