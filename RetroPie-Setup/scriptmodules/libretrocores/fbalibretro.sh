@@ -17,7 +17,7 @@ function build_fbalibretro() {
 
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
     make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
-    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.pocketsneslibretro
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbalibretro
 
     #make -f makefile.libretro clean
     #make -f makefile.libretro CC="gcc-4.8" CXX="g++-4.8" platform=armvhardfloat
