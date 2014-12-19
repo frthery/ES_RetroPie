@@ -14,7 +14,7 @@ function build_virtualjaguarlibretro() {
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/virtualjaguar-libretro/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile YABAUSE core."
+        __ERRMSGS="$__ERRMSGS Could not successfully compile VIRTUALJAGUAR core."
     fi
     
     popd

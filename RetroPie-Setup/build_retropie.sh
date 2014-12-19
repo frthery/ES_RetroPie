@@ -9,6 +9,7 @@
 #LIBRETRO SAMPLE: make -f Makefile platform=win CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" -j7
 
 # INIT COMPILER FLAGS
+__init_default_flags=1
 __default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
 __default_asflags=""
 __default_ldflags=""
@@ -16,6 +17,7 @@ __default_makeflags=""
 __default_gcc_version="4.7"
 
 if [ "$HOST_CC" ]; then
+   __init_default_flags=0
    #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
 
    [ "$HOST_CC" != "default" ] && export CC="\"${HOST_CC}-gcc\""
@@ -40,20 +42,22 @@ if [ "$HOST_CC" ]; then
 
        #arm-unknown-linux-gnueabi-g++ --version
        #echo "--- $? ---"
+	   
+	   __init_default_flags=1
    fi
 else
    # default raspberry compilation
-   FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+   [ -z "$FORMAT_COMPILER_TARGET" ] && FORMAT_COMPILER_TARGET="armv6j-hardfloat"
 fi
 
 so_filter='*libretro*.so'
 [ "$HOST_CC" = "x86_64-w64-mingw32" ] && so_filter='*libretro*.dll'
 
-[ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
-[ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
-[ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
-[ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
-[ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
+[ "$__init_default_flags" -eq 1 ] && [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
+[ "$__init_default_flags" -eq 1 ] && [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
+[ "$__init_default_flags" -eq 1 ] && [[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
+[ "$__init_default_flags" -eq 1 ] && [[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
+[ "$__init_default_flags" -eq 1 ] && [[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
 # END INIT COMPILER FLAGS
 
 # FUNCTIONS
@@ -263,29 +267,31 @@ function showCompilerFlags() {
 }
 
 function logger() {
+    now=$(date +"%m-%d-%y %r")
+
     [ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------"
     #[ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------" >> $log_file
     [ $1 == 1 ] || echo $2 
     #[ $1 == 1 ] || echo $2 >> $log_file
-    echo $2 >> $log_file
+    echo [$now] - $2 >> $log_file
 }
 
 function usage() {
-    echo "build_libretro.sh [-u|update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]"
+    echo "build_libretro.sh [-u|update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
+	echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
 }
 # END FUNCTIONS
 
 # GLOBAL VARIABLES
-now=`date +%Y%m%d`
-log_file=$now'_build_retropie.log'
-[ -f $log_file ] && rm $log_file
-
 default_rootdir='/opt/retropie/'
 
 scriptdir=$(pwd)
 rootdir=$scriptdir/build
 outputdir=$scriptdir/bin/$now
 romdir='/home/pi/RetroPie/roms'
+
+log_file=$scriptdir'/build_retropie.log'
+[ -f $log_file ] && rm $log_file
 
 __swapdir="$scriptdir/tmp/"
 [ -f free ] && __memory=$(free -t -m | awk '/^Total:/{print $2}')
