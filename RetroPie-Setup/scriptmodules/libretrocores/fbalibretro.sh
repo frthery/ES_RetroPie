@@ -15,8 +15,8 @@ function build_fbalibretro() {
  
     cd $rootdir/emulatorcores/fba-libretro/svn-current/trunk/
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+    [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean [code=$?] !"
+    make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
 
     #make -f makefile.libretro clean
     #make -f makefile.libretro CC="gcc-4.8" CXX="g++-4.8" platform=armvhardfloat
