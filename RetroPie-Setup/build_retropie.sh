@@ -283,6 +283,7 @@ function usage() {
 # END FUNCTIONS
 
 # GLOBAL VARIABLES
+now=`date +%Y%m%d`
 default_rootdir='/opt/retropie/'
 
 scriptdir=$(pwd)
