@@ -367,7 +367,9 @@ while [ "$1" != "" ]; do
 done
 
 #VERBOSE
-logger 0 "OPTIONS: -update[$opt_update],-build[$opt_build],-install[$opt_install],-config[$opt_configure],-all[$opt_all] filter:[$so_filter]"
+logger 0 "OPTIONS: -update[$opt_update],-build[$opt_build],-install[$opt_install],-config[$opt_configure],-all[$opt_all]"
+logger 0 "OPTIONS: -name=[$mod_id]"
+logger 0 "OPTIONS: filter:[$so_filter]"
 logger 0 "DIR: scriptdir=[$scriptdir]"
 logger 0 "DIR: rootdir=[$rootdir]"
 logger 0 "DIR: swapdir=[$__swapdir]"
