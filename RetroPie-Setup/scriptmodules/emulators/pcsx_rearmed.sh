@@ -1,12 +1,12 @@
-rp_module_id="notaz_pcsx_rearmed"
+rp_module_id="pcsx_rearmed"
 rp_module_desc="Playstation 1 pcsx_rearmed"
 rp_module_menus="2+"
 
-#function depends_notaz_pcsx_rearmed() {
+#function depends_pcsx_rearmed() {
 #rps_checkNeededPackages libpng-dev libsdl1.2-dev
 #}
 
-function sources_notaz_pcsx_rearmed() {
+function sources_pcsx_rearmed() {
     gitPullOrClone "$rootdir/emulators/pcsx_rearmed" git://github.com/notaz/pcsx_rearmed.git
 
     pushd "$rootdir/emulators/pcsx_rearmed"
@@ -14,7 +14,7 @@ function sources_notaz_pcsx_rearmed() {
     popd
 }
 
-function build_notaz_pcsx_rearmed() {
+function build_pcsx_rearmed() {
     pushd "$rootdir/emulators/pcsx_rearmed"
     
     git submodule init && git submodule update
@@ -25,7 +25,7 @@ function build_notaz_pcsx_rearmed() {
     popd
 }
 
-function configure_notaz_pcsx_rearmed() {
+function configure_pcsx_rearmed() {
     mkdir -p $romdir/psx
 
     #rps_retronet_prepareConfig
