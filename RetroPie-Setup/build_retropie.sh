@@ -11,6 +11,7 @@
 # INIT COMPILER FLAGS
 __default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
 __default_asflags=""
+__default_ldflags=""
 __default_makeflags=""
 __default_gcc_version="4.7"
 
@@ -50,6 +51,7 @@ so_filter='*libretro*.so'
 
 [ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
 [ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
+[ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
 [ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
 [ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] && [[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
 # END INIT COMPILER FLAGS
