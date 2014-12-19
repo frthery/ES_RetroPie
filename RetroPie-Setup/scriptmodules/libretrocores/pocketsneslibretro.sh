@@ -14,7 +14,7 @@ function build_pocketsneslibretro() {
     pushd "$rootdir/emulatorcores/pocketsnes-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.pocketsneslibretro
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
