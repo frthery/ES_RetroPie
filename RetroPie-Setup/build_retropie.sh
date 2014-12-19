@@ -175,7 +175,7 @@ function execModule() {
         $funcBuild
 
         # check compilation errors
-		[ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id} core"
+        [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id} core"
         [ -z "$__ERRMSGS" ] || return
     fi
 
@@ -201,8 +201,8 @@ function execModules() {
 
     while [ "${mods[$module_idx]}" != "" ]; do
         __ERRMSGS=""
-		
-		showModuleFunctions ${mods[$module_idx]}
+
+        showModuleFunctions ${mods[$module_idx]}
         # EXEC SPECIFIC MODULE
         execModule ${mods[$module_idx]}
 
@@ -215,9 +215,9 @@ function execModules() {
 function execAllModules() {
     local module_idx=$1
     while [ "${__mod_id[$module_idx]}" != "" ]; do
-	    __ERRMSGS=""
+        __ERRMSGS=""
         
-		showModuleFunctions ${mods[$module_idx]}
+        showModuleFunctions ${mods[$module_idx]}
         # EXEC SPECIFIC MODULE
         execModule ${__mod_id[$module_idx]}
 
@@ -233,7 +233,7 @@ function updateModules() {
     [ -f master.zip ] && rm master.zip
 
     logger 1 "WGET: ES_RetroPie to .tmp"
-    wget http://github.com/frthery/ES_RetroPie/archive/master.zip
+    wget --no-check-certificate http://github.com/frthery/ES_RetroPie/archive/master.zip
     unzip master.zip -d "./tmp"
 
     logger 1 "COPY: ES_RetroPie Modules"
@@ -262,9 +262,10 @@ function showCompilerFlags() {
 
 function logger() {
     [ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------"
-	[ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------" >> $log_file
+    #[ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------" >> $log_file
     [ $1 == 1 ] || echo $2 
-	[ $1 == 1 ] || echo $2 >> $log_file
+    #[ $1 == 1 ] || echo $2 >> $log_file
+    echo $2 >> $log_file
 }
 
 function usage() {
