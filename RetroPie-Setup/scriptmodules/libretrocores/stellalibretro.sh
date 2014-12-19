@@ -10,7 +10,7 @@ function build_stellalibretro() {
     pushd "$rootdir/emulatorcores/stella-libretro"
     
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+    make -f Makefile platform=unix ${COMPILER} || echo "Failed to build [code=$?] !"
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/stella-libretro/ -name "$so_filter"` ]]; then
