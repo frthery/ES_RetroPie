@@ -251,6 +251,15 @@ function updateModules() {
     rm -R ./tmp/*
 }
 
+function setDefaultCompiler() {
+    logger 1 "INSTALL: DEFAULT COMPILER gcc-4.7 g++-4.7"
+    
+	# install gcc-4.7 g++-4.7
+    rps_checkNeededPackages git dialog gcc-4.7 g++-4.7
+    # set default gcc version
+    gcc_version $__default_gcc_version
+}
+
 function showCompilerFlags() {
     # SHOW COMPILER FLAGS
     logger 1 "--- COMPILER OPTIONS --------------------------------------"
@@ -273,7 +282,7 @@ function logger() {
     #[ $1 == 1 ] && echo -e "\n-----------------------------------------------------------\n$2\n-----------------------------------------------------------" >> $log_file
     [ $1 == 1 ] || echo $2 
     #[ $1 == 1 ] || echo $2 >> $log_file
-    echo [$now] - $2 >> $log_file
+    echo -e [$now] - $2 >> $log_file
 }
 
 function usage() {
@@ -298,6 +307,7 @@ __swapdir="$scriptdir/tmp/"
 [ -f free ] && __memory=$(free -t -m | awk '/^Total:/{print $2}')
 
 opt_update=0
+opt_compiler=0
 opt_build=0
 opt_install=0
 opt_configure=0
@@ -317,10 +327,6 @@ logger 1 "--- INITIALIZE --------------------------------------------"
 source $scriptdir/scriptmodules/helpers.sh
 logger 0 "LOADED: ./scriptmodules/helpers.sh"
 
-#rps_checkNeededPackages git dialog gcc-4.7 g++-4.7
-# set default gcc version
-#gcc_version $__default_gcc_version
-
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
     VALUE=`echo $1 | awk -F= '{print $2}'`
@@ -334,6 +340,9 @@ while [ "$1" != "" ]; do
             ;;
         -u | --update)
             opt_update=1
+            ;;
+		-compiler)
+            opt_compiler=1
             ;;
         -a | --all)
             opt_build=1
@@ -393,6 +402,7 @@ if [ $opt_list -eq 1 ]; then
 fi
 
 [ $opt_build -eq 1 ] && showCompilerFlags
+[ $opt_build -eq 1 ] && [ $opt_compiler -eq 1 ] && setDefaultCompiler
 
 # init folders
 [ ! -d $rootdir ] && mkdir $rootdir
@@ -410,6 +420,6 @@ else
 fi
 
 logger 1 "--- EXIT --------------------------------------------------"
-[ $opt_build -eq 1 ] && mv $log_file $outputdir
+[ $opt_build -eq 1 ] && cp $log_file $outputdir
 exit 0
 # END MAIN
