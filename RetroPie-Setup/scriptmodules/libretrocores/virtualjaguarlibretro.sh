@@ -10,7 +10,7 @@ function build_virtualjaguarlibretro() {
     pushd "$rootdir/emulatorcores/virtualjaguar-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.virtualjaguarlibretro
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
