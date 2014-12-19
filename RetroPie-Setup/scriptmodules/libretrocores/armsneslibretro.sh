@@ -13,8 +13,9 @@ function sources_armsneslibretro() {
 function build_armsneslibretro() {
     pushd "$rootdir/emulatorcores/armsnes-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.armsneslibretro
 
     make clean
     make

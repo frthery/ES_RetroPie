@@ -9,8 +9,9 @@ function sources_gambattelibretro() {
 function build_gambattelibretro() {
     pushd "$rootdir/emulatorcores/gambatte-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro -C libgambatte clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile.libretro -C libgambatte platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro -C libgambatte clean || echo "Failed to clean!"
+    make -f Makefile.libretro -C libgambatte platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.gambattelibretro
 
     #make -C libgambatte -f Makefile.libretro clean
     #make -C libgambatte -f Makefile.libretro

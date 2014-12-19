@@ -8,9 +8,10 @@ function sources_mamelibretro() {
 
 function build_mamelibretro() {
     pushd "$rootdir/emulatorcores/mame-libretro"
-    
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
+    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mamelibretro
 
     #make TARGET=mess
 

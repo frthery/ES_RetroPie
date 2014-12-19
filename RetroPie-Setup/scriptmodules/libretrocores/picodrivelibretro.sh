@@ -13,8 +13,9 @@ function sources_picodrivelibretro() {
 function build_picodrivelibretro() {
     pushd "$rootdir/emulatorcores/picodrive"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
+    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.picodrivelibretro
 
     #make clean
     #make -f Makefile.libretro platform=armv6

@@ -9,8 +9,9 @@ function sources_scummvmlibretro() {
 function build_scummvmlibretro() {
     pushd "$rootdir/emulatorcores/scummvm/backends/platform/libretro/build/"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.scummvmlibretro
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name "$so_filter"` ]]; then

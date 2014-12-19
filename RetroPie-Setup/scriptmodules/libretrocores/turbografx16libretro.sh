@@ -8,15 +8,16 @@ function sources_turbografx16libretro() {
 
 function build_turbografx16libretro() {
     pushd "$rootdir/emulatorcores/mednafen-pce-libretro/"
-    
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
-    
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.turbografx16libretro
+
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ ! -f `find $rootdir/emulatorcores/mednafen-pce-libretro/ -name "$so_filter"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile PC Engine core."
     fi
-    
+
     popd
 }
 

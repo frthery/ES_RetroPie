@@ -8,9 +8,10 @@ function sources_imamelibretro() {
 
 function build_imamelibretro() {
     pushd "$rootdir/emulatorcores/imame4all-libretro"
-    
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean [code=$?] !"
-    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} || echo "Failed to build [code=$?] !"
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
+    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.imame4alllibretro
 
     #make -f makefile.libretro clean
     #make -f makefile.libretro ARM=1
