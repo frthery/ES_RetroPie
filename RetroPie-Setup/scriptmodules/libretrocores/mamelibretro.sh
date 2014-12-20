@@ -16,7 +16,7 @@ function build_mamelibretro() {
     #make TARGET=mess
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/imame-libretro/ -name "$so_filter"` ]]; then
+    if [[ -z `find $rootdir/emulatorcores/mame-libretro/ -name "$so_filter"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile MAME core."
     fi
 
