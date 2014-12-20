@@ -33,5 +33,5 @@ function configure_imamelibretro() {
 function copy_imamelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
 	outfile=$outputdir/imame4all_$(echo $so_filter | sed 's/*//g')
-    find $rootdir/emulatorcores/imame4all-libretro/ -name $so_filter | xargs cp $outfile
+	file=$(find $rootdir/emulatorcores/imame4all-libretro/ -name $so_filter) && cp $file $outfile
 }
