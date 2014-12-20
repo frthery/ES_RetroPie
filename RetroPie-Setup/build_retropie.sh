@@ -248,7 +248,7 @@ function updateModules() {
 
     # clean
     logger 1 "CLEAN: ES_RetroPie ./tmp"
-    rm -R ./tmp/*
+    rm -R ./tmp/* && rm master.zip
 }
 
 function setDefaultCompiler() {
@@ -270,6 +270,7 @@ function showCompilerFlags() {
     #logger 0 "CXX:       [$CXX]"
     logger 0 "CFLAGS:    [$CFLAGS]"
     logger 0 "CXXFLAGS:  [$CXXFLAGS]"
+	logger 0 "LDFLAGS:  [$LDFLAGS]"
     logger 0 "ASFLAGS:   [$ASFLAGS]"
     logger 0 "MAKEFLAGS: [$MAKEFLAGS]"
     #echo "PATH: [$PATH]"
