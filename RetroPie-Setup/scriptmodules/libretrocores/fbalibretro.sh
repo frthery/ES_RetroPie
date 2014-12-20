@@ -2,9 +2,9 @@ rp_module_id="fbalibretro"
 rp_module_desc="FBA LibretroCore"
 rp_module_menus="2+"
 
-#function depends_fbalibretro() {
-#    rps_checkNeededPackages cpp-4.8 gcc-4.8 g++-4.8
-#}
+function depends_fbalibretro() {
+    rps_checkNeededPackages cpp-4.8 gcc-4.8 g++-4.8
+}
 
 function sources_fbalibretro() {
     gitPullOrClone "$rootdir/emulatorcores/fba-libretro" git://github.com/libretro/fba-libretro.git
@@ -16,7 +16,11 @@ function build_fbalibretro() {
     cd $rootdir/emulatorcores/fba-libretro/svn-current/trunk/
 
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
-    make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    if [ ${FORMAT_COMPILER_TARGET} = "armv6j-hardfloat" ]; then
+        make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    else
+        make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    fi
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbalibretro
 
     #make -f makefile.libretro clean
