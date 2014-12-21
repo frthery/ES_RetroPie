@@ -53,6 +53,7 @@ function copy_retroarch() {
         #DESTDIR=$outputdir/retroarch make install
         #PREFIX="$ouputdir/RetroArch/installdir" GLOBAL_CONFIG_DIR="$ouputdir/RetroArch/installdir" make install
         
+        [ -d $outputdir/RetroArch ] && rm -R $outputdir/RetroArch
         mkdir -p $outputdir/RetroArch/installdir/bin
         mkdir -p $outputdir/RetroArch/installdir/tools
         mkdir -p $outputdir/RetroArch/installdir/share/pixmaps
