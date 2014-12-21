@@ -54,7 +54,15 @@ function copy_retroarch() {
         cp $ZIP_BASE $outputdir
     else
         #DESTDIR=$outputdir/retroarch make install
-        GLOBAL_CONFIG_DIR="$rootdir/emulators/RetroArch/installdir" make install
+        #PREFIX="$ouputdir/RetroArch/installdir" GLOBAL_CONFIG_DIR="$ouputdir/RetroArch/installdir" make install
+        
+        mkdir -p $outputdir/RetroArch/installdir/bin
+        mkdir -p $outputdir/RetroArch/installdir/tools
+        mkdir -p $outputdir/RetroArch/installdir/share/pixmaps
+        
+        cp retroarch $outputdir/RetroArch/installdir/bin && cp retroarch.cfg $outputdir/RetroArch/installdir/bin
+        cp tools/cg2glsl.py $outputdir/RetroArch/installdir/tools/retroarch-cg2glsl && cp tools/retroarch-joyconfig $outputdir/RetroArch/installdir/tools/
+        cp media/retroarch.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
     fi
 
     popd
