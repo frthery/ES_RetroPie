@@ -34,6 +34,10 @@ function build_retroarch() {
         [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
         make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
+        
+        if [[ -z `find $rootdir/emulators/RetroArch/ -name "retroarch"` ]]; then
+            __ERRMSGS="$__ERRMSGS Could not successfully compile RetroArch."
+        fi
     fi
 
     #make clean
@@ -48,8 +52,9 @@ function copy_retroarch() {
     if [ ${FORMAT_COMPILER_TARGET} = "win" ]; then
         ZIP_BASE="`find . | grep "retroarch-win" | head -n1`"
         cp $ZIP_BASE $outputdir
-    #else
-    #DESTDIR=$outputdir/retroarch make install
+    else
+        #DESTDIR=$outputdir/retroarch make install
+        GLOBAL_CONFIG_DIR="$rootdir/emulators/RetroArch/installdir" make install
     fi
 
     popd
