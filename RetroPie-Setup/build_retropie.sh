@@ -181,7 +181,7 @@ function execModule() {
         $funcBuild
 
         # check compilation errors
-        [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id} core"
+        [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id}!"
         [ -z "$__ERRMSGS" ] || return
     fi
 
@@ -254,7 +254,7 @@ function updateModules() {
 function setDefaultCompiler() {
     logger 1 "INSTALL: DEFAULT COMPILER gcc-4.7 g++-4.7"
     
-	# install gcc-4.7 g++-4.7
+    # install gcc-4.7 g++-4.7
     rps_checkNeededPackages git dialog gcc-4.7 g++-4.7
     # set default gcc version
     gcc_version $__default_gcc_version
@@ -270,7 +270,7 @@ function showCompilerFlags() {
     #logger 0 "CXX:       [$CXX]"
     logger 0 "CFLAGS:    [$CFLAGS]"
     logger 0 "CXXFLAGS:  [$CXXFLAGS]"
-	logger 0 "LDFLAGS:  [$LDFLAGS]"
+    logger 0 "LDFLAGS:  [$LDFLAGS]"
     logger 0 "ASFLAGS:   [$ASFLAGS]"
     logger 0 "MAKEFLAGS: [$MAKEFLAGS]"
     #echo "PATH: [$PATH]"
