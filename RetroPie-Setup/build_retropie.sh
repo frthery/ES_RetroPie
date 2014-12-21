@@ -288,7 +288,7 @@ function logger() {
 
 function usage() {
     echo "build_libretro.sh [-u|update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
-	echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
+    echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
 }
 # END FUNCTIONS
 
@@ -342,7 +342,7 @@ while [ "$1" != "" ]; do
         -u | --update)
             opt_update=1
             ;;
-		-compiler)
+        -compiler)
             opt_compiler=1
             ;;
         -a | --all)
@@ -385,6 +385,7 @@ logger 0 "DIR: scriptdir=[$scriptdir]"
 logger 0 "DIR: rootdir=[$rootdir]"
 logger 0 "DIR: swapdir=[$__swapdir]"
 logger 0 "DIR: romdir=[$romdir]"
+logger 0 "DIR: outputdir=[$outputdir]"
 
 [ $opt_update -eq 1 ] && updateModules
 
