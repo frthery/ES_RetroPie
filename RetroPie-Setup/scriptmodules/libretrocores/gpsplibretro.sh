@@ -7,7 +7,7 @@ function sources_gpsplibretro() {
 }
 
 function build_gpsplibretro() {
-    #rpSwap on 256 240
+    #rpSwap on 512
 
     pushd "$rootdir/emulatorcores/gpsp/"
 
