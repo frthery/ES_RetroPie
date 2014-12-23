@@ -1,12 +1,12 @@
-rp_module_id="stellalibretro"
+rp_module_id="a_stellalibretro"
 rp_module_desc="Atari 2600 LibretroCore Stella"
 rp_module_menus="2+"
 
-function sources_stellalibretro() {
+function sources_a_stellalibretro() {
     gitPullOrClone "$rootdir/emulatorcores/stella-libretro" git://github.com/libretro/stella-libretro.git
 }
 
-function build_stellalibretro() {
+function build_a_stellalibretro() {
     pushd "$rootdir/emulatorcores/stella-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
@@ -21,14 +21,14 @@ function build_stellalibretro() {
     popd
 }
 
-function configure_stellalibretro() {
+function configure_a_stellalibretro() {
     mkdir -p $romdir/atari2600-libretro
 
     rps_retronet_prepareConfig
     setESSystem "Atari 2600" "atari2600-libretro" "~/RetroPie/roms/atari2600-libretro" ".a26 .A26 .bin .BIN .rom .ROM .zip .ZIP .gz .GZ" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/stella-libretro/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/atari2600/retroarch.cfg $__tmpnetplaymode$__tmpnetplayhostip_cfile$__tmpnetplayport$__tmpnetplayframes %ROM%\"" "atari2600" "atari2600"
 }
 
-function copy_stellalibretro() {
+function copy_a_stellalibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/stella-libretro/ -name $so_filter | xargs cp -t $outputdir
 }

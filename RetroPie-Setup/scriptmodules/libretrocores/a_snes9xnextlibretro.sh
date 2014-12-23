@@ -1,12 +1,12 @@
-rp_module_id="snes9xnextlibretro"
+rp_module_id="a_snes9xnextlibretro"
 rp_module_desc="SNES LibretroCore Snes9xNext"
 rp_module_menus="2+"
 
-function sources_snes9xnextlibretro() {
+function sources_a_snes9xnextlibretro() {
     gitPullOrClone "$rootdir/emulatorcores/snes9x-next" git://github.com/libretro/snes9x-next.git
 }
 
-function build_snes9xnextlibretro() {
+function build_a_snes9xnextlibretro() {
     pushd "$rootdir/emulatorcores/snes9x-next"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
@@ -21,7 +21,7 @@ function build_snes9xnextlibretro() {
     popd
 }
 
-function configure_snes9xnextlibretro() {
+function configure_a_snes9xnextlibretro() {
     mkdir -p $romdir/snes
 
     #rps_retronet_prepareConfig
@@ -30,7 +30,7 @@ function configure_snes9xnextlibretro() {
     # <!-- alternatively: <command>$rootdir/emulators/pisnes/snes9x %ROM%</command> -->
 }
 
-function copy_snes9xnextlibretro() {
+function copy_a_snes9xnextlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/snes9x-next/ -name $so_filter | xargs cp -t $outputdir
 }

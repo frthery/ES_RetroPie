@@ -1,12 +1,12 @@
-rp_module_id="gpsplibretro"
+rp_module_id="a_gpsplibretro"
 rp_module_desc="GBA LibretroCore gpsp"
 rp_module_menus="2+"
 
-function sources_gpsplibretro() {
+function sources_a_gpsplibretro() {
     gitPullOrClone "$rootdir/emulatorcores/gpsp" git://github.com/libretro/gpsp.git
 }
 
-function build_gpsplibretro() {
+function build_a_gpsplibretro() {
     #rpSwap on 512
 
     pushd "$rootdir/emulatorcores/gpsp/"
@@ -25,14 +25,14 @@ function build_gpsplibretro() {
     #rpSwap off
 }
 
-function configure_gpsplibretro() {
+function configure_a_gpsplibretro() {
     mkdir -p $romdir/gba
 
     #rps_retronet_prepareConfig
     #setESSystem "Gameboy Advance" "gba" "~/RetroPie/roms/gba" ".gba .GBA" "$rootdir/supplementary/runcommand/runcommand.sh 2 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/gpsp/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/gpsp/retroarch.cfg $__tmpnetplaymode$__tmpnetplayhostip_cfile$__tmpnetplayport$__tmpnetplayframes %ROM%\"" "gba" "gba"
 }
 
-function copy_gpsplibretro() {
+function copy_a_gpsplibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/gpsp/ -name $so_filter | xargs cp -t $outputdir
 }

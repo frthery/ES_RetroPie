@@ -1,12 +1,12 @@
-rp_module_id="uae4all_rc3_05"
+rp_module_id="a_uae4all_rc3_05"
 rp_module_desc="AMIGA emulator uae4all-src-rc3.chips.0.5"
 rp_module_menus="2+"
 
-#function depends_uae4all_rc3_05() {
-    #rps_checkNeededPackages libsdl1.2-dev libsdl-mixer1.2-dev libasound2-dev
-#}
+function depends_a_uae4all_rc3_05() {
+    rps_checkNeededPackages libsdl1.2-dev libsdl-mixer1.2-dev libasound2-dev
+}
 
-function sources_uae4all_rc3_05() {
+function sources_a_uae4all_rc3_05() {
     #kick.rom: http://misapuntesde.com/res/Amiga_roms.zip
     #http://www.armigaproject.com/pi/uae4armiga4pi.tar.gz
     #http://fdarcel.free.fr/uae4all-src-rc3.chips.0.5.tar.bz2
@@ -22,7 +22,7 @@ function sources_uae4all_rc3_05() {
     #popd
 }
 
-function configure_uae4all_rc3_05() {
+function configure_a_uae4all_rc3_05() {
     mkdir -p $romdir/amiga
 
     #startAmigaDisk.sh

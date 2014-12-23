@@ -1,12 +1,12 @@
-rp_module_id="imamelibretro"
+rp_module_id="a_imamelibretro"
 rp_module_desc="iMAME4all LibretroCore"
 rp_module_menus="2+"
 
-function sources_imamelibretro() {
+function sources_a_imamelibretro() {
     gitPullOrClone "$rootdir/emulatorcores/imame4all-libretro" git://github.com/libretro/imame4all-libretro.git
 }
 
-function build_imamelibretro() {
+function build_a_imamelibretro() {
     pushd "$rootdir/emulatorcores/imame4all-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
@@ -24,14 +24,14 @@ function build_imamelibretro() {
     popd
 }
 
-function configure_imamelibretro() {
+function configure_a_imamelibretro() {
     mkdir -p $romdir/mame-libretro
 
     setESSystem "MAME" "mame-libretro" "~/RetroPie/roms/mame-libretro" ".zip .ZIP" "$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/imame4all-libretro/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/mame/retroarch.cfg %ROM%" "arcade" "mame"
 }
 
-function copy_imamelibretro() {
+function copy_a_imamelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-	outfile=$outputdir/imame4all_$(echo $so_filter | sed 's/*//g')
-	file=$(find $rootdir/emulatorcores/imame4all-libretro/ -name $so_filter) && cp $file $outfile
+    outfile=$outputdir/imame4all_$(echo $so_filter | sed 's/*//g')
+    file=$(find $rootdir/emulatorcores/imame4all-libretro/ -name $so_filter) && cp $file $outfile
 }

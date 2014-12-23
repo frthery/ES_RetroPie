@@ -1,8 +1,8 @@
-rp_module_id="retroarch"
+rp_module_id="a_retroarch"
 rp_module_desc="RetroArch"
 rp_module_menus="2+"
 
-function depends_retroarch() {
+function depends_a_retroarch() {
     [ ${FORMAT_COMPILER_TARGET} != "win" ] && rps_checkNeededPackages libudev-dev libxkbcommon-dev
 #    cat > "/etc/udev/rules.d/99-evdev.rules" << _EOF_
 #KERNEL=="event*", NAME="input/%k", MODE="666"
@@ -10,13 +10,13 @@ function depends_retroarch() {
 #    sudo chmod 666 /dev/input/event*
 }
 
-function sources_retroarch() {
+function sources_a_retroarch() {
     # FORCE CLONE
     [ -d $rootdir/emulators/RetroArch ] && rm -R $rootdir/emulators/RetroArch
     gitPullOrClone "$rootdir/emulators/RetroArch" git://github.com/libretro/RetroArch.git
 }
 
-function build_retroarch() {
+function build_a_retroarch() {
     pushd "$rootdir/emulators/RetroArch"
 
     if [ ${FORMAT_COMPILER_TARGET} = "win" ]; then
@@ -43,7 +43,7 @@ function build_retroarch() {
     popd
 }
 
-function copy_retroarch() {
+function copy_a_retroarch() {
     pushd "$rootdir/emulators/RetroArch"
 
     if [ ${FORMAT_COMPILER_TARGET} = "win" ]; then
@@ -66,7 +66,7 @@ function copy_retroarch() {
     popd
 }
 
-function install_retroarch() {
+function install_a_retroarch() {
     pushd "$rootdir/emulators/RetroArch"
     make install
     popd
@@ -82,7 +82,7 @@ function ensureSystemretroconfig {
     fi
 }
 
-function configure_retroarch() {
+function configure_a_retroarch() {
     cp $scriptdir/supplementary/retroarch-zip "$rootdir/emulators/RetroArch/installdir/bin/"
 
     if [[ ! -d "$rootdir/configs/all/" ]]; then

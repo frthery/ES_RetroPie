@@ -1,12 +1,12 @@
-rp_module_id="gambattelibretro"
+rp_module_id="a_gambattelibretro"
 rp_module_desc="Gameboy Color LibretroCore Gambatte"
 rp_module_menus="2+"
 
-function sources_gambattelibretro() {
+function sources_a_gambattelibretro() {
     gitPullOrClone "$rootdir/emulatorcores/gambatte-libretro" git://github.com/libretro/gambatte-libretro.git
 }
 
-function build_gambattelibretro() {
+function build_a_gambattelibretro() {
     pushd "$rootdir/emulatorcores/gambatte-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro -C libgambatte clean || echo "Failed to clean!"
@@ -24,7 +24,7 @@ function build_gambattelibretro() {
     popd
 }
 
-function configure_gambattelibretro() {
+function configure_a_gambattelibretro() {
     mkdir -p $romdir/gbc
     mkdir -p $romdir/gb
 
@@ -32,7 +32,7 @@ function configure_gambattelibretro() {
     setESSystem "Game Boy Color" "gbc" "~/RetroPie/roms/gbc" ".gbc .GBC" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/gambatte-libretro/libgambatte/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/gbc/retroarch.cfg %ROM%\"" "gbc" "gbc"
 }
 
-function copy_gambattelibretro() {
+function copy_a_gambattelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/gambatte-libretro/ -name $so_filter | xargs cp -t $outputdir
 }
