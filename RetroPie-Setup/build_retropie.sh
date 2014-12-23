@@ -100,7 +100,12 @@ function registerModule() {
 function registerModuleDir() {
     local module_idx="$1"
     local module_dir="$2"
-    for module in `find "$scriptdir/scriptmodules/$2" -maxdepth 1 -name "*.sh" | sort`; do
+    
+    for module in `find "$scriptdir/scriptmodules/$2" -maxdepth 1 -name "*.sh" ! -name "a_*.sh" | sort`; do
+        registerModule $module_idx "$module"
+        ((module_idx++))
+    done
+    for module in `find "$scriptdir/scriptmodules/$2" -maxdepth 1 -name "a_*.sh" | sort`; do
         registerModule $module_idx "$module"
         ((module_idx++))
     done
