@@ -1,5 +1,5 @@
 rp_module_id="a_uaelibretro"
-rp_module_desc="AMIGA LibretroCore uae4all"
+rp_module_desc="AMIGA LibretroCore uae4all (Additional)"
 rp_module_menus="2+"
 
 function sources_a_uaelibretro() {

@@ -1,5 +1,5 @@
 rp_module_id="a_vbanextlibretro"
-rp_module_desc="GBA LibretroCore VbaNext"
+rp_module_desc="GBA LibretroCore VbaNext (Additional)"
 rp_module_menus="2+"
 
 function sources_a_vbanextlibretro() {

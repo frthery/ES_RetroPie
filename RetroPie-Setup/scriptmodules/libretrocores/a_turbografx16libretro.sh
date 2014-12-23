@@ -1,5 +1,5 @@
 rp_module_id="a_turbografx16libretro"
-rp_module_desc="TurboGrafx 16 LibretroCore mednafen-pce"
+rp_module_desc="TurboGrafx 16 LibretroCore mednafen-pce (Additional)"
 rp_module_menus="2+"
 
 function sources_a_turbografx16libretro() {

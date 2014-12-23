@@ -1,5 +1,5 @@
 rp_module_id="a_mednafenpcefastlibretro"
-rp_module_desc="Mednafen PCE Fast LibretroCore"
+rp_module_desc="Mednafen PCE Fast LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function sources_a_mednafenpcefastlibretro() {

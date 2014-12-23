@@ -1,5 +1,5 @@
 rp_module_id="a_genesislibretro"
-rp_module_desc="Genesis LibretroCore Genesis-Plus-GX"
+rp_module_desc="Genesis LibretroCore Genesis-Plus-GX (Additional)"
 rp_module_menus="2+"
 
 function sources_a_genesislibretro() {

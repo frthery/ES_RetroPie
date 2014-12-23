@@ -1,5 +1,5 @@
 rp_module_id="a_virtualjaguarlibretro"
-rp_module_desc="JAGUAR LibretroCore VirtualJaguar"
+rp_module_desc="JAGUAR LibretroCore VirtualJaguar (Additional)"
 rp_module_menus="2+"
 
 function sources_a_virtualjaguarlibretro() {

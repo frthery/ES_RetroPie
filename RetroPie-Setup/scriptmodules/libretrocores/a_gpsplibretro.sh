@@ -1,5 +1,5 @@
 rp_module_id="a_gpsplibretro"
-rp_module_desc="GBA LibretroCore gpsp"
+rp_module_desc="GBA LibretroCore gpsp (Additional)"
 rp_module_menus="2+"
 
 function sources_a_gpsplibretro() {

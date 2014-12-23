@@ -1,5 +1,5 @@
 rp_module_id="a_imamelibretro"
-rp_module_desc="iMAME4all LibretroCore"
+rp_module_desc="iMAME4all LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function sources_a_imamelibretro() {

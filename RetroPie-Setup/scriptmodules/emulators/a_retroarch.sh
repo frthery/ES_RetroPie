@@ -1,5 +1,5 @@
 rp_module_id="a_retroarch"
-rp_module_desc="RetroArch"
+rp_module_desc="RetroArch (Additional)"
 rp_module_menus="2+"
 
 function depends_a_retroarch() {

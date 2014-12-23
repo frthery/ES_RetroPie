@@ -1,5 +1,5 @@
 rp_module_id="a_gambattelibretro"
-rp_module_desc="Gameboy Color LibretroCore Gambatte"
+rp_module_desc="Gameboy Color LibretroCore Gambatte (Additional)"
 rp_module_menus="2+"
 
 function sources_a_gambattelibretro() {

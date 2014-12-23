@@ -1,5 +1,5 @@
 rp_module_id="a_picodrivelibretro"
-rp_module_desc="Genesis LibretroCore Picodrive"
+rp_module_desc="Genesis LibretroCore Picodrive (Additional)"
 rp_module_menus="2+"
 
 function sources_a_picodrivelibretro() {

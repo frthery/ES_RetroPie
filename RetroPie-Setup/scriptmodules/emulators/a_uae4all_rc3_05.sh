@@ -1,5 +1,5 @@
 rp_module_id="a_uae4all_rc3_05"
-rp_module_desc="AMIGA emulator uae4all-src-rc3.chips.0.5"
+rp_module_desc="AMIGA emulator uae4all-src-rc3.chips.0.5 (Additional)"
 rp_module_menus="2+"
 
 function depends_a_uae4all_rc3_05() {

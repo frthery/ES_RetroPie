@@ -1,5 +1,5 @@
 rp_module_id="a_yabauselibretro"
-rp_module_desc="SATURN LibretroCore yabause"
+rp_module_desc="SATURN LibretroCore yabause (Additional)"
 rp_module_menus="2+"
 
 function sources_a_yabauselibretro() {

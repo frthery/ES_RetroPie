@@ -1,5 +1,5 @@
 rp_module_id="a_ppsspplibretro"
-rp_module_desc="PSP LibretroCore PPSSPP"
+rp_module_desc="PSP LibretroCore PPSSPP (Additional)"
 rp_module_menus="2+"
 
 function sources_a_ppsspplibretro() {

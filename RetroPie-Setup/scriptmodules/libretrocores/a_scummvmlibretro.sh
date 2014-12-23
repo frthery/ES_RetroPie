@@ -1,5 +1,5 @@
 rp_module_id="a_scummvmlibretro"
-rp_module_desc="SCUMMVM LibretroCore"
+rp_module_desc="SCUMMVM LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function sources_a_scummvmlibretro() {

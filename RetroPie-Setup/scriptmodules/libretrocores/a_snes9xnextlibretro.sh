@@ -1,5 +1,5 @@
 rp_module_id="a_snes9xnextlibretro"
-rp_module_desc="SNES LibretroCore Snes9xNext"
+rp_module_desc="SNES LibretroCore Snes9xNext (Additional)"
 rp_module_menus="2+"
 
 function sources_a_snes9xnextlibretro() {

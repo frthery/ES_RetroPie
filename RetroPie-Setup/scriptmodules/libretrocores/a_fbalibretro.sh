@@ -1,5 +1,5 @@
 rp_module_id="a_fbalibretro"
-rp_module_desc="FBA LibretroCore"
+rp_module_desc="FBA LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function depends_a_fbalibretro() {

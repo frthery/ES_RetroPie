@@ -1,5 +1,5 @@
 rp_module_id="a_armsneslibretro"
-rp_module_desc="SNES LibretroCore armsnes"
+rp_module_desc="SNES LibretroCore armsnes (Additional)"
 rp_module_menus="4+"
 
 function sources_a_armsneslibretro() {

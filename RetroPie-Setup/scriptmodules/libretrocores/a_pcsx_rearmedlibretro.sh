@@ -1,5 +1,5 @@
 rp_module_id="a_pcsx_rearmedlibretro"
-rp_module_desc="Playstation 1 LibretroCore pcsx_rearmed"
+rp_module_desc="Playstation 1 LibretroCore pcsx_rearmed (Additional)"
 rp_module_menus="2+"
 
 function sources_a_pcsx_rearmedlibretro() {

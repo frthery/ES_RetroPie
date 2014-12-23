@@ -1,5 +1,5 @@
 rp_module_id="a_pocketsneslibretro"
-rp_module_desc="SNES LibretroCore PocketSNES"
+rp_module_desc="SNES LibretroCore PocketSNES (Additional)"
 rp_module_menus="2+"
 
 function sources_a_pocketsneslibretro() {

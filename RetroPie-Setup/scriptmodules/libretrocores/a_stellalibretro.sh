@@ -1,5 +1,5 @@
 rp_module_id="a_stellalibretro"
-rp_module_desc="Atari 2600 LibretroCore Stella"
+rp_module_desc="Atari 2600 LibretroCore Stella (Additional)"
 rp_module_menus="2+"
 
 function sources_a_stellalibretro() {

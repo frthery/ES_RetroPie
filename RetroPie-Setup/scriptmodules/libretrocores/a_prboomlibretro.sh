@@ -1,5 +1,5 @@
 rp_module_id="a_prboomlibretro"
-rp_module_desc="Doom LibretroCore prboom"
+rp_module_desc="Doom LibretroCore prboom (Additional)"
 rp_module_menus="2+"
 
 function sources_a_prboomlibretro() {
