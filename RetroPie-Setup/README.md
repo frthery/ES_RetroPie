@@ -9,17 +9,17 @@ A simple script for building, installing and configuring emulators and libretroc
 
 Usage:
 ======
-build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]
+build_retropie.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]
 
 Samples:<br>
-update (from github) and listing all modules: ./build_libretro.sh -u -l<br>
+update (from github) and listing all modules: ./build_retropie.sh -u -l<br>
 
-listing all modules: ./build_libretro.sh -l
+listing all modules: ./build_retropie.sh -l
 
-build module: ./build_libretro.sh -b -name=[idx]<br>
+build module: ./build_retropie.sh -b -name=[idx]<br>
 This command will build a specific module, result is placed into ./bin folder.
 
-execute module: ./build_libretro.sh -a -name=[idx]<br>
+execute module: ./build_retropie.sh -a -name=[idx]<br>
 This command will execute all module's functions. (b:build and source functions, i:install function, c: configure function)
 Some actions need more privileges, in this case execute this command with sudo.
 
