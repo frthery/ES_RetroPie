@@ -1,15 +1,15 @@
-build_libretro.sh
+build_retropie.sh
 =================
 A simple script for building, installing and configuring emulators and libretrocores.
 
-- Place build_libretro.sh script into your RetroPie-Setup folder. 
+- Place build_retropie.sh script into your RetroPie-Setup folder. 
 - Execute "sudo chmod 755 build_libretro.sh" for giving good permissions.
 - Execute "git pull" command for updating your repository.
 - Copy new libretrocores scripts into your ./scriptmodules/libretrocores folder.
 
 Usage:
 ======
-build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx]
+build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]
 
 Samples:<br>
 update (from github) and listing all modules: ./build_libretro.sh -u -l<br>
