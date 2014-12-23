@@ -14,7 +14,7 @@ function build_a_mednafenpcefastlibretro() {
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mednafenpcefastlibretro
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/mednafenpcefast/ -name "*libretro*.so"` ]]; then
+    if [[ -z `find $rootdir/emulatorcores/mednafenpcefast/ -name "$so_filter"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile Mednafen PCE Fast core."
     fi
 
