@@ -12,7 +12,7 @@
 __init_default_flags=1
 __default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
 __default_asflags=""
-__default_ldflags=""
+#__default_ldflags=""
 __default_makeflags=""
 __default_gcc_version="4.7"
 
@@ -42,8 +42,8 @@ if [ "$HOST_CC" ]; then
 
        #arm-unknown-linux-gnueabi-g++ --version
        #echo "--- $? ---"
-	   
-	   __init_default_flags=1
+
+       __init_default_flags=1
    fi
 else
    # default raspberry compilation
@@ -55,7 +55,7 @@ so_filter='*libretro*.so'
 
 [ "$__init_default_flags" -eq 1 ] && [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
 [ "$__init_default_flags" -eq 1 ] && [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
-[ "$__init_default_flags" -eq 1 ] && [[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
+#[ "$__init_default_flags" -eq 1 ] && [[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
 [ "$__init_default_flags" -eq 1 ] && [[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
 [ "$__init_default_flags" -eq 1 ] && [[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
 # END INIT COMPILER FLAGS
@@ -287,8 +287,9 @@ function logger() {
 }
 
 function usage() {
-    echo "build_libretro.sh [-u|update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
-    echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
+    echo "build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
+    #echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
+    echo "BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?"
 }
 # END FUNCTIONS
 
