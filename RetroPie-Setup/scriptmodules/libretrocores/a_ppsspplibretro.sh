@@ -5,20 +5,20 @@ rp_module_menus="2+"
 function sources_a_ppsspplibretro() {
     gitPullOrClone "$rootdir/emulatorcores/libretro-ppsspp" git://github.com/libretro/libretro-ppsspp.git
     
-    pushd "$rootdir/emulatorcores/ppsspp"
+    pushd "$rootdir/emulatorcores/libretro-ppsspp"
     git submodule init && git submodule update
     popd
 }
 
 function build_a_ppsspplibretro() {
-    pushd "$rootdir/emulatorcores/ppsspp/libretro-ppsspp"
+    pushd "$rootdir/emulatorcores/libretro-ppsspp/libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.ppsspplibretro
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/ppsspp/libretro-ppsspp/ -name "$so_filter"` ]]; then
+    if [[ -z `find $rootdir/emulatorcores/libretro-ppsspp/libretro/ -name "$so_filter"` ]]; then
         __ERRMSGS="$__ERRMSGS Could not successfully compile PPSSPP core."
     fi
 
@@ -34,5 +34,5 @@ function configure_a_ppsspplibretro() {
 
 function copy_a_ppsspplibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/ppsspp/libretro-ppsspp/ -name $so_filter | xargs cp -t $outputdir
+    find $rootdir/emulatorcores/libretro-ppsspp/libretro/ -name $so_filter | xargs cp -t $outputdir
 }
