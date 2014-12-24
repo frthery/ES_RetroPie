@@ -16,7 +16,7 @@ function build_a_pcsx_rearmedlibretro() {
     ./configure --platform=libretro
     make -f Makefile.libretro clean || echo "Failed to clean!"
     #make -f Makefile.libretro ${COMPILER} USE_DYNAREC=1 BUILTIN_GPU=neon 2>&1 | tee makefile.log || echo -e "Failed to compile!"
-    make -f Makefile.libretro ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile.libretro ${COMPILER} USE_DYNAREC=1 2>&1 | tee makefile.log || echo -e "Failed to compile!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.pcsx_rearmedlibretro
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
