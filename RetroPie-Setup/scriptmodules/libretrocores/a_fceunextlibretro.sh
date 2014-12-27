@@ -1,4 +1,4 @@
-rp_module_id="fceunextlibretro"
+rp_module_id="a_fceunextlibretro"
 rp_module_desc="NES LibretroCore fceu-next"
 rp_module_menus="2+"
 
