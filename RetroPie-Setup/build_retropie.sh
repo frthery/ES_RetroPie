@@ -333,6 +333,9 @@ fi
 logger 1 "--- INITIALIZE --------------------------------------------"
 source $scriptdir/scriptmodules/helpers.sh
 logger 0 "LOADED: ./scriptmodules/helpers.sh"
+source $scriptdir/scriptmodules/packages.sh
+logger 0 "LOADED: ./scriptmodules/packages.sh"
+
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
