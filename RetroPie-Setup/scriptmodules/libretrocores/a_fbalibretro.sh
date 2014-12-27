@@ -18,11 +18,10 @@ function build_a_fbalibretro() {
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
     if [ ${FORMAT_COMPILER_TARGET} = "armv6j-hardfloat" ]; then
         make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log
-        [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile FBA LibretroCore!"
     else
         make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-        [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile FBA LibretroCore!"
     fi
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile FBA LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbalibretro
 
     popd

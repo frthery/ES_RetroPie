@@ -10,7 +10,12 @@ function build_a_stellalibretro() {
     pushd "$rootdir/emulatorcores/stella-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log
+    if [ ${FORMAT_COMPILER_TARGET} = "armv6j-hardfloat" ]; then
+        #FIX
+        make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log
+    else
+        make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    fi
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Atari 2600 LibretroCore Stella!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.stellalibretro
 
