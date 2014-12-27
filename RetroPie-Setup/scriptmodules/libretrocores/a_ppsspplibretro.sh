@@ -19,7 +19,7 @@ function build_a_ppsspplibretro() {
 
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     if [[ -z `find $rootdir/emulatorcores/libretro-ppsspp/libretro/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile PPSSPP core."
+        __ERRMSGS="$__ERRMSGS Could not successfully compile PSP LibretroCore PPSSPP!"
     fi
 
     popd

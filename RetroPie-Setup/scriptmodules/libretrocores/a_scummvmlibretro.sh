@@ -10,13 +10,9 @@ function build_a_scummvmlibretro() {
     pushd "$rootdir/emulatorcores/scummvm/backends/platform/libretro/build/"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile SCUMMVM LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.scummvmlibretro
-
-    [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/scummvm/backends/platform/libretro/build/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile SCUMMVM core."
-    fi
 
     popd
 }

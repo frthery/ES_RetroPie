@@ -10,14 +10,10 @@ function build_a_virtualjaguarlibretro() {
     pushd "$rootdir/emulatorcores/virtualjaguar-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile JAGUAR LibretroCore VirtualJaguar!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.virtualjaguarlibretro
 
-    [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/virtualjaguar-libretro/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile VIRTUALJAGUAR core."
-    fi
-    
     popd
 }
 

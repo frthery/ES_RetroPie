@@ -10,16 +10,9 @@ function build_a_gambattelibretro() {
     pushd "$rootdir/emulatorcores/gambatte-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro -C libgambatte clean || echo "Failed to clean!"
-    make -f Makefile.libretro -C libgambatte platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile.libretro -C libgambatte platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Gameboy Color LibretroCore Gambatte!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.gambattelibretro
-
-    #make -C libgambatte -f Makefile.libretro clean
-    #make -C libgambatte -f Makefile.libretro
-
-    [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ -z `find $rootdir/emulatorcores/gambatte-libretro/libgambatte/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile Game Boy Color core."
-    fi
 
     popd
 }

@@ -14,16 +14,9 @@ function build_a_picodrivelibretro() {
     pushd "$rootdir/emulatorcores/picodrive"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
-    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Genesis LibretroCore Picodrive!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.picodrivelibretro
-
-    #make clean
-    #make -f Makefile.libretro platform=armv6
-
-    [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    if [[ ! -f `find $rootdir/emulatorcores/picodrive/ -name "$so_filter"` ]]; then
-        __ERRMSGS="$__ERRMSGS Could not successfully compile Genesis core Picodrive."
-    fi
 
     popd
 }
