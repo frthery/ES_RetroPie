@@ -2,11 +2,11 @@ rp_module_id="a_fceunextlibretro"
 rp_module_desc="NES LibretroCore fceu-next"
 rp_module_menus="2+"
 
-function sources_fceunextlibretro() {
+function sources_a_fceunextlibretro() {
     gitPullOrClone "$rootdir/emulatorcores/fceu-next" git://github.com/libretro/fceu-next.git
 }
 
-function build_fceunextlibretro() {
+function build_a_fceunextlibretro() {
     pushd "$rootdir/emulatorcores/fceu-next/fceumm-code"
 
     #make -f Makefile.libretro clean
@@ -24,7 +24,7 @@ function build_fceunextlibretro() {
     popd
 }
 
-function configure_neslibretro() {
+function configure_a_neslibretro() {
     mkdir -p $romdir/nes
 
     rps_retronet_prepareConfig
