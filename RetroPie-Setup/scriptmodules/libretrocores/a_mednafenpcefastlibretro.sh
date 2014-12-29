@@ -1,17 +1,17 @@
 rp_module_id="a_mednafenpcefastlibretro"
-rp_module_desc="Mednafen PCE Fast LibretroCore mednafenpcefast (Additional)"
+rp_module_desc="PCE LibretroCore mednafenpcefast (Additional)"
 rp_module_menus="2+"
 
 function sources_a_mednafenpcefastlibretro() {
-    gitPullOrClone "$rootdir/emulatorcores/mednafenpcefast" https://github.com/libretro/beetle-pce-fast-libretro.git
+    gitPullOrClone "$rootdir/emulatorcores/mednafen-pce-fast-libretro" git://github.com/libretro/beetle-pce-fast-libretro.git
 }
 
 function build_a_mednafenpcefastlibretro() {
-    pushd "$rootdir/emulatorcores/mednafenpcefast"
+    pushd "$rootdir/emulatorcores/mednafen-pce-fast-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Mednafen PCE Fast LibretroCore mednafenpcefast!"
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile PCE LibretroCore mednafenpcefast!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mednafenpcefastlibretro
 
     popd
@@ -25,5 +25,5 @@ function configure_a_mednafenpcefastlibretro() {
 
 function copy_a_mednafenpcefastlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/mednafenpcefast/ -name $so_filter | xargs cp -t $outputdir
+    find $rootdir/emulatorcores/mednafen-pce-fast-libretro/ -name $so_filter | xargs cp -t $outputdir
 }
