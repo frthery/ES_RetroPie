@@ -1,5 +1,5 @@
 rp_module_id="a_mednafenpcelibretro"
-rp_module_desc="TurboGrafx 16 LibretroCore mednafen-pce (Additional)"
+rp_module_desc="PCE LibretroCore mednafen-pce (Additional)"
 rp_module_menus="2+"
 
 function sources_a_mednafenpcelibretro() {
@@ -11,8 +11,8 @@ function build_a_mednafenpcelibretro() {
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile TurboGrafx 16 LibretroCore mednafen-pce!"
-    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.turbografx16libretro
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile PCE LibretroCore mednafen-pce!"
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mednafenpcelibretro
 
     popd
 }
