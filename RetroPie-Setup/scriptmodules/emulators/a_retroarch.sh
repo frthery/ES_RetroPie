@@ -3,7 +3,7 @@ rp_module_desc="RetroArch (Additional)"
 rp_module_menus="2+"
 
 function depends_a_retroarch() {
-    [ ${FORMAT_COMPILER_TARGET} != "win" ] && rps_checkNeededPackages libudev-dev libxkbcommon-dev
+    rps_checkNeededPackages libudev-dev libxkbcommon-dev
 #    cat > "/etc/udev/rules.d/99-evdev.rules" << _EOF_
 #KERNEL=="event*", NAME="input/%k", MODE="666"
 #_EOF_

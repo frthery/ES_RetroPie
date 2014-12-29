@@ -3,7 +3,7 @@ rp_module_desc="FBA LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function depends_a_fbalibretro() {
-    [ ${FORMAT_COMPILER_TARGET} = "armv6j-hardfloat" ] && rps_checkNeededPackages cpp-4.8 gcc-4.8 g++-4.8
+    rps_checkNeededPackages cpp-4.8 gcc-4.8 g++-4.8
 }
 
 function sources_a_fbalibretro() {
