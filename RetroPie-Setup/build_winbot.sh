@@ -9,7 +9,7 @@ mediafiredir='/cygdrive/c/Users/frthery/MediaFire/Datas/github-retroarch-build/'
 #git reset --hard HEAD
 #git pull
 
-#./build_retropie.sh -u
+./build_retropie.sh -u
 HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=a_retroarch,a_fbalibretro,a_fceunextlibretro,a_fmsxlibretro,a_gambattelibretro,a_genesislibretro,a_gpsplibretro,a_mednafenpcefastlibretro,a_mednafenpsxlibretro.sh,a_mupen64libretro.sh,a_picodrivelibretro,a_ppsspplibretro.sh,a_prboomlibretro,a_snes9xnextlibretro,a_stellalibretro,a_virtualjaguarlibretro,a_yabauselibretro
 #HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=a_retroarch,a_gpsplibretro,a_mupen64libretro
 
