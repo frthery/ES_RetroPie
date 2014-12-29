@@ -12,9 +12,9 @@ function sources_a_mupen64libretro() {
 
 function build_a_mupen64libretro() {
     #rpSwap on 750
-    
+
     pushd "$rootdir/emulatorcores/mupen64plus"
-    
+
     # Add missing path --> Fix already merged https://github.com/libretro/mupen64plus-libretro/commit/c035cf1c7a2514aeb14adf51ad825208ff1a068d
     # sed -i 's|GL_LIB := -lGLESv2|GL_LIB := -L/opt/vc/lib -lGLESv2|g' Makefile
 
