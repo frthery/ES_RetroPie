@@ -68,20 +68,25 @@ __mod_menus=()
 __doPackages=0
 
 # function from: https://github.com/petrockblog/RetroPie-Setup/blob/master/scriptmodules/packages.sh
+# params: $1=index, $2=id, $3=type, $4=description, $5=menus,  $6=flags
 function rp_registerFunction() {
     __mod_idx+=($1)
     __mod_id[$1]=$2
-    __mod_desc[$1]=$3
-    __mod_menus[$1]=$4
+    __mod_type[$1]=$3
+    __mod_desc[$1]=$4
+    __mod_menus[$1]=$5
+    __mod_flags[$1]=$6
 }
 
 # function from: https://github.com/petrockblog/RetroPie-Setup/blob/master/scriptmodules/packages.sh
-function registerModule() {
+function rp_registerModule() {
     local module_idx="$1"
     local module_path="$2"
+    local module_type="$3"
     local rp_module_id=""
     local rp_module_desc=""
     local rp_module_menus=""
+    local rp_module_flags=""
     local var
     local error=0
     source $module_path
@@ -92,8 +97,7 @@ function registerModule() {
         fi
     done
     [[ $error -eq 1 ]] && exit 1
-
-    rp_registerFunction "$module_idx" "$rp_module_id" "$rp_module_desc" "$rp_module_menus"
+    rp_registerFunction "$module_idx" "$rp_module_id" "$module_type" "$rp_module_desc" "$rp_module_menus"  "$rp_module_flags"
 }
 
 # function from: https://github.com/petrockblog/RetroPie-Setup/blob/master/scriptmodules/packages.sh
@@ -102,11 +106,11 @@ function registerModuleDir() {
     local module_dir="$2"
     
     for module in `find "$scriptdir/scriptmodules/$2" -maxdepth 1 -name "*.sh" ! -name "a_*.sh" | sort`; do
-        registerModule $module_idx "$module"
+        rp_registerModule $module_idx "$module" "$module_dir"
         ((module_idx++))
     done
     for module in `find "$scriptdir/scriptmodules/$2" -maxdepth 1 -name "a_*.sh" | sort`; do
-        registerModule $module_idx "$module"
+        rp_registerModule $module_idx "$module" "$module_dir"
         ((module_idx++))
     done
 }
