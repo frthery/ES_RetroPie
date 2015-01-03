@@ -32,5 +32,6 @@ function configure_a_armsneslibretro() {
 
 function copy_a_armsneslibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/picodrive/ -name $so_filter | xargs cp -t $outputdir
+    outfile=$outputdir/armsnes_$(echo $so_filter | sed 's/*//g')
+    file=$(find $rootdir/emulatorcores/armsnes-libretro/ -name libpocketsnes.*) && cp $file $outfile
 }

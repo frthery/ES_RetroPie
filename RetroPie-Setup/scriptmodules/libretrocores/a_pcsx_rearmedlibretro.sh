@@ -14,9 +14,12 @@ function build_a_pcsx_rearmedlibretro() {
     pushd "$rootdir/emulatorcores/pcsx_rearmed"
 
     ./configure --platform=libretro
-    make -f Makefile.libretro clean || echo "Failed to clean!"
+    make clean
+    make 2>&1 | tee makefile.log
+
+    #make -f Makefile.libretro clean || echo "Failed to clean!"
     #make -f Makefile.libretro ${COMPILER} USE_DYNAREC=1 BUILTIN_GPU=neon 2>&1 | tee makefile.log
-    make -f Makefile.libretro ${COMPILER} USE_DYNAREC=1 2>&1 | tee makefile.log
+    #make -f Makefile.libretro ${COMPILER} USE_DYNAREC=1 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Playstation 1 LibretroCore pcsx_rearmed!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.pcsx_rearmedlibretro
 
@@ -32,5 +35,7 @@ function configure_a_pcsx_rearmedlibretro() {
 
 function copy_a_pcsx_rearmedlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/pcsx_rearmed/ -name $so_filter | xargs cp -t $outputdir
+    outfile=$outputdir/pcsx_rearmed_$(echo $so_filter | sed 's/*//g')
+    file=$(find $rootdir/emulatorcores/pcsx_rearmed/ -name $so_filter) && cp $file $outfile
+    #find $rootdir/emulatorcores/pcsx_rearmed/ -name $so_filter | xargs cp -t $outputdir
 }
