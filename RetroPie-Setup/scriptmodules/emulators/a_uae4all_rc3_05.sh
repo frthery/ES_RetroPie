@@ -13,12 +13,11 @@ function sources_a_uae4all_rc3_05() {
     #ftp://researchlab.spdns.de/rpi/uae4all2/uae4all2-2.3.5.3rpi.tgz
 
     rmDirExists "$rootdir/emulators/uae4all_rc3_05"
-    #mkdir "$rootdir/emulators/uae4all_rc3_05"
-    #pushd "$rootdir/emulators/uae4all_rc3_05"
-    [ -f uae4all-src-rc3.chips.0.5.tar.bz2 ] && rm uae4all-src-rc3.chips.0.5.tar.bz2
-    wget http://fdarcel.free.fr/uae4all-src-rc3.chips.0.5.tar.bz2
-    tar xjvf uae4all-src-rc3.chips.0.5.tar.bz2 -C "$rootdir/emulators/" && rm uae4all-src-rc3.chips.0.5.tar.bz2
-    mv "$rootdir/emulators/uae4all-rpi" "$rootdir/emulators/uae4all_rc3_05"
+    [ ! -d tmp ] && mkdir tmp
+    [ -f tmp/uae4all-src-rc3.chips.0.5.tar.bz2 ] && rm tmp/uae4all-src-rc3.chips.0.5.tar.bz2
+    wget http://fdarcel.free.fr/uae4all-src-rc3.chips.0.5.tar.bz2 -P tmp
+    tar xjvf tmp/uae4all-src-rc3.chips.0.5.tar.bz2 -C "$rootdir/emulators/" && rm tmp/uae4all-src-rc3.chips.0.5.tar.bz2
+    mv "tmp/uae4all-rpi" "$rootdir/emulators/uae4all_rc3_05"
     #popd
 }
 
@@ -26,8 +25,8 @@ function configure_a_uae4all_rc3_05() {
     mkdir -p $romdir/amiga
 
     #startAmigaDisk.sh
-    wget https://raw.githubusercontent.com/frthery/ES_RetroPie/master/RetroPie-Setup/supplementary/startAmigaDisk.sh
-    mv startAmigaDisk.sh "$rootdir/emulators/uae4all_rc3_05/"
+    wget https://raw.githubusercontent.com/frthery/ES_RetroPie/master/RetroPie-Setup/supplementary/startAmigaDisk.sh -P tmp
+    mv tmp/startAmigaDisk.sh "$rootdir/emulators/uae4all_rc3_05/"
 
     chmod 755 "$rootdir/emulators/uae4all_rc3_05/startAmigaDisk.sh"
     chown -R pi:pi "$rootdir/emulators/uae4all_rc3_05"
