@@ -72,7 +72,9 @@ xd_init() {
 auto_connect() {
    local index=$1
    local bt=$2
-   
+
+   [ ! -s /tmp/btcheck ] && [ $(ls /dev/input/js0 2> /dev/null) ] && logger "USB device js0 is already connected" && return
+
    if [ ! -z "$bt" ]; then
       if grep -q $bt /tmp/btcheck; then
          logger "[OK] bluetooth device $index [$bt] is already connected"
@@ -94,11 +96,11 @@ connect() {
    local tryCon=1
    local maxRetry=1
    #priority to gamepad 1
-   [ $index -eq 0 ] && maxRetry=5
+   #[ $index -eq 0 ] && maxRetry=10
 
    logger "try connecting bluetooth device $index [$bt] maxRetry=$maxRetry..."
 
-   # attempts for connecting device
+   #10 attempts for connecting device
    while [ $tryPing -le $maxRetry ]; do
       sudo l2ping $bt -c 3 > /dev/null 2>&1
       RESPING=$?
