@@ -10,7 +10,7 @@ function build_a_stellalibretro() {
     pushd "$rootdir/emulatorcores/stella-libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    if [ ${FORMAT_COMPILER_TARGET} = "armv6j-hardfloat" ]; then
+    if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
         #FIX
         make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log
     else
