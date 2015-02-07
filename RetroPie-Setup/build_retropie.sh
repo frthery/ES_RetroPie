@@ -11,6 +11,7 @@
 # INIT COMPILER FLAGS
 __init_default_flags=1
 __default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
+#__default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
 __default_asflags=""
 #__default_ldflags=""
 __default_makeflags=""
@@ -48,6 +49,7 @@ if [ "$HOST_CC" ]; then
 else
    # default raspberry compilation
    [ -z "$FORMAT_COMPILER_TARGET" ] && FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+   [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
 fi
 
 so_filter='*libretro*.so'
