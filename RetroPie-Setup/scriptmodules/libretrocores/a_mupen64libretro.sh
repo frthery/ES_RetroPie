@@ -22,8 +22,10 @@ function build_a_mupen64libretro() {
     # sed -i 's|GL_LIB := -lGLESv2|GL_LIB := -L/opt/vc/lib -lGLESv2|g' Makefile
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
+    if [[ ${FORMAT_COMPILER_TARGET} =~ "armv6" ]]; then
         make platform=rpi 2>&1 | tee makefile.log
+    elif [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
+        make platform=rpi2 2>&1 | tee makefile.log
     else
         make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     fi    
