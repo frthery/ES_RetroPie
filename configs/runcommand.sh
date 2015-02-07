@@ -17,7 +17,7 @@ shift
 source /opt/retropie/supplementary/runcommand/configure_gamepads.sh "$@"
 
 [[ $cmd != "" ]] && echo "COMMAND: [$cmd]"
-[[ $cmd == "" ]] && echo "NOT COMMAND FOUND!" && exit -1
+[[ $cmd == "" ]] && echo "NO COMMAND FOUND!" && exit -1
 
 sudo /etc/init.d/btService stop
 
