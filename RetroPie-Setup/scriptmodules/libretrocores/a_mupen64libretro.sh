@@ -6,9 +6,11 @@ function sources_a_mupen64libretro() {
     rmDirExists "$rootdir/emulatorcores/mupen64plus"
     
     # Base repo:
-    [ ${FORMAT_COMPILER_TARGET} = "win" ] && gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git
+    #[ ${FORMAT_COMPILER_TARGET} = "win" ] && gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git
     # Freezed fixed repo:
-    [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]] && gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/gizmo98/mupen64plus-libretro.git
+    #[[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]] && gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/gizmo98/mupen64plus-libretro.git
+    
+    gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git
 }
 
 function build_a_mupen64libretro() {
