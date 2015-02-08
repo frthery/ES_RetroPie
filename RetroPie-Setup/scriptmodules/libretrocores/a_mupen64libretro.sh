@@ -10,7 +10,8 @@ function sources_a_mupen64libretro() {
     # Freezed fixed repo:
     #[[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]] && gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/gizmo98/mupen64plus-libretro.git
     
-    gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git
+    #gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git
+    gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/gizmo98/mupen64plus-libretro.git
 }
 
 function build_a_mupen64libretro() {
