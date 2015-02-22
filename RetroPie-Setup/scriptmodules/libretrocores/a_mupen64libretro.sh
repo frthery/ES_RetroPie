@@ -24,12 +24,13 @@ function build_a_mupen64libretro() {
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv6" ]]; then
-        make platform=rpi 2>&1 | tee makefile.log
+        make platform=rpi ${COMPILER} 2>&1 | tee makefile.log
     elif [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
-        make platform=rpi2 2>&1 | tee makefile.log
+        make platform=rpi2 ${COMPILER} 2>&1 | tee makefile.log
     else
         make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-    fi    
+    fi
+    
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile N64 LibretroCore Mupen64Plus!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mupen64libretro
 
