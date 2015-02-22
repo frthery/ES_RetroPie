@@ -14,7 +14,12 @@ function build_a_ppsspplibretro() {
     pushd "$rootdir/emulatorcores/libretro-ppsspp/libretro"
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    if [[ ${FORMAT_COMPILER_TARGET} =~ "armv6" ]]; then
+        make -f Makefile platform=rpi ${COMPILER} 2>&1 | tee makefile.log
+    elif [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
+        make -f Makefile platform=rpi2 ${COMPILER} 2>&1 | tee makefile.log
+    else
+    
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile PSP LibretroCore PPSSPP!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.ppsspplibretro
 
