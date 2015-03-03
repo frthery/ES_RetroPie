@@ -120,7 +120,7 @@ function download_install() {
 #END FUNCTIONS
 
 # GLOBAL VARIABLES
-OC_LINK_FILE_INI='https://mega.co.nz/#!OVRDnAJb!bX5bhxhZ-XxprC9KF6IWVzMv2BWen519DJ7ULZ-q8ME'
+OC_LINK_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.ini'
 OC_FILE_INI='oc_bestsets.ini'
 OC_FILE_SYNC=${ROM_PATH}'/oc_bestsets_sync'
 OC_PATH='./oc_bestsets_downloader'
@@ -163,7 +163,7 @@ initialize 0
 
 if [ $? -eq 0 ]; then
     [ $opt_local -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
-    [ $opt_local -eq 0 ] && megadl ${OC_LINK_FILE_INI} 2> /dev/null && echo '[GET|LOAD]: '${OC_FILE_INI}
+    [ $opt_local -eq 0 ] && wget ${OC_LINK_FILE_INI} && echo '[GET|LOAD]: '${OC_FILE_INI}
 
     if [ -f ${OC_FILE_INI} ]; then
         source ${OC_FILE_INI} && echo '[LOAD]: '${OC_FILE_INI}
