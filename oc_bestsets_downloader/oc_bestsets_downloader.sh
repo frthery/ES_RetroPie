@@ -39,6 +39,12 @@ function check_install_megatools() {
 function initialize() {
     local clearRoms=$1
 
+    [ $opt_local -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
+    [ $opt_local -eq 0 ] && wget ${OC_LINK_FILE_INI} && echo '[GET|LOAD]: '${OC_FILE_INI}
+    [ ! -f ${OC_FILE_INI} ] && echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && return 1
+	
+    [ $opt_noinstall -eq 1 ] && return 0
+	
     [ ! -d ${OC_PATH} ] && mkdir ${OC_PATH} && echo '[INIT]: create folder '${OC_PATH}
 
     # CLEAN
@@ -117,6 +123,10 @@ function download_install() {
         ((seq++))
     done
 }
+
+function usage() {
+    echo "oc_bestsets_downloader.sh [--force-sync] [--local-ini] [--no-install]"
+}
 #END FUNCTIONS
 
 # GLOBAL VARIABLES
@@ -129,29 +139,33 @@ OC_DWL_PATH=${OC_PATH}'/dwl'
 # END GLOBAL VARIABLES
 
 # MAIN
-
 opt_force=0
 opt_local=0
+opt_noinstall=0
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
     VALUE=`echo $1 | awk -F= '{print $2}'`
     case $PARAM in
         -h | --help)
-            #usage
+            usage
             exit
             ;;
-        -f | --force)
+        --force-sync)
             # FORCE SYNCHRO
             opt_force=1
             ;;
-        -l | --local)
+        --local-ini)
             # USE LOCAL INI FILE
             opt_local=1
             ;;
+        --no-install)
+            # NO INSTALL (GET INI FILE)
+            opt_noinstall=1
+            ;;
         *)
             echo "[ERROR] unknown parameter \"$PARAM\""
-            #usage
+            usage
             exit 1
             ;;
     esac
@@ -160,23 +174,15 @@ done
 
 echo '-------------------- START oc_bestsets_downloader -----------------------'
 initialize 0
+[ $? -ne 0 ] && echo '[ERROR]: initialize!' && exit -1
 
-if [ $? -eq 0 ]; then
-    [ $opt_local -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
-    [ $opt_local -eq 0 ] && wget ${OC_LINK_FILE_INI} && echo '[GET|LOAD]: '${OC_FILE_INI}
-
-    if [ -f ${OC_FILE_INI} ]; then
-        source ${OC_FILE_INI} && echo '[LOAD]: '${OC_FILE_INI}
-        download_install
-    else
-        echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && exit -1
-    fi
-else
-    echo '[ERROR]: initialize!' && exit -1
+if [ $opt_noinstall -eq 0 ]; then
+    source ${OC_FILE_INI} && echo '[LOAD]: '${OC_FILE_INI}
+    download_install
 fi
 
 echo '--------------------  END oc_bestsets_downloader  -----------------------'
-exit 0
 # END MAIN
 
+exit 0
 
