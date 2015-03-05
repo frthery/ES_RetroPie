@@ -1,10 +1,29 @@
 #!/bin/bash
 
-# CONFIGURE YOUR BLUETOOTH DEVICES
 BT1='65:03:36:63:04:07'
 #BT2='48:72:50:EA:49:81'
 
-# FUNCTIONS
+BT1_STATUS='unknown'
+BT2_STATUS='unknown'
+
+#initialize
+VERBOSE=0
+NO_LOG=0
+COUNT_LINES_LOGGER=0
+MAX_LINES_LOGGER=100
+DELAI=10
+LOGGER_FILE=/var/log/btDaemonLogger.log
+[ "$1" = '-v' ] && VERBOSE=1
+
+XD_NAME=xboxdrv
+XD_BIN=/usr/bin/$XD_NAME
+XD_CFG1=/home/pi/joysticks/j0.cfg
+XD_CFG2=/home/pi/joysticks/j1.cfg
+XD_ARGS1="--config $XD_CFG1"#"-D -d --deadzone 4000 --dbus disabled --detach"
+XD_ARGS2="--config $XD_CFG2"#"-D -d --deadzone 4000 --dbus disabled --detach"
+#END initialize
+
+#functions
 logger() {
    #no logger
    [ $NO_LOG -eq 1 ] && return
@@ -22,6 +41,31 @@ logger() {
       echo "[$now]" $1 > $LOGGER_FILE
    else
       echo "[$now]" $1 >> $LOGGER_FILE
+   fi
+}
+
+xd_init() {
+   local index=$1
+   local bt=$2
+     
+   if [ -x "$XD_BIN" ]; then
+      logger "$XD_BIN is not installed: sudo apt-get install xboxdrv"
+      return
+   fi
+   
+   XD_PID=$(ps -eo pid,command | grep "/bin/bash $XD_BIN" | grep -v grep | awk '{print $1}')
+   if [ ! -z $XD_PID ]; then
+      logger "$XD_BIN is already started [$XD_PID] for bluetooth device $index [$bt]"
+      return
+   fi
+
+   #start xboxdrv with joystick configuration
+   $XD_BIN $XD_ARGS1&
+   RESXD=$?
+   if [ $RESXD = 0 ]; then
+      logger "[OK] $XD_BIN is intialized for bluetooth device $index [$bt]"
+   else
+      logger "[KO] $XD_BIN is not intialized for bluetooth device $index [$bt]"
    fi
 }
 
@@ -70,6 +114,7 @@ connect() {
             if [ $RESCON = 0 ]; then
                #logger "[OK][$RESCON] bluetooth device $index [$bt] connected"
                btStatus='connected'
+               #xd_init $index $bt
             else
                logger "[KO][$RESCON][$tryCon] bluetooth device $index [$bt] connected"
                btStatus='notconnected'
@@ -90,22 +135,9 @@ connect() {
    [ $index -eq 0 ] && BT1_STATUS=$btStatus && logger "bluetooth device $index [$bt] [$BT1_STATUS]"
    [ $index -eq 1 ] && BT2_STATUS=$btStatus && logger "bluetooth device $index [$bt] [$BT2_STATUS]"
 }
-# END FUNCTIONS
+#END functions
 
-# GLOBAL VARIABLES
-BT1_STATUS='unknown'
-BT2_STATUS='unknown'
-
-VERBOSE=0
-NO_LOG=0
-COUNT_LINES_LOGGER=0
-MAX_LINES_LOGGER=100
-DELAI=10
-LOGGER_FILE=/var/log/btDaemonLogger.log
-[ "$1" = '-v' ] && VERBOSE=1
-# END GLOBAL VARIABLES
-
-# MAIN
+#MAIN
 logger "[START] bluetooth devices monitoring..." 1
 
 while [ 1 ]; do
@@ -128,7 +160,6 @@ while [ 1 ]; do
 done
 
 logger "[STOP] bluetooth devices monitoring."
-# END MAIN
+#END MAIN
 
 exit 0
-

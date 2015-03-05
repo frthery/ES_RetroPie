@@ -438,5 +438,7 @@ fi
 
 logger 1 "--- EXIT --------------------------------------------------"
 [ $opt_build -eq 1 ] && cp $log_file $outputdir
-exit 0
 # END MAIN
+
+exit 0
+
