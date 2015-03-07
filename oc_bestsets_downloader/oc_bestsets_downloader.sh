@@ -1,19 +1,20 @@
 #!/bin/bash
 
 # CONFIGURE YOUR ROMS PATH
-ROM_PATH='./roms'
+ROM_PATH='/home/pi/RetroPie/roms'
 
 # FUNCTIONS
 function check_install_unrar() {
     [ -f /usr/bin/unrar-nonfree ] && echo [CHECK]: unrar-nonfree OK! && return 0
 
-    #sudo deb-src http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rpi
-    #sudo apt-get update
+    cat /etc/apt/sources.list | grep "deb-src http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rpi"
+    [ $? -eq 1 ] && echo "deb-src http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rpi" | sudo tee --append /etc/apt/sources.list
+    sudo apt-get update
 
     pushd ${OC_TMP_PATH}
-    sudo apt-get build-dep unrar-nonfree
-    sudo apt-get source -b unrar-nonfree
-    #sudo dpkg -i unrar_*_armhf.deb
+    sudo apt-get --assume-yes build-dep unrar-nonfree
+    sudo apt-get --assume-yes source -b unrar-nonfree
+    sudo dpkg -i unrar_*_armhf.deb
     popd
 
     [ -f /usr/bin/unrar-nonfree ] && echo [CHECK]: unrar-nonfree OK! && return 0
@@ -26,15 +27,15 @@ function check_install_megatools() {
     #megatools: http://megatools.megous.com/
     sudo apt-get --assume-yes install gcc build-essential libcurl4-openssl-dev libglib2.0-dev glib-networking
     wget http://megatools.megous.com/builds/megatools-1.9.94.tar.gz -P ${OC_TMP_PATH}
-    tar -xvzf megatools-1.9.94.tar.gz -C ${OC_TMP_PATH}
+    tar -xvzf ${OC_TMP_PATH}/megatools-1.9.94.tar.gz -C ${OC_TMP_PATH}
     pushd ${OC_TMP_PATH}/megatools-1.9.94
     ./configure --disable-shared
     make
-    #sudo make install
+    sudo make install
     popd
 
     [ -f /usr/local/bin/megadl ] && echo [CHECK]: megatools OK! && return 0
-    [ ! -f /usr/local/bin/megadl ] && echo [CHECK]: unrar-nonfree KO! && return 1
+    [ ! -f /usr/local/bin/megadl ] && echo [CHECK]: megatools KO! && return 1
 }
 
 function initialize() {
@@ -49,7 +50,7 @@ function initialize() {
     [ ! -d ${OC_PATH} ] && mkdir ${OC_PATH} && echo '[INIT]: create folder '${OC_PATH}
 
     # CLEAN
-    [ -d ${OC_TMP_PATH} ] && rm -R ${OC_TMP_PATH} && echo '[CLEAN]: remove folder '${OC_TMP_PATH}
+    [ -d ${OC_TMP_PATH} ] && sudo rm -R ${OC_TMP_PATH} && echo '[CLEAN]: remove folder '${OC_TMP_PATH}
     [ -d ${OC_DWL_PATH} ] && rm -R ${OC_DWL_PATH} && echo '[CLEAN]: remove folder '${OC_DWL_PATH}
     [ $clearRoms == 1 ] && [ -d ${ROM_PATH} ] && rm -R ${ROM_PATH} && echo '[CLEAN]: remove folder '${ROM_PATH}
 
