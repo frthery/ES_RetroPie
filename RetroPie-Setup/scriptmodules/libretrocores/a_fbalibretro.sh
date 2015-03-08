@@ -7,13 +7,15 @@ function depends_a_fbalibretro() {
 }
 
 function sources_a_fbalibretro() {
-    gitPullOrClone "$rootdir/emulatorcores/fba-libretro" git://github.com/libretro/fba-libretro.git
+    #gitPullOrClone "$rootdir/emulatorcores/fba-libretro" git://github.com/libretro/fba-libretro.git
+    gitPullOrClone "$rootdir/emulatorcores/libretro-fba" git://github.com/libretro/libretro-fba.git
 }
 
 function build_a_fbalibretro() {
-    pushd "$rootdir/emulatorcores/fba-libretro"
- 
-    cd $rootdir/emulatorcores/fba-libretro/svn-current/trunk/
+    #pushd "$rootdir/emulatorcores/fba-libretro"
+    pushd "$rootdir/emulatorcores/libretro-fba"
+    
+    #cd $rootdir/emulatorcores/fba-libretro/svn-current/trunk/
 
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
