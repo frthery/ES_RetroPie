@@ -90,10 +90,6 @@ function download_install() {
         local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
         #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
 
-        # TODO REMOVE
-        #((seq++))
-        #continue
-
         # CHECK SYNCHRO
         if [ $OPT_FORCE -eq 0 ]; then
             cat ${OC_FILE_SYNC} | grep "DOWNLOAD|UNRAR: ${infos[0]}" > /dev/null
