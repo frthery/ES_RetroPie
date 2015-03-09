@@ -42,7 +42,7 @@ function initialize() {
     local clearRoms=$1
 
     [ $OPT_LOCAL -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
-    [ $OPT_LOCAL -eq 0 ] && wget ${OC_LINK_FILE_INI} && echo '[GET|LOAD]: '${OC_FILE_INI}
+    [ $OPT_LOCAL -eq 0 ] && echo '[GET]: '${OC_FILE_INI} && wget ${OC_LINK_FILE_INI}
     [ ! -f ${OC_FILE_INI} ] && echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && return 1
 
     [ $OPT_NOINSTALL -eq 1 ] && return 0
@@ -73,7 +73,9 @@ function download_install() {
     local seq=0
     local idx=0
 
-    #while [ "${packs[$idx]}" != "" ]; do
+    # USE SPECIFIC SEQUENCE
+    [ $OPT_SEQ ] && deploy_seq=($(echo ${OPT_SEQ} | sed 's/,/\n/g'))
+
     while [ $seq -lt ${#deploy_seq[@]} ]; do
         #__ERRMSGS=""
 
@@ -86,7 +88,11 @@ function download_install() {
 
         local infos=($(echo ${packs[$idx]} | sed 's/,/\n/g'))
         local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
-        #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+
+        # TODO REMOVE
+        #((seq++))
+        #continue
 
         # CHECK SYNCHRO
         if [ $OPT_FORCE -eq 0 ]; then
@@ -127,7 +133,12 @@ function download_install() {
 }
 
 function usage() {
-    echo "oc_bestsets_downloader.sh [--force-sync] [--local-ini] [--no-install]"
+    echo "oc_bestsets_downloader.sh [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]"
+    echo ""
+    echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
+    echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
+    echo "use --force-sync argument to force local packages synchronization"
+    echo "use --local-ini argument to use your local ini file (oc_bestsets.ini)"
 }
 # END FUNCTIONS
 
@@ -141,6 +152,7 @@ OC_DWL_PATH=${OC_PATH}'/dwl'
 # END GLOBAL VARIABLES
 
 # MAIN
+OPT_SHOW=0
 OPT_FORCE=0
 OPT_LOCAL=0
 OPT_NOINSTALL=0
@@ -153,6 +165,11 @@ while [ "$1" != "" ]; do
             usage
             exit
             ;;
+        --show-packages)
+            # SHOW AVAILABLE PACKAGES
+            OPT_SHOW=1
+            OPT_NOINSTALL=1
+            ;;
         --force-sync)
             # FORCE SYNCHRO
             OPT_FORCE=1
@@ -162,8 +179,11 @@ while [ "$1" != "" ]; do
             OPT_LOCAL=1
             ;;
         --no-install)
-            # NO INSTALL (GET INI FILE)
             OPT_NOINSTALL=1
+            ;;
+        --deploy-seq)
+            # SPECIFIC DEPLOYMENT SEQUENCE
+            OPT_SEQ=$VALUE
             ;;
         *)
             echo "[ERROR] unknown parameter \"$PARAM\""
@@ -177,6 +197,12 @@ done
 echo '-------------------- START oc_bestsets_downloader -----------------------'
 initialize 0
 [ $? -ne 0 ] && echo '[ERROR]: initialize!' && exit -1
+
+if [ $OPT_SHOW -eq 1 ]; then
+    # SHOW PACKAGES
+    echo '[LOAD]: '${OC_FILE_INI}
+    cat ${OC_FILE_INI} | grep '# PACK '
+fi
 
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD]: '${OC_FILE_INI}
