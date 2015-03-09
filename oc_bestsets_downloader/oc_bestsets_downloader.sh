@@ -88,7 +88,7 @@ function download_install() {
 
         local infos=($(echo ${packs[$idx]} | sed 's/,/\n/g'))
         local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
-        echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
 
         # TODO REMOVE
         #((seq++))
