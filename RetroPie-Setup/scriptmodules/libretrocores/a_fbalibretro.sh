@@ -38,5 +38,5 @@ function configure_a_fbalibretro() {
 
 function copy_a_fbalibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
-    find $rootdir/emulatorcores/fba-libretro/ -name $so_filter | xargs cp -t $outputdir
+    find $rootdir/emulatorcores/libretro-fba/ -name $so_filter | xargs cp -t $outputdir
 }
