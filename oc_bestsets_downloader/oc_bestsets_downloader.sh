@@ -42,8 +42,8 @@ function initialize() {
     local clearRoms=$1
 
     [ $OPT_LOCAL -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
-    [ $OPT_LOCAL -eq 0 ] && [ $OPT_MEGA -eq 1 ] && echo '[GET]: '${OC_MEGA_FILE_INI} && wget ${OC_MEGA_FILE_INI} -O ${OC_FILE_INI}
-    [ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET]: '${OC_DRIVE_FILE_INI} && wget ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI}
+    [ $OPT_LOCAL -eq 0 ] && [ $OPT_MEGA -eq 1 ] && echo '[GET|MEGA.INI]: '${OC_MEGA_FILE_INI} && wget ${OC_MEGA_FILE_INI} -O ${OC_FILE_INI} 2> /dev/null
+    [ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET|DRIVE.INI]: '${OC_DRIVE_FILE_INI} && wget ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI} 2> /dev/null
     [ ! -f ${OC_FILE_INI} ] && echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && return 1
 
     [ $OPT_NOINSTALL -eq 1 ] && return 0
@@ -80,8 +80,6 @@ function download_install() {
     [ $OPT_SEQ ] && deploy_seq=($(echo ${OPT_SEQ} | sed 's/,/\n/g'))
 
     while [ $seq -lt ${#deploy_seq[@]} ]; do
-        #__ERRMSGS=""
-
         idx=${deploy_seq[$seq]}
         if [ "${packs[$idx]}" == "" ];then
             echo '[WARNING]: pack not found, check deploy_seq into .ini file!'
@@ -108,6 +106,7 @@ function download_install() {
 
         # DOWNLOAD BESTSET
         echo [DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        echo '-------------------------------------------------------------------------'
         if [ $OPT_MEGA -eq 1 ]; then
             megadl ${pack_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
@@ -115,8 +114,8 @@ function download_install() {
             wget --no-check-certificate ${pack_links[$idx]} -O ${OC_DWL_PATH}/${files[0]}
             DDL=$?
         fi
-
-        [ $DDL -ne 0 ] && echo [ERROR DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]} && ((seq++)) 
+        echo '-------------------------------------------------------------------------'
+        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${pack_names[$idx]} && ((seq++)) 
         [ $DDL -ne 0 ] && continue
 
         # CREATE OUTPUT FOLDER
@@ -124,6 +123,7 @@ function download_install() {
 
         # UNRAR BESTSET
         echo [UNZIP]: ${files[0]} to ${ROM_PATH}/${infos[1]}...
+        echo '-------------------------------------------------------------------------'
         if [ $(echo $files[0] | grep '.rar') ]; then
             unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${ROM_PATH}/${infos[1]}
             UNZIP=$?
@@ -131,15 +131,12 @@ function download_install() {
             unzip -o ${OC_DWL_PATH}/${files[0]} -d ${ROM_PATH}/${infos[1]}
             UNZIP=$?
         fi
-
-        [ $UNZIP -ne 0 ] && echo [ERROR UNZIP] package ${infos[0]}! && ((seq++)) 
+        echo '-------------------------------------------------------------------------'
+        [ $UNZIP -ne 0 ] && echo '[ERROR|UNZIP] package '${infos[0]} && ((seq++)) 
         [ $UNZIP -ne 0 ] && continue
 
-        # check errors
-        #[ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
-
         now=`date +%Y%m%d`
-        echo '[DOWNLOAD|UNZIP: '${infos[0]}']': ${pack_names[$idx]}': OK'
+        echo '[DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_names[$idx]}': OK'
         echo '['$now'] [DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_names[$idx]}': OK' >> ${OC_FILE_SYNC}
 
         ((seq++))
@@ -225,12 +222,12 @@ initialize 0
 
 if [ $OPT_SHOW -eq 1 ]; then
     # SHOW PACKAGES
-    echo '[LOAD]: '${OC_FILE_INI}
+    echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
     cat ${OC_FILE_INI} | grep '# PACK '
 fi
 
 if [ $OPT_NOINSTALL -eq 0 ]; then
-    source ${OC_FILE_INI} && echo '[LOAD]: '${OC_FILE_INI}
+    source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
 
     #wget --no-check-certificate 'https://googledrive.com/host/0BzfVpF2ksbTkTl9UYVU0U3pqYWM' -O Bestset_PC-Engine_HuCard.zip
     #wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O FILENAME
