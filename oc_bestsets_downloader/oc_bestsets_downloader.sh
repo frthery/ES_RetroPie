@@ -43,7 +43,7 @@ function initialize() {
 
     [ $OPT_LOCAL -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
     [ $OPT_LOCAL -eq 0 ] && [ $OPT_MEGA -eq 1 ] && echo '[GET]: '${OC_MEGA_FILE_INI} && wget ${OC_MEGA_FILE_INI} -O ${OC_FILE_INI}
-	[ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET]: '${OC_DRIVE_FILE_INI} && wget ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI}
+    [ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET]: '${OC_DRIVE_FILE_INI} && wget ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI}
     [ ! -f ${OC_FILE_INI} ] && echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && return 1
 
     [ $OPT_NOINSTALL -eq 1 ] && return 0
@@ -63,7 +63,7 @@ function initialize() {
     # UPDATE SYNC FILE
     touch $OC_FILE_SYNC
 
-    # CHECK INSTALL MEGATOOLS, UNRAR-NONFREE, TODO DL OC_INI_DWL
+    # CHECK INSTALL MEGATOOLS, UNRAR-NONFREE
     if [ $OPT_MEGA -eq 1 ]; then
         check_install_unrar || return 1;
         check_install_megatools || return 1;
@@ -91,7 +91,7 @@ function download_install() {
 
         local infos=($(echo ${packs[$idx]} | sed 's/,/\n/g'))
         local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
-        echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
 
 #[ $OPT_DRIVE -eq 1 ] && echo 'WGET: YES'
 #[ $OPT_MEGA -eq 1 ] && echo 'MEGATOOLS: YES'
@@ -100,7 +100,7 @@ function download_install() {
 
         # CHECK SYNCHRO
         if [ $OPT_FORCE -eq 0 ]; then
-            cat ${OC_FILE_SYNC} | grep "DOWNLOAD|UNRAR: ${infos[0]}" > /dev/null
+            cat ${OC_FILE_SYNC} | grep "DOWNLOAD|UNZIP: ${infos[0]}" > /dev/null
             SYNC=$?
             [ $SYNC -eq 0 ] && echo [IS_SYNC: ${infos[0]}]: ${pack_names[$idx]} && ((seq++))
             [ $SYNC -eq 0 ] && continue
@@ -112,7 +112,7 @@ function download_install() {
             megadl ${pack_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
         elif [ $OPT_DRIVE -eq 1 ]; then
-            wget --no-check-certificate 'https://googledrive.com/host/0BzfVpF2ksbTkTl9UYVU0U3pqYWM' -O ${OC_DWL_PATH}/${files[0]}
+            wget --no-check-certificate ${pack_links[$idx]} -O ${OC_DWL_PATH}/${files[0]}
             DDL=$?
         fi
 
@@ -128,19 +128,19 @@ function download_install() {
             unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${ROM_PATH}/${infos[1]}
             UNZIP=$?
         elif [ $(echo $files[0] | grep '.zip') ]; then
-            unzip ${OC_DWL_PATH}/${files[0]} -d ${ROM_PATH}/${infos[1]}
+            unzip -o ${OC_DWL_PATH}/${files[0]} -d ${ROM_PATH}/${infos[1]}
             UNZIP=$?
         fi
 
-        [ $UNZIP -ne 0 ] && echo [ERROR UNRAR] package ${infos[0]}! && ((seq++)) 
+        [ $UNZIP -ne 0 ] && echo [ERROR UNZIP] package ${infos[0]}! && ((seq++)) 
         [ $UNZIP -ne 0 ] && continue
 
         # check errors
         #[ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
 
         now=`date +%Y%m%d`
-        echo '[DOWNLOAD|UNRAR: '${infos[0]}']': ${pack_names[$idx]}': OK'
-        echo '['$now'] [DOWNLOAD|UNRAR: '${infos[0]}']: '${pack_names[$idx]}': OK' >> ${OC_FILE_SYNC}
+        echo '[DOWNLOAD|UNZIP: '${infos[0]}']': ${pack_names[$idx]}': OK'
+        echo '['$now'] [DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_names[$idx]}': OK' >> ${OC_FILE_SYNC}
 
         ((seq++))
     done
