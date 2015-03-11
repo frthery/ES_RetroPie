@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # CONFIGURE YOUR ROMS PATH
-ROM_PATH='/home/pi/RetroPie/roms'
+ROM_PATH='./roms'
 
 # FUNCTIONS
 function check_install_unrar() {
@@ -42,7 +42,8 @@ function initialize() {
     local clearRoms=$1
 
     [ $OPT_LOCAL -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
-    [ $OPT_LOCAL -eq 0 ] && echo '[GET]: '${OC_FILE_INI} && wget ${OC_LINK_FILE_INI}
+    [ $OPT_LOCAL -eq 0 ] && [ $OPT_MEGA -eq 1 ] && echo '[GET]: '${OC_MEGA_FILE_INI} && wget ${OC_MEGA_FILE_INI} -O ${OC_FILE_INI}
+	[ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET]: '${OC_DRIVE_FILE_INI} && wget ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI}
     [ ! -f ${OC_FILE_INI} ] && echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && return 1
 
     [ $OPT_NOINSTALL -eq 1 ] && return 0
@@ -63,8 +64,10 @@ function initialize() {
     touch $OC_FILE_SYNC
 
     # CHECK INSTALL MEGATOOLS, UNRAR-NONFREE, TODO DL OC_INI_DWL
-    check_install_unrar || return 1;
-    check_install_megatools || return 1;
+    if [ $OPT_MEGA -eq 1 ]; then
+        check_install_unrar || return 1;
+        check_install_megatools || return 1;
+    fi
 
     return 0
 }
@@ -88,7 +91,12 @@ function download_install() {
 
         local infos=($(echo ${packs[$idx]} | sed 's/,/\n/g'))
         local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
-        #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+
+#[ $OPT_DRIVE -eq 1 ] && echo 'WGET: YES'
+#[ $OPT_MEGA -eq 1 ] && echo 'MEGATOOLS: YES'
+#((seq++))
+#exit
 
         # CHECK SYNCHRO
         if [ $OPT_FORCE -eq 0 ]; then
@@ -100,8 +108,13 @@ function download_install() {
 
         # DOWNLOAD BESTSET
         echo [DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
-        megadl ${pack_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
-        DDL=$?
+        if [ $OPT_MEGA -eq 1 ]; then
+            megadl ${pack_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
+            DDL=$?
+        elif [ $OPT_DRIVE -eq 1 ]; then
+            wget --no-check-certificate 'https://googledrive.com/host/0BzfVpF2ksbTkTl9UYVU0U3pqYWM' -O ${OC_DWL_PATH}/${files[0]}
+            DDL=$?
+        fi
 
         [ $DDL -ne 0 ] && echo [ERROR DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]} && ((seq++)) 
         [ $DDL -ne 0 ] && continue
@@ -110,12 +123,17 @@ function download_install() {
         [ ! -d ${ROM_PATH}/${infos[1]} ] && mkdir ${ROM_PATH}/${infos[1]} && echo '[INIT]: create folder '${ROM_PATH}/${infos[1]}
 
         # UNRAR BESTSET
-        echo [UNRAR]: ${files[0]} to ${ROM_PATH}/${infos[1]}...
-        unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${ROM_PATH}/${infos[1]}
-        UNRAR=$?
+        echo [UNZIP]: ${files[0]} to ${ROM_PATH}/${infos[1]}...
+        if [ $(echo $files[0] | grep '.rar') ]; then
+            unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${ROM_PATH}/${infos[1]}
+            UNZIP=$?
+        elif [ $(echo $files[0] | grep '.zip') ]; then
+            unzip ${OC_DWL_PATH}/${files[0]} -d ${ROM_PATH}/${infos[1]}
+            UNZIP=$?
+        fi
 
-        [ $UNRAR -ne 0 ] && echo [ERROR UNRAR] package ${infos[0]}! && ((seq++)) 
-        [ $UNRAR -ne 0 ] && continue
+        [ $UNZIP -ne 0 ] && echo [ERROR UNRAR] package ${infos[0]}! && ((seq++)) 
+        [ $UNZIP -ne 0 ] && continue
 
         # check errors
         #[ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
@@ -129,7 +147,7 @@ function download_install() {
 }
 
 function usage() {
-    echo "oc_bestsets_downloader.sh [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]"
+    echo "oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]"
     echo ""
     echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
     echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
@@ -139,7 +157,8 @@ function usage() {
 # END FUNCTIONS
 
 # GLOBAL VARIABLES
-OC_LINK_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.ini'
+OC_DRIVE_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.drive.ini'
+OC_MEGA_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.mega.ini'
 OC_FILE_INI='oc_bestsets.ini'
 OC_FILE_SYNC=${ROM_PATH}'/oc_bestsets_sync'
 OC_PATH='./oc_bestsets_downloader'
@@ -148,6 +167,8 @@ OC_DWL_PATH=${OC_PATH}'/dwl'
 # END GLOBAL VARIABLES
 
 # MAIN
+OPT_MEGA=0
+OPT_DRIVE=1
 OPT_SHOW=0
 OPT_FORCE=0
 OPT_LOCAL=0
@@ -160,6 +181,14 @@ while [ "$1" != "" ]; do
         -h | --help)
             usage
             exit
+            ;;
+        --mega-dl)
+            OPT_MEGA=1
+            OPT_DRIVE=0
+            ;;
+        --drive-dl)
+            OPT_DRIVE=1
+            OPT_MEGA=0
             ;;
         --show-packages)
             # SHOW AVAILABLE PACKAGES
@@ -202,6 +231,11 @@ fi
 
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD]: '${OC_FILE_INI}
+
+    #wget --no-check-certificate 'https://googledrive.com/host/0BzfVpF2ksbTkTl9UYVU0U3pqYWM' -O Bestset_PC-Engine_HuCard.zip
+    #wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O FILENAME
+    #unzip Bestset_PC-Engine_HuCard.zip -d ./pce
+
     download_install
 fi
 
