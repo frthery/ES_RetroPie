@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # CONFIGURE YOUR ROMS PATH
-ROM_PATH='./roms'
+#ROM_PATH='./roms'
+ROM_PATH='/home/pi/RetroPie/roms'
 
 # FUNCTIONS
 function check_install_unrar() {
