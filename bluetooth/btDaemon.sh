@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#sudo apt-get install bluetooth bluez-utils blueman bluez-compat
 # CONFIGURE YOUR BLUETOOTH DEVICES
 BT1='65:03:36:63:04:07'
 #BT2='48:72:50:EA:49:81'
@@ -9,7 +10,7 @@ logger() {
    #no logger
    [ $NO_LOG -eq 1 ] && return
    [[ $2 -eq 1 ]] && COUNT_LINES_LOGGER=0
-   
+
    COUNT_LINES_LOGGER=$(($COUNT_LINES_LOGGER + 1))
 
    now=$(date +"%m-%d-%y %r")
@@ -58,14 +59,15 @@ connect() {
 
    #10 attempts for connecting device
    while [ $tryPing -le $maxRetry ]; do
-      sudo l2ping $bt -c 3 > /dev/null 2>&1
+      sudo l2ping $bt -c 1 > /dev/null 2>&1
       RESPING=$?
       if [ $RESPING = 0 ]; then
          logger "[OK][$RESPING] ping bluetooth device $index [$bt]"
 
          tryCon=1
          while [ $tryCon -le $maxRetry ]; do
-            sudo bluez-test-input connect $bt &> /dev/null
+            #sudo bluez-test-input connect $bt &> /dev/null
+            hidd --connect $bt &> /dev/null
             RESCON=$?
             if [ $RESCON = 0 ]; then
                #logger "[OK][$RESCON] bluetooth device $index [$bt] connected"
@@ -116,9 +118,10 @@ while [ 1 ]; do
    else
       logger "--- bluetooth devices check connections [delai=$DELAI] ---"
    fi
-   
+
    #check bluetooth devices status
-   hcitool con|grep -v "^Connections:" > /tmp/btcheck
+   #hcitool con|grep -v "^Connections:" > /tmp/btcheck
+   hidd --show > /tmp/btcheck
 
    auto_connect 0 $BT1
    auto_connect 1 $BT2
