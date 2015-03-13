@@ -229,11 +229,6 @@ fi
 
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
-
-    #wget --no-check-certificate 'https://googledrive.com/host/0BzfVpF2ksbTkTl9UYVU0U3pqYWM' -O Bestset_PC-Engine_HuCard.zip
-    #wget --no-check-certificate 'https://docs.google.com/uc?export=download&id=FILEID' -O FILENAME
-    #unzip Bestset_PC-Engine_HuCard.zip -d ./pce
-
     download_install
 fi
 
