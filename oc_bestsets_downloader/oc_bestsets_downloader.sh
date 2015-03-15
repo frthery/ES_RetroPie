@@ -43,8 +43,8 @@ function initialize() {
     local clearRoms=$1
 
     [ $OPT_LOCAL -eq 0 ] && [ -f ${OC_FILE_INI} ] && mv ${OC_FILE_INI} ${OC_FILE_INI}.old
-    [ $OPT_LOCAL -eq 0 ] && [ $OPT_MEGA -eq 1 ] && echo '[GET|MEGA.INI]: '${OC_MEGA_FILE_INI} && wget ${OC_MEGA_FILE_INI} -O ${OC_FILE_INI} 2> /dev/null
-    [ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET|DRIVE.INI]: '${OC_DRIVE_FILE_INI} && wget ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI} 2> /dev/null
+    [ $OPT_LOCAL -eq 0 ] && [ $OPT_MEGA -eq 1 ] && echo '[GET|MEGA.INI]: '${OC_MEGA_FILE_INI} && wget --no-check-certificate ${OC_MEGA_FILE_INI} -O ${OC_FILE_INI} 2> /dev/null
+    [ $OPT_LOCAL -eq 0 ] && [ $OPT_DRIVE -eq 1 ] && echo '[GET|DRIVE.INI]: '${OC_DRIVE_FILE_INI} && wget --no-check-certificate ${OC_DRIVE_FILE_INI} -O ${OC_FILE_INI} 2> /dev/null
     [ ! -f ${OC_FILE_INI} ] && echo '[ERROR]: not ini file ['${OC_FILE_INI}'] found!' && return 1
 
     [ $OPT_NOINSTALL -eq 1 ] && return 0
