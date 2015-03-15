@@ -52,12 +52,10 @@ function initialize() {
     [ ! -d ${OC_PATH} ] && mkdir ${OC_PATH} && echo '[INIT]: create folder '${OC_PATH}
 
     # CLEAN
-    [ -d ${OC_TMP_PATH} ] && sudo rm -R ${OC_TMP_PATH} && echo '[CLEAN]: remove folder '${OC_TMP_PATH}
     [ -d ${OC_DWL_PATH} ] && rm -R ${OC_DWL_PATH} && echo '[CLEAN]: remove folder '${OC_DWL_PATH}
     [ $clearRoms == 1 ] && [ -d ${ROM_PATH} ] && rm -R ${ROM_PATH} && echo '[CLEAN]: remove folder '${ROM_PATH}
 
     # CREATE FOLDERS
-    mkdir ${OC_TMP_PATH} && echo '[INIT]: create folder '${OC_TMP_PATH}
     mkdir ${OC_DWL_PATH} && echo '[INIT]: create folder '${OC_DWL_PATH}
     [ ! -d ${ROM_PATH} ] && mkdir ${ROM_PATH} && echo '[INIT]: create folder '${ROM_PATH}
 
@@ -66,6 +64,9 @@ function initialize() {
 
     # CHECK INSTALL MEGATOOLS, UNRAR-NONFREE
     if [ $OPT_MEGA -eq 1 ]; then
+        [ -d ${OC_TMP_PATH} ] && sudo rm -R ${OC_TMP_PATH} && echo '[CLEAN]: remove folder '${OC_TMP_PATH}
+        mkdir ${OC_TMP_PATH} && echo '[INIT]: create folder '${OC_TMP_PATH}
+        
         check_install_unrar || return 1;
         check_install_megatools || return 1;
     fi
