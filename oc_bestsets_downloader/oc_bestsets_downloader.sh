@@ -150,7 +150,7 @@ function usage() {
     echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
     echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
     echo "use --force-sync argument to force local packages synchronization"
-    echo "use --local-ini argument to use your local ini file (oc_bestsets.ini)"
+    echo "use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
 }
 # END FUNCTIONS
 
