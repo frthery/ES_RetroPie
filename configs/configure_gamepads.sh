@@ -21,14 +21,14 @@ function configure_retroarch() {
         [ -s /tmp/btcheck ] && echo "-- MODE BLUETOOTH ACTIVATED [$cfg_bluetooth] --" && cat $cfg_bluetooth >> $cfg_current
         [ ! -s /tmp/btcheck ] && echo "-- MODE USB ACTIVATED [$cfg_usb] --" && cat $cfg_usb >> $cfg_current
 
-        [ -f $cfg_current ] && export cmd=$(echo $@ | sed "s|$cfg_default|$cfg_current|g")
+        [ -f $cfg_current ] && export command=$(echo $@ | sed "s|$cfg_default|$cfg_current|g")
     else
         # USE SPECIFIC CONFIG FILE
         [ -s /tmp/btcheck ] && echo "-- MODE BLUETOOTH ACTIVATED --" && cfg_current=$(echo $cfg_default | sed "s|%RETRO_CONFIG%|$path_cfg_bluetooth|g")
         [ ! -s /tmp/btcheck ] && echo "-- MODE USB ACTIVATED --" && cfg_current=$(echo $cfg_default | sed "s|%RETRO_CONFIG%|$path_cfg_usb|g")
     fi
 
-    [ -f $cfg_current ] && echo "CONFIG FILE: [$cfg_current]" && export cmd=$(echo $@ | sed "s|$cfg_default|$cfg_current|g")
+    [ -f $cfg_current ] && echo "CONFIG FILE: [$cfg_current]" && export command=$(echo $@ | sed "s|$cfg_default|$cfg_current|g")
 }
 
 function configure_pifba() {
@@ -37,8 +37,10 @@ function configure_pifba() {
 }
 
 #CONFIGURE INPUT DEVICES
+#echo "ORIGINAL COMMAND: [$@]"
+
 [[ $(echo $@ | grep "/retroarch") ]] && configure_retroarch "$@"
 [[ $(echo $@ | grep "/pifba") ]] && configure_pifba "$@" 
 
-[[ $cmd == "" ]] && cmd=$@
+[[ $command == "" ]] && command=$@
 
