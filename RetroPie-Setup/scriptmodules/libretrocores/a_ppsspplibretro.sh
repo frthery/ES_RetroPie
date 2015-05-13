@@ -19,6 +19,8 @@ function build_a_ppsspplibretro() {
     elif [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
         make -f Makefile platform=rpi2 ${COMPILER} 2>&1 | tee makefile.log
     else
+        make -f Makefile ${COMPILER} 2>&1 | tee makefile.log
+    fi
     
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile PSP LibretroCore PPSSPP!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.ppsspplibretro
