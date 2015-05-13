@@ -2,10 +2,10 @@ build_retropie.sh
 =================
 A simple script for building, installing and configuring emulators and libretrocores.
 
-- Place build_retropie.sh script into your RetroPie-Setup folder. 
-- Execute "sudo chmod 755 build_libretro.sh".
+- Put build_retropie.sh script into your RetroPie-Setup folder. 
+- Execute "sudo chmod 755 build_retropie.sh".
 - Execute "git pull" command for updating your repository.
-- Execute "./build_retropie.sh -u" command to get new modules.
+- Execute "./build_retropie.sh -u" command to get latest modules.
 
 Usage:
 ======
@@ -18,6 +18,8 @@ listing all modules: ./build_retropie.sh -l
 
 build a module: ./build_retropie.sh -b -name=[idx]<br>
 This command will build a specific module, result is placed into ./bin folder.
+
+build a module on RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]<br>
 
 execute a module: ./build_retropie.sh -a -name=[idx]<br>
 This command will execute all module's functions. (b:source and build functions, i:install function, c: configure function)
