@@ -1,15 +1,16 @@
 #!/bin/bash
 
-#DEFAULT COMPILER: HOST_CC=default ./build_retropie.sh -b -name=?
+#RPI: ./build_retropie.sh -b -name=?
+#RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
 #BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?
 #CROSS COMPILATION ARM: HOST_CC=arm-linux-gnueabihf ./build_retropie.sh -b -name=?
-#UBUNTU FOR CROSS COMPILATION INSTALL: apt-get install gcc-arm-linux-gnueabihf && apt-get install g++-arm-linux-gnueabihf
+#UBUNTU CROSS COMPILATION INSTALL: apt-get install gcc-arm-linux-gnueabihf && apt-get install g++-arm-linux-gnueabihf
+#DEFAULT COMPILER: HOST_CC=default ./build_retropie.sh -b -name=?
 
 #LIBRETRO SAMPLE: ARCH=x86_64 platform=win HOST_CC=x86_64-w64-mingw32 ./libretro-build.sh
 #LIBRETRO SAMPLE: make -f Makefile platform=win CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" -j7
 
 # INIT COMPILER FLAGS
-__init_default_flags=1
 __default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
 #__default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
 __default_asflags=""
@@ -18,7 +19,6 @@ __default_makeflags=""
 __default_gcc_version="4.7"
 
 if [ "$HOST_CC" ]; then
-   __init_default_flags=0
    #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
 
    [ "$HOST_CC" != "default" ] && export CC="\"${HOST_CC}-gcc\""
@@ -43,8 +43,6 @@ if [ "$HOST_CC" ]; then
 
        #arm-unknown-linux-gnueabi-g++ --version
        #echo "--- $? ---"
-
-       __init_default_flags=1
    fi
 else
    # default raspberry compilation
@@ -55,11 +53,13 @@ fi
 so_filter='*libretro*.so'
 [ "$HOST_CC" = "x86_64-w64-mingw32" ] && so_filter='*libretro*.dll'
 
-[ "$__init_default_flags" -eq 1 ] && [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
-[ "$__init_default_flags" -eq 1 ] && [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
-#[ "$__init_default_flags" -eq 1 ] && [[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
-[ "$__init_default_flags" -eq 1 ] && [[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
-[ "$__init_default_flags" -eq 1 ] && [[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
+if [ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] || [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ]; then
+   [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
+   [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
+   #[[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
+   [[ -z "${ASFLAGS}" ]] && export ASFLAGS="${__default_asflags}"
+   [[ -z "${MAKEFLAGS}" ]] && export MAKEFLAGS="${__default_makeflags}"
+fi
 # END INIT COMPILER FLAGS
 
 # FUNCTIONS
