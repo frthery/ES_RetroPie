@@ -11,17 +11,18 @@ Usage:
 ======
 build_retropie.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]
 
-Samples:<br>
-update current modules and listing them: ./build_retropie.sh -u -l<br>
+Commands Samples:<br>
+Updating current modules and listing them: ./build_retropie.sh -u -l<br>
 
-listing all modules: ./build_retropie.sh -l
+Listing all modules: ./build_retropie.sh -l
 
-build a module: ./build_retropie.sh -b -name=[idx]<br>
+Build a module: ./build_retropie.sh -b -name=[idx]<br>
 This command will build a specific module, result is placed into ./bin folder.
 
-build a module on RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]<br>
+Build a module on RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]<br>
+This command will build a specific module, result is placed into ./bin folder.
 
-execute a module: ./build_retropie.sh -a -name=[idx]<br>
+Build/Install/Configure a module: ./build_retropie.sh -a -name=[idx]<br>
 This command will execute all module's functions. (b:source and build functions, i:install function, c: configure function)
 Some actions need more privileges, in this case execute this command with sudo.
 
