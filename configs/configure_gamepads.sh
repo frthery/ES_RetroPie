@@ -14,23 +14,23 @@ fi
  
 function configure_retroarch() {
     #local cfg_index=6
-    
-	local cfg_current='/opt/retropie/configs/all/current/retroarch.cfg'
+
+    local cfg_current='/opt/retropie/configs/all/current/retroarch.cfg'
     local cfg_bluetooth="$path_cfg_bluetooth/retroarch.cfg"
     local cfg_usb="$path_cfg_usb/retroarch.cfg"
-    
-	local array=($(echo $@ |sed 's/ /\n/g'))
-	
-	#GET --appendfile index
-	for (( cfg_index = 0; cfg_index < ${#array[@]}; cfg_index++ )); do
-	   if [ "${array[$cfg_index]}" = "--appendconfig" ]; then
-		  break;
-	   fi
+
+    local array=($(echo $@ |sed 's/ /\n/g'))
+
+    #GET --appendfile index
+    for (( cfg_index = 0; cfg_index < ${#array[@]}; cfg_index++ )); do
+       if [ "${array[$cfg_index]}" = "--appendconfig" ]; then
+          break;
+       fi
     done
-	
-	cfg_index=$(($cfg_index + 1))
-	
-	local cfg_default=${array[$cfg_index]}
+
+    cfg_index=$(($cfg_index + 1))
+
+    local cfg_default=${array[$cfg_index]}
     local path_cfg_default=$(echo $cfg_default | sed "s|/retroarch.cfg||g")
 
     echo "DEFAULT CONFIG FILE[$cfg_index]: [$cfg_default]"
@@ -38,16 +38,14 @@ function configure_retroarch() {
     if [[ ! $cfg_default =~ .*%RETRO_CONFIG%.* ]]; then
         # APPEND CONFIG FILE
         [ -f $cfg_default ] && cat $cfg_default > $cfg_current
-		
-		if [ $mode == 'bluetooth' ]; then
+
+        if [ $mode == 'bluetooth' ]; then
             [ -f $path_cfg_default/bluetooth/retroarch.cfg ] && cfg_bluetooth=$path_cfg_default/bluetooth/retroarch.cfg
-			echo "-- MODE BLUETOOTH ACTIVATED [$cfg_bluetooth] --" && cat $cfg_bluetooth >> $cfg_current
+            echo "-- MODE BLUETOOTH ACTIVATED [$cfg_bluetooth] --" && cat $cfg_bluetooth >> $cfg_current
         elif [ $mode == 'usb' ]; then
             [ -f $path_cfg_default/usb/retroarch.cfg ] && cfg_usb=$path_cfg_default/usb/retroarch.cfg
-			echo "-- MODE USB ACTIVATED [$cfg_usb] --" && cat $cfg_usb >> $cfg_current
-		fi
-
-        #[ -f $cfg_current ] && export command=$(echo $@ | sed "s|$cfg_default|$cfg_current|g")
+            echo "-- MODE USB ACTIVATED [$cfg_usb] --" && cat $cfg_usb >> $cfg_current
+        fi
     else
         # USE SPECIFIC CONFIG FILE
         [ $mode == 'bluetooth' ] && echo "-- MODE BLUETOOTH ACTIVATED --" && cfg_current=$(echo $cfg_default | sed "s|%RETRO_CONFIG%|$path_cfg_bluetooth|g")
