@@ -3,7 +3,7 @@ rp_module_desc="FBA LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function depends_a_fbalibretro() {
-    rps_checkNeededPackages cpp-4.8 gcc-4.8 g++-4.8
+    getDepends cpp-4.8 gcc-4.8 g++-4.8
 }
 
 function sources_a_fbalibretro() {
@@ -19,7 +19,11 @@ function build_a_fbalibretro() {
 
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
-        make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log
+        if [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
+            make -f makefile.libretro platform=rpi2 profile=performance CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log
+        else
+            make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log
+        fi
     else
         make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     fi
