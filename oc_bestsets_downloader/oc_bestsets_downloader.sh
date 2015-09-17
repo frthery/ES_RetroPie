@@ -92,10 +92,11 @@ function download_install() {
         local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
         #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
 
-#[ $OPT_DRIVE -eq 1 ] && echo 'WGET: YES'
-#[ $OPT_MEGA -eq 1 ] && echo 'MEGATOOLS: YES'
-#((seq++))
-#exit
+        if [ "${infos[0]}" == "" ] || [ "${infos[1]}" == "" ];then
+            echo '[WARNING]: infos not found, check deploy_seq into .ini file!'
+           ((seq++))
+           continue
+        fi
 
         # CHECK SYNCHRO
         if [ $OPT_FORCE -eq 0 ]; then
@@ -118,6 +119,10 @@ function download_install() {
         echo '-------------------------------------------------------------------------'
         [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${pack_names[$idx]} && ((seq++)) 
         [ $DDL -ne 0 ] && continue
+
+        if [ $OPT_FORCE -eq 1 ]; then
+            [ -d ${ROM_PATH}/${infos[1]} ] && rm -R ${ROM_PATH}/${infos[1]} && echo '[INIT]: clean folder '${ROM_PATH}/${infos[1]}
+        fi
 
         # CREATE OUTPUT FOLDER
         [ ! -d ${ROM_PATH}/${infos[1]} ] && mkdir ${ROM_PATH}/${infos[1]} && echo '[INIT]: create folder '${ROM_PATH}/${infos[1]}
