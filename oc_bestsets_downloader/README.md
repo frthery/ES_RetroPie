@@ -1,6 +1,6 @@
 oc_bestsets_downloader.sh
 =================
-A script for synchronizing OC BestSets.
+A script for synchronizing Open-Consoles BestSets (http://www.open-consoles.com/t7388-centralisation-les-bestsets-open-consoles).
 
 Usage:
 ======
