@@ -300,6 +300,9 @@ function logger() {
 function usage() {
     echo "build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
     #echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
+    echo ""
+    echo "BUILD RPI: ./build_retropie.sh -b -name=?"
+    echo "BUILD RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?"
 }
 # END FUNCTIONS
