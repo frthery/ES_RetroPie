@@ -1,7 +1,7 @@
 #!/bin/bash
 
-#RPI: ./build_retropie.sh -b -name=?
-#RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
+#BUILD RPI: ./build_retropie.sh -b -name=?
+#BUILD RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
 #BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?
 #CROSS COMPILATION ARM: HOST_CC=arm-linux-gnueabihf ./build_retropie.sh -b -name=?
 #UBUNTU CROSS COMPILATION INSTALL: apt-get install gcc-arm-linux-gnueabihf && apt-get install g++-arm-linux-gnueabihf
