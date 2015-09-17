@@ -12,7 +12,7 @@ Usage:
 ======
 build_retropie.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]
 
-Commands Samples:<br>
+Commands:<br>
 Updating current modules and listing them: ./build_retropie.sh -u -l<br>
 
 Listing all modules: ./build_retropie.sh -l
