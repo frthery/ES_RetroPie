@@ -2,13 +2,13 @@ oc_bestsets_downloader.sh
 =================
 A script for synchronizing Open-Consoles BestSets (http://www.open-consoles.com/t7388-centralisation-les-bestsets-open-consoles).
 
+- Install "wget https://github.com/frthery/ES_RetroPie/blob/master/oc_bestsets_downloader/oc_bestsets_downloader.sh"
+- Execute "sudo chmod 755 oc_bestsets_downloader.sh"
+- Edit script and change the rom path value (if necessary): ROM_PATH=...
+
 Usage:
 ======
 oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]
-
-- Install "wget https://github.com/frthery/ES_RetroPie/blob/master/oc_bestsets_downloader/oc_bestsets_downloader.sh"
-- Execute "sudo chmod 755 oc_bestsets_downloader.sh".
-- Edit script and change the rom path value (if necessary): ROM_PATH=...
 
 Commands:<br/>
 Synchronize: ./oc_bestsets_downloader.sh<br/>
