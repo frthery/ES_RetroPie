@@ -17,3 +17,4 @@ zip "$outputdir/cores-win64-$now.zip" -j $outputdir/*.dll
 [ -f "$outputdir/cores-win64-$now.zip" ] && cp "$outputdir/cores-win64-$now.zip" "$mediafiredir/cores/"
 
 popd
+

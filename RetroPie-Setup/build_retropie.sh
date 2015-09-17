@@ -257,6 +257,9 @@ function updateModules() {
     cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/scriptmodules/ ./
     cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/supplementary/ ./
 
+    rm ./tmp/ES_RetroPie-master/RetroPie-Setup/build_retropie.sh
+    cp ./tmp/ES_RetroPie-master/RetroPie-Setup/*.sh ./
+
     # clean
     logger 1 "CLEAN: ES_RetroPie ./tmp"
     rm -R ./tmp/* && rm master.zip

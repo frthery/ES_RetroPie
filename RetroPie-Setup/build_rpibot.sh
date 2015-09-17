@@ -21,3 +21,4 @@ fi
 zip ${outputzip} build_retropie.log -j $outputdir/*.so
 
 popd
+
