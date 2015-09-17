@@ -5,7 +5,7 @@ rp_module_menus="4+"
 function sources_a_reicast() {
     #libasound2-dev
     #gitPullOrClone "$rootdir/emulators/reicast-emulator" git://github.com/reicast/reicast-emulator.git
-	gitPullOrClone "$rootdir/emulators/reicast-emulator" https://github.com/reicast/reicast-emulator.git skmp/rapi2
+    gitPullOrClone "$rootdir/emulators/reicast-emulator" https://github.com/reicast/reicast-emulator.git skmp/rapi2
     #return 0
 }
 
