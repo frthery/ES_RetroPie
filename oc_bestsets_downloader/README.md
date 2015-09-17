@@ -6,7 +6,7 @@ Usage:
 ======
 oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]
 
-Commands:
+Commands:<br/>
 Show available packages: oc_bestsets_downloader.sh --show-packages<br/>
 Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,...<br/>
 
