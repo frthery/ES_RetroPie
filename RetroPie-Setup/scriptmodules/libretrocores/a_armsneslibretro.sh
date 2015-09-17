@@ -1,5 +1,5 @@
 rp_module_id="a_armsneslibretro"
-rp_module_desc="SNES LibretroCore armsnes (Additional)"
+rp_module_desc="SNES LibretroCore ARMSNES (Additional)"
 rp_module_menus="4+"
 
 function sources_a_armsneslibretro() {
@@ -15,7 +15,7 @@ function build_a_armsneslibretro() {
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile SNES LibretroCore armsnes!"
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile SNES LibretroCore ARMSNES!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.armsneslibretro
 
     popd

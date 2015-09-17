@@ -1,5 +1,5 @@
 rp_module_id="a_gwlibretro"
-rp_module_desc="GW LibretroCore game & watch (Additional)"
+rp_module_desc="GW LibretroCore (Additional)"
 rp_module_menus="4+"
 
 function sources_a_gwlibretro() {
@@ -11,7 +11,7 @@ function build_a_gwlibretro() {
 
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
     make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile GW LibretroCore gw!"
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile GW LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.gwlibretro
 
     popd

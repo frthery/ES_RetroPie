@@ -1,5 +1,5 @@
 rp_module_id="a_cap32libretro"
-rp_module_desc="CPC LibretroCore CPC6128(Additional)"
+rp_module_desc="CPC6128 LibretroCore CAP32 (Additional)"
 rp_module_menus="4+"
 
 function sources_a_cap32libretro() {
