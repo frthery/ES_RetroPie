@@ -19,10 +19,16 @@ Listing all modules: ./build_retropie.sh -l
 Build a module: ./build_retropie.sh -b -name=[idx]<br>
 This command will build a specific module, result is placed into ./bin folder.
 
-Build a module on RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]<br>
-This command will build a specific module, result is placed into ./bin folder.
-
 Build/Install/Configure a module: ./build_retropie.sh -a -name=[idx]<br>
 This command will execute all module's functions. (b:source and build functions, i:install function, c: configure function)
 Some actions need more privileges, in this case execute this command with sudo.
+
+Build a module on RPI2: ./build_rpi.sh -rpi2 -name=[idx]<br>
+This command will build a specific module for RPI2 platform.
+
+Build a module on RPI: ./build_rpi.sh -rpi -name=[idx]<br>
+This command will build a specific module for RPI platform.
+
+Build a module on WIN64: ./build_win.sh -name=[idx]<br>
+This command will build a specific module for WIN64 platform.
 
