@@ -9,7 +9,7 @@ function sources_a_dosboxlibretro() {
 function build_a_dosboxlibretro() {
     pushd "$rootdir/emulatorcores/dosbox-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile DOSBOX LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.dosboxlibretro

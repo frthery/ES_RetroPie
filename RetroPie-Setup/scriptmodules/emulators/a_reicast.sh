@@ -17,7 +17,7 @@ function build_a_reicast() {
     # Add missing path
     # sed -i 's|GL_LIB := -lGLESv2|GL_LIB := -L/opt/vc/lib -lGLESv2|g' Makefile
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv6" ]]; then
         make platform=rpi CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log
     elif [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then

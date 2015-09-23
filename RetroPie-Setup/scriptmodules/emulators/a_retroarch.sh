@@ -22,7 +22,7 @@ function build_a_retroarch() {
     if [ ${FORMAT_COMPILER_TARGET} = "win" ]; then
         # ONLY WIN X64
         make -f Makefile.win libs_x86_64 || echo "Failed to extract libraries!"
-        make -f Makefile.win clean || echo "Failed to clean!"
+        make -f Makefile.win clean
         make -f Makefile.win ${COMPILER} WINDRES=$HOST_CC-windres HAVE_D3D9=1 -j4 all 2>&1 | tee makefile.log || echo "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
 
@@ -31,7 +31,7 @@ function build_a_retroarch() {
         zip "./$ZIP_BASE" *.dll retroarch-redist-version || die "Failed to build full/redist!"
     else
         ./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --disable-oss --disable-pulse --enable-floathard
-        [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+        [ -z "${NOCLEAN}" ] && make -f Makefile clean
         make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
 

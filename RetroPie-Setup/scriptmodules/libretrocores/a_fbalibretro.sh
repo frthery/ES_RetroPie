@@ -17,7 +17,7 @@ function build_a_fbalibretro() {
     
     #cd $rootdir/emulatorcores/fba-libretro/svn-current/trunk/
 
-    [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
         if [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
             make -f makefile.libretro platform=rpi2 profile=performance CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log

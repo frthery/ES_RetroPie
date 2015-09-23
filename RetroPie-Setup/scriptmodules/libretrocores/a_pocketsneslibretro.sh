@@ -13,7 +13,7 @@ function sources_a_pocketsneslibretro() {
 function build_a_pocketsneslibretro() {
     pushd "$rootdir/emulatorcores/pocketsnes-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile SNES LibretroCore PocketSNES!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.pocketsneslibretro

@@ -9,7 +9,7 @@ function sources_a_yabauselibretro() {
 function build_a_yabauselibretro() {
     pushd "$rootdir/emulatorcores/yabause/libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile SATURN LibretroCore YABAUSE!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.yabauselibretro

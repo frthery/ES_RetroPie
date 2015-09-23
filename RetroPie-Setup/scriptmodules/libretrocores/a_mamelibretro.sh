@@ -9,12 +9,19 @@ function sources_a_mamelibretro() {
 function build_a_mamelibretro() {
     pushd "$rootdir/emulatorcores/mame-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
-    make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    ln -s /usr/x86_64-w64-mingw32 /mingw64
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean
+    if [[ ${FORMAT_COMPILER_TARGET} = "win" ]]; then
+        make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" MSYSTEM=MINGW64 ${COMPILER} 2>&1 | tee makefile.log
+    else
+        #make TARGET=mess
+        make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    fi
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile MAME LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mamelibretro
 
-    #make TARGET=mess
+    unlink /mingw64
 
     popd
 }

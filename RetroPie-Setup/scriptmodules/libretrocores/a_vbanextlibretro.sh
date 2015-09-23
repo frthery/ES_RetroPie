@@ -9,7 +9,7 @@ function sources_a_vbanextlibretro() {
 function build_a_vbanextlibretro() {
     pushd "$rootdir/emulatorcores/vba-next/"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean
     make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile GBA LibretroCore VbaNext!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.vbanextlibretro

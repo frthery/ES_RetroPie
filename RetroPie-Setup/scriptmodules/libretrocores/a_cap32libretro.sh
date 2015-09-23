@@ -9,7 +9,7 @@ function sources_a_cap32libretro() {
 function build_a_cap32libretro() {
     pushd "$rootdir/emulatorcores/cap32-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile CPC6128 LibretroCore CAP32!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.cap32libretro

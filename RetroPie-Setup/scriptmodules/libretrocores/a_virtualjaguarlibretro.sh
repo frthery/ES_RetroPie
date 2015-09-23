@@ -9,7 +9,7 @@ function sources_a_virtualjaguarlibretro() {
 function build_a_virtualjaguarlibretro() {
     pushd "$rootdir/emulatorcores/virtualjaguar-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
         #FIX
         make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log

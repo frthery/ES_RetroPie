@@ -13,7 +13,7 @@ function sources_a_ppsspplibretro() {
 function build_a_ppsspplibretro() {
     pushd "$rootdir/emulatorcores/libretro-ppsspp/libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv6" ]]; then
         make -f Makefile platform=rpi ${COMPILER} 2>&1 | tee makefile.log
     elif [[ ${FORMAT_COMPILER_TARGET} =~ "armv7" ]]; then
