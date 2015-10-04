@@ -29,19 +29,23 @@ logger() {
 auto_connect() {
    local index=$1
    local bt=$2
+   local status='notconnected'
 
    [ ! -s /tmp/btcheck ] && [ $(ls /dev/input/js0 2> /dev/null) ] && logger "USB device js0 is already connected" && return
 
    if [ ! -z "$bt" ]; then
       if grep -q $bt /tmp/btcheck; then
-         logger "[OK] bluetooth device $index [$bt] is already connected"
+         status='connected'
+         logger "bluetooth device $index [$bt] is already connected"
       else
-         logger "[KO] bluetooth device $index [$bt] not connected"
-         connect $index $bt
+         logger "bluetooth device $index [$bt] not connected"
+         connect $index $bt status
       fi
    else
       logger "no configuration found for bluetooth device $index (check mac address)"
    fi
+
+   eval "$3=$status"
 }
 
 connect() {
@@ -70,7 +74,7 @@ connect() {
             hidd --connect $bt &> /dev/null
             RESCON=$?
             if [ $RESCON = 0 ]; then
-               #logger "[OK][$RESCON] bluetooth device $index [$bt] connected"
+               logger "[OK][$RESCON] bluetooth device $index [$bt] connected"
                btStatus='connected'
             else
                logger "[KO][$RESCON][$tryCon] bluetooth device $index [$bt] connected"
@@ -89,8 +93,8 @@ connect() {
       tryPing=$(($tryPing + 1))
    done
 
-   [ $index -eq 0 ] && BT1_STATUS=$btStatus && logger "bluetooth device $index [$bt] [$BT1_STATUS]"
-   [ $index -eq 1 ] && BT2_STATUS=$btStatus && logger "bluetooth device $index [$bt] [$BT2_STATUS]"
+   #logger "bluetooth device $index [$bt] [$btStatus]"
+   eval "$3=$btStatus"
 }
 # END FUNCTIONS
 
@@ -123,9 +127,13 @@ while [ 1 ]; do
    #hcitool con|grep -v "^Connections:" > /tmp/btcheck
    hidd --show > /tmp/btcheck
 
-   auto_connect 0 $BT1
-   auto_connect 1 $BT2
+   auto_connect 0 $BT1 BT1_STATUS
+   #auto_connect 1 $BT2 BT2_STATUS
 
+   # SHOW STATUS
+   logger "------------------------------------------------------"
+   logger "bluetooth device 0 [$BT1] [$BT1_STATUS]"
+   #logger "bluetooth device 1 [$BT2] [$BT2_STATUS]"
    logger "------------------------------------------------------"
    sleep $DELAI
 done
