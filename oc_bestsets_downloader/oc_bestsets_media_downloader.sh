@@ -2,42 +2,12 @@
 
 # CONFIGURE YOUR ROMS PATH
 ROMS_PATH='/home/pi/RetroPie/roms'
+#GAMELISTS_PATH='/home/pi/.emulationstation/gamelists/'
+#PICTURES_PATH='/home/pi/.emulationstation/downloaded_images/'
+GAMELISTS_PATH='/home/pi/emulationstation/gamelists'
+PICTURES_PATH='/home/pi/emulationstation/downloaded_images'
 
 # FUNCTIONS
-function check_install_unrar() {
-    [ -f /usr/bin/unrar-nonfree ] && echo [CHECK]: unrar-nonfree OK! && return 0
-
-    cat /etc/apt/sources.list | grep "deb-src http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rpi"
-    [ $? -eq 1 ] && echo "deb-src http://mirrordirector.raspbian.org/raspbian/ wheezy main contrib non-free rpi" | sudo tee --append /etc/apt/sources.list
-    sudo apt-get update
-
-    pushd ${OC_TMP_PATH}
-    sudo apt-get --assume-yes build-dep unrar-nonfree
-    sudo apt-get --assume-yes source -b unrar-nonfree
-    sudo dpkg -i unrar_*_armhf.deb
-    popd
-
-    [ -f /usr/bin/unrar-nonfree ] && echo [CHECK]: unrar-nonfree OK! && return 0
-    [ ! -f /usr/bin/unrar-nonfree ] && echo [CHECK]: unrar-nonfree KO! && return 1
-}
-
-function check_install_megatools() {
-    [ -f /usr/local/bin/megadl ] && echo [CHECK]: megatools OK! && return 0
-
-    #megatools: http://megatools.megous.com/
-    sudo apt-get --assume-yes install gcc build-essential libcurl4-openssl-dev libglib2.0-dev glib-networking
-    wget http://megatools.megous.com/builds/megatools-1.9.94.tar.gz -P ${OC_TMP_PATH}
-    tar -xvzf ${OC_TMP_PATH}/megatools-1.9.94.tar.gz -C ${OC_TMP_PATH}
-    pushd ${OC_TMP_PATH}/megatools-1.9.94
-    ./configure --disable-shared
-    make
-    sudo make install
-    popd
-
-    [ -f /usr/local/bin/megadl ] && echo [CHECK]: megatools OK! && return 0
-    [ ! -f /usr/local/bin/megadl ] && echo [CHECK]: megatools KO! && return 1
-}
-
 function initialize() {
     local clearRoms=$1
 
@@ -52,11 +22,11 @@ function initialize() {
 
     # CLEAN
     [ -d ${OC_DWL_PATH} ] && rm -R ${OC_DWL_PATH} && echo '[CLEAN]: remove folder '${OC_DWL_PATH}
-    [ $clearRoms == 1 ] && [ -d ${ROMS_PATH} ] && rm -R ${ROMS_PATH} && echo '[CLEAN]: remove folder '${ROMS_PATH}
-
+    
     # CREATE FOLDERS
     mkdir ${OC_DWL_PATH} && echo '[INIT]: create folder '${OC_DWL_PATH}
-    [ ! -d ${ROMS_PATH} ] && mkdir ${ROMS_PATH} && echo '[INIT]: create folder '${ROMS_PATH}
+    [ ! -d ${GAMELISTS_PATH} ] && mkdir ${GAMELISTS_PATH} && echo '[INIT]: create folder '${GAMELISTS_PATH}
+    [ ! -d ${PICTURES_PATH} ] && mkdir ${PICTURES_PATH} && echo '[INIT]: create folder '${PICTURES_PATH}
 
     # UPDATE SYNC FILE
     touch $OC_FILE_SYNC
@@ -73,7 +43,7 @@ function initialize() {
     return 0
 }
 
-function download_install() {
+function download_install_media() {
     local seq=0
     local idx=0
 
@@ -82,15 +52,15 @@ function download_install() {
 
     while [ $seq -lt ${#deploy_seq[@]} ]; do
         idx=${deploy_seq[$seq]}
-        if [ "${packs[$idx]}" == "" ];then
-            echo '[WARNING]: pack not found, check deploy_seq into .ini file!'
+        if [ "${packs_media[$idx]}" == "" ];then
+            echo '[WARNING]: pack media not found, check deploy_seq into .ini file!'
            ((seq++))
            continue
         fi
 
-        local infos=($(echo ${packs[$idx]} | sed 's/,/\n/g'))
-        local files=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
-        #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        local infos=($(echo ${packs_media[$idx]} | sed 's/,/\n/g'))
+        local files=($(echo ${pack_media_names[$idx]} | sed 's/,/\n/g'))
+        #echo [FOUND: ${infos[0]}]: ${pack_media_names[$idx]}... && echo ${pack_media_links[$idx]}
 
         if [ "${infos[0]}" == "" ] || [ "${infos[1]}" == "" ];then
             echo '[WARNING]: infos not found, check deploy_seq into .ini file!'
@@ -102,48 +72,54 @@ function download_install() {
         if [ $OPT_FORCE -eq 0 ]; then
             cat ${OC_FILE_SYNC} | grep "DOWNLOAD|UNZIP: ${infos[0]}" > /dev/null
             SYNC=$?
-            [ $SYNC -eq 0 ] && echo [IS_SYNC: ${infos[0]}]: ${pack_names[$idx]} && ((seq++))
+            [ $SYNC -eq 0 ] && echo [IS_SYNC: ${infos[0]}]: ${pack_media_names[$idx]} && ((seq++))
             [ $SYNC -eq 0 ] && continue
         fi
 
-        # DOWNLOAD BESTSET
-        echo [DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        # DOWNLOAD MEDIA BESTSET
+        echo [DOWNLOAD: ${infos[0]}]: ${pack_media_names[$idx]}... && echo ${pack_media_links[$idx]}
         echo '-------------------------------------------------------------------------'
         if [ $OPT_MEGA -eq 1 ]; then
-            megadl ${pack_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
+            megadl ${pack_media_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
         elif [ $OPT_DRIVE -eq 1 ]; then
-            wget --no-check-certificate ${pack_links[$idx]} -O ${OC_DWL_PATH}/${files[0]}
+            wget --no-check-certificate ${pack_media_links[$idx]} -O ${OC_DWL_PATH}/${files[0]}
             DDL=$?
         fi
         echo '-------------------------------------------------------------------------'
-        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${pack_names[$idx]} && ((seq++)) 
+        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${pack_media_names[$idx]} && ((seq++)) 
         [ $DDL -ne 0 ] && continue
 
-        if [ $OPT_FORCE -eq 1 ]; then
-            [ -d ${ROMS_PATH}/${infos[1]} ] && rm -R ${ROMS_PATH}/${infos[1]} && echo '[INIT]: clean folder '${ROMS_PATH}/${infos[1]}
-        fi
-
-        # CREATE OUTPUT FOLDER
-        [ ! -d ${ROMS_PATH}/${infos[1]} ] && mkdir ${ROMS_PATH}/${infos[1]} && echo '[INIT]: create folder '${ROMS_PATH}/${infos[1]}
+        # CREATE OUTPUT FOLDERS
+        [ ! -d ${OC_DWL_PATH}/${infos[1]} ] && mkdir ${OC_DWL_PATH}/${infos[1]} && echo '[INIT]: create folder '${OC_DWL_PATH}/${infos[1]}
+        [ ! -d ${GAMELISTS_PATH}/${infos[1]} ] && mkdir ${GAMELISTS_PATH}/${infos[1]} && echo '[INIT]: create folder '${GAMELISTS_PATH}/${infos[1]}
+        [ ! -d ${PICTURES_PATH}/${infos[1]} ] && mkdir ${PICTURES_PATH}/${infos[1]} && echo '[INIT]: create folder '${PICTURES_PATH}/${infos[1]}
 
         # UNRAR BESTSET
-        echo [UNZIP]: ${files[0]} to ${ROMS_PATH}/${infos[1]}...
+        echo [UNZIP]: ${files[0]} to ${OC_DWL_PATH}/${infos[1]}...
         echo '-------------------------------------------------------------------------'
         if [ $(echo $files[0] | grep '.rar') ]; then
-            unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${ROMS_PATH}/${infos[1]}
+            unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${OC_DWL_PATH}/${infos[1]}
             UNZIP=$?
         elif [ $(echo $files[0] | grep '.zip') ]; then
-            unzip -o ${OC_DWL_PATH}/${files[0]} -d ${ROMS_PATH}/${infos[1]}
+            unzip -o ${OC_DWL_PATH}/${files[0]} -d ${OC_DWL_PATH}/${infos[1]}
             UNZIP=$?
         fi
         echo '-------------------------------------------------------------------------'
         [ $UNZIP -ne 0 ] && echo '[ERROR|UNZIP] package '${infos[0]} && ((seq++)) 
         [ $UNZIP -ne 0 ] && continue
 
+        sed -i "s|\[ROMS_PATH\]|$ROMS_PATH\/${infos[1]}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: ROMS_PATH into gamelist.xml'
+        sed -i "s|\[PICTURES_PATH\]|$PICTURES_PATH\/${infos[1]}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: PICTURES_PATH into gamelist.xml'
+
+        # MOVE (NO-MERGE)
+        mv ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]} && echo '[MOVE]: gamelist.xml to folder '${GAMELISTS_PATH}/${infos[1]}
+        mv ${OC_DWL_PATH}/${infos[1]}/*.jpg ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .jpg to folder '${PICTURES_PATH}/${infos[1]}
+        mv ${OC_DWL_PATH}/${infos[1]}/*.png ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .png to folder '${PICTURES_PATH}/${infos[1]}
+
         now=`date +%Y%m%d`
-        echo '[DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_names[$idx]}': OK'
-        echo '['$now'] [DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_names[$idx]}': OK' >> ${OC_FILE_SYNC}
+        echo '[DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_media_names[$idx]}': OK'
+        echo '['$now'] [DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_media_names[$idx]}': OK' >> ${OC_FILE_SYNC}
 
         ((seq++))
     done
@@ -161,7 +137,6 @@ function usage() {
 
 # GLOBAL VARIABLES
 OC_DRIVE_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.drive.ini'
-OC_MEGA_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.mega.ini'
 OC_FILE_INI='oc_bestsets.ini'
 OC_FILE_SYNC=${ROMS_PATH}'/oc_bestsets_sync'
 OC_PATH='./oc_bestsets_downloader'
@@ -222,7 +197,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
-echo '-------------------- START oc_bestsets_downloader -----------------------'
+echo '-------------------- START oc_bestsets_media_downloader -----------------------'
 initialize 0
 [ $? -ne 0 ] && echo '[ERROR]: initialize!' && exit -1
 
@@ -234,10 +209,10 @@ fi
 
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
-    download_install
+    download_install_media
 fi
 
-echo '--------------------  END oc_bestsets_downloader  -----------------------'
+echo '--------------------  END oc_bestsets_media_downloader  -----------------------'
 # END MAIN
 
 exit 0
