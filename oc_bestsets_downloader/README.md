@@ -20,7 +20,7 @@ Use --local-ini argument to force using your local ini file (oc_bestsets.ini)<br
 
 oc_bestsets_media_downloader.sh
 =================
-A script for synchronizing Open-Consoles BestSets Medias (http://www.open-consoles.com/t7388-centralisation-les-bestsets-open-consoles).
+A script for synchronizing Open-Consoles BestSets Medias.
 
 - Install "wget https://github.com/frthery/ES_RetroPie/blob/master/oc_bestsets_downloader/oc_bestsets_media_downloader.sh"
 - Execute "sudo chmod 755 oc_bestsets_media_downloader.sh"
