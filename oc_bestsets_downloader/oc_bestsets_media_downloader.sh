@@ -112,10 +112,12 @@ function download_install_media() {
         sed -i "s|\[ROMS_PATH\]|$ROMS_PATH\/${infos[1]}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: ROMS_PATH into gamelist.xml'
         sed -i "s|\[PICTURES_PATH\]|$PICTURES_PATH\/${infos[1]}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: PICTURES_PATH into gamelist.xml'
 
+        now=`date +%Y%m%d.%s`
         # MOVE (NO-MERGE)
+        [ -f ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ] && mv ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml.$now && echo '[BACKUP]: gamelist.xml from folder '${GAMELISTS_PATH}/${infos[1]}
         mv ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]} && echo '[MOVE]: gamelist.xml to folder '${GAMELISTS_PATH}/${infos[1]}
-        mv ${OC_DWL_PATH}/${infos[1]}/*.jpg ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .jpg to folder '${PICTURES_PATH}/${infos[1]}
-        mv ${OC_DWL_PATH}/${infos[1]}/*.png ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .png to folder '${PICTURES_PATH}/${infos[1]}
+        mv ${OC_DWL_PATH}/${infos[1]}/* ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures to folder '${PICTURES_PATH}/${infos[1]}
+        #mv ${OC_DWL_PATH}/${infos[1]}/*.png ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .png to folder '${PICTURES_PATH}/${infos[1]}
 
         now=`date +%Y%m%d`
         echo '[DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_media_names[$idx]}': OK'
