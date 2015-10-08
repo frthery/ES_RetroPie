@@ -2,10 +2,8 @@
 
 # CONFIGURE YOUR ROMS PATH
 ROMS_PATH='/home/pi/RetroPie/roms'
-#GAMELISTS_PATH='/home/pi/.emulationstation/gamelists/'
-#PICTURES_PATH='/home/pi/.emulationstation/downloaded_images/'
-GAMELISTS_PATH='/home/pi/emulationstation/gamelists'
-PICTURES_PATH='/home/pi/emulationstation/downloaded_images'
+GAMELISTS_PATH='/home/pi/.emulationstation/gamelists'
+PICTURES_PATH='/home/pi/.emulationstation/downloaded_images'
 
 # FUNCTIONS
 function initialize() {
@@ -35,7 +33,7 @@ function initialize() {
     if [ $OPT_MEGA -eq 1 ]; then
         [ -d ${OC_TMP_PATH} ] && sudo rm -R ${OC_TMP_PATH} && echo '[CLEAN]: remove folder '${OC_TMP_PATH}
         mkdir ${OC_TMP_PATH} && echo '[INIT]: create folder '${OC_TMP_PATH}
-        
+
         check_install_unrar || return 1;
         check_install_megatools || return 1;
     fi
