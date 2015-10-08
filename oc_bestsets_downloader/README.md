@@ -4,7 +4,7 @@ A script for synchronizing Open-Consoles BestSets (http://www.open-consoles.com/
 
 - Install "wget https://github.com/frthery/ES_RetroPie/blob/master/oc_bestsets_downloader/oc_bestsets_downloader.sh"
 - Execute "sudo chmod 755 oc_bestsets_downloader.sh"
-- Edit script and change the rom path value (if necessary): ROM_PATH=...
+- Edit script and change the rom path value (if necessary): ROMS_PATH=...
 
 Usage:
 ======
