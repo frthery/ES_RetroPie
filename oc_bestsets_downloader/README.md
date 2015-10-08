@@ -28,3 +28,6 @@ A script for synchronizing Open-Consoles BestSets Medias.
 - Change the gamelists path value (if necessary): GAMELISTS_PATH=...
 - Change the pictures path value (if necessary): PICTURES_PATH=...
 
+Usage:
+======
+same as oc_bestsets_downloader.sh
