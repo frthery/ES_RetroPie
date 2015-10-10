@@ -112,7 +112,7 @@ function download_install_media() {
 
         now=`date +%Y%m%d.%s`
         # MOVE (NO-MERGE)
-        [ -f ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ] && mv ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml.$now && echo '[BACKUP]: gamelist.xml from folder '${GAMELISTS_PATH}/${infos[1]}
+        [ -f ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml ] && mv ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml.$now && echo '[BACKUP]: gamelist.xml from folder '${GAMELISTS_PATH}/${infos[1]}
         mv ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]} && echo '[MOVE]: gamelist.xml to folder '${GAMELISTS_PATH}/${infos[1]}
         mv ${OC_DWL_PATH}/${infos[1]}/* ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures to folder '${PICTURES_PATH}/${infos[1]}
         #mv ${OC_DWL_PATH}/${infos[1]}/*.png ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .png to folder '${PICTURES_PATH}/${infos[1]}
