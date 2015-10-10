@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CONFIGURE YOUR ROMS PATH
+# CONFIGURE YOUR PATHS
 ROMS_PATH='/home/pi/RetroPie/roms'
 GAMELISTS_PATH='/home/pi/.emulationstation/gamelists'
 PICTURES_PATH='/home/pi/.emulationstation/downloaded_images'
