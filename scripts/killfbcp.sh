@@ -1,5 +1,5 @@
 #!/bin/bash
 
 echo '[KILLALL] FBCP...'
-sudo killall fbcp
+killall fbcp
 con2fbmap 1 1
