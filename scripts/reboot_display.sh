@@ -28,9 +28,9 @@ done
 
 echo '[UPDATE] DISPLAY...'
 [ $OPT_HDMI -eq 1 ] && sudo cp /boot/config_hdmi.txt /boot/config.txt && echo '[UPDATE] DISPLAY HDMI Done!'
-[ $OPT_DEFAULT -eq 1 ] && sudo cp /boot/config_default.txt /boot/config.txt && echo '[UPDATE] DISPLAY DEFAULT Done!'
+[ $OPT_DEFAULT -eq 1 ] && sudo cp /boot/config_default.txt /boot/config.txt && echo '[UPDATE] DISPLAY PITFT DEFAULT Done!'
 
-echo '[REBOOT] PI REBOOT...'
+echo '[REBOOT] RPI REBOOT...'
 sudo reboot
 
 exit 0
