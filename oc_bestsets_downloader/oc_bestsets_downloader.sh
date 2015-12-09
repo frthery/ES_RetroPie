@@ -150,7 +150,7 @@ function download_install() {
 }
 
 function usage() {
-    echo "oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]"
+    echo "oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]"
     echo ""
     echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
     echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
