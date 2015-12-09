@@ -151,6 +151,7 @@ OPT_SHOW=0
 OPT_FORCE=0
 OPT_LOCAL=0
 OPT_NOINSTALL=0
+OPT_PROMPT=0
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -188,6 +189,10 @@ while [ "$1" != "" ]; do
             # SPECIFIC DEPLOYMENT SEQUENCE
             OPT_SEQ=$VALUE
             ;;
+        --prompt-deploy)
+            # USE PROMPT DEPLOYMENT SEQUENCE
+            OPT_PROMPT=1
+            ;;
         *)
             echo "[ERROR] unknown parameter \"$PARAM\""
             usage
@@ -201,11 +206,14 @@ echo '-------------------- START oc_bestsets_media_downloader ------------------
 initialize 0
 [ $? -ne 0 ] && echo '[ERROR]: initialize!' && exit -1
 
-if [ $OPT_SHOW -eq 1 ]; then
+if [ $OPT_SHOW -eq 1 ] || [ $OPT_PROMPT -eq 1 ]; then
     # SHOW PACKAGES
     echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
     cat ${OC_FILE_INI} | grep '# PACK '
 fi
+
+# PROMPT FOR PACKAGES SELECTION
+[ $OPT_PROMPT -eq 1 ] && echo "> Select Package(s) for deployment (0,1,2,...): " && read OPT_SEQ
 
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
