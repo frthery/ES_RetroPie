@@ -8,10 +8,11 @@ A script for synchronizing Open-Consoles BestSets (http://www.open-consoles.com/
 
 Usage:
 ======
-oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--deploy-seq] [--force-sync] [--local-ini]
+oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]
 
 Commands:<br/>
 Synchronize: ./oc_bestsets_downloader.sh<br/>
+Synchronize (with prompt): ./oc_bestsets_downloader.sh --prompt-deploy<br/>
 Show available packages: ./oc_bestsets_downloader.sh --show-packages<br/>
 Deploy specific packages: ./oc_bestsets_downloader.sh --deploy-seq=0,1,...<br/>
 
