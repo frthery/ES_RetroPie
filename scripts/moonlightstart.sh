@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-FBCP_PID=$(ps -eo pid,command | grep "/bin/bash fbcp" | grep -v grep | awk '{print $1}')
+FBCP_PID=$(ps -eo pid,command | grep "fbcp" | grep -v grep | awk '{print $1}')
 SERVER_IP='192.168.0.15'
 OPT_CUSTOM=0
 OPT_720=0
