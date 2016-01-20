@@ -306,7 +306,7 @@ function usage() {
     echo ""
     echo "BUILD RPI: ./build_retropie.sh -b -name=?"
     echo "BUILD RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
-    echo "BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?"
+    echo "BUILD WIN64: HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
 }
 # END FUNCTIONS
 
