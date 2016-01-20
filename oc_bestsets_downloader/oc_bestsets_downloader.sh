@@ -107,9 +107,12 @@ function download_install() {
         fi
 
         # DOWNLOAD BESTSET
-        echo [DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
+        echo [DOWNLOAD: ${infos[0]}]: ${pack_names[$idx]}...
         echo '-------------------------------------------------------------------------'
-        if [ $OPT_MEGA -eq 1 ]; then
+        if [ $OPT_LOCAL_INSTALL -eq 1 ] && [ ${OC_PATH_LOCAL} ]; then
+            cp $OC_PATH_LOCAL/${files[0]} ${OC_DWL_PATH}/${files[0]}
+            DDL=$?
+        elif [ $OPT_MEGA -eq 1 ]; then
             megadl ${pack_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
         elif [ $OPT_DRIVE -eq 1 ]; then
@@ -164,9 +167,10 @@ OC_DRIVE_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/
 OC_MEGA_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.mega.ini'
 OC_FILE_INI='oc_bestsets.ini'
 OC_FILE_SYNC=${ROMS_PATH}'/oc_bestsets_sync'
+#OC_PATH_LOCAL='/home/pi/RetroPie/packages'
 OC_PATH='./oc_bestsets_downloader'
 OC_TMP_PATH=${OC_PATH}'/tmp'
-OC_DWL_PATH=${OC_PATH}'/dwl'
+OC_DWL_PATH=${OC_PATH}'/download_roms'
 # END GLOBAL VARIABLES
 
 # MAIN
@@ -174,7 +178,8 @@ OPT_MEGA=0
 OPT_DRIVE=1
 OPT_SHOW=0
 OPT_FORCE=0
-OPT_LOCAL=0
+[ ${OC_PATH_LOCAL} ] && OPT_LOCAL_INSTALL=1 || OPT_LOCAL_INSTALL=0
+[ ${OPT_LOCAL_INSTALL} = 1 ] && OPT_LOCAL=1 || OPT_LOCAL=0
 OPT_NOINSTALL=0
 OPT_PROMPT=0
 

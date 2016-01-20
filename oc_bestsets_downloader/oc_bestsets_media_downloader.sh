@@ -24,7 +24,9 @@ function initialize() {
     # CREATE FOLDERS
     mkdir ${OC_DWL_PATH} && echo '[INIT]: create folder '${OC_DWL_PATH}
     [ ! -d ${GAMELISTS_PATH} ] && mkdir ${GAMELISTS_PATH} && echo '[INIT]: create folder '${GAMELISTS_PATH}
+    [ ! -d ${GAMELISTS_PATH} ] && return 1;
     [ ! -d ${PICTURES_PATH} ] && mkdir ${PICTURES_PATH} && echo '[INIT]: create folder '${PICTURES_PATH}
+    [ ! -d ${PICTURES_PATH} ] && return 1;
 
     # UPDATE SYNC FILE
     touch $OC_FILE_SYNC
@@ -75,9 +77,13 @@ function download_install_media() {
         fi
 
         # DOWNLOAD MEDIA BESTSET
-        echo [DOWNLOAD: ${infos[0]}]: ${pack_media_names[$idx]}... && echo ${pack_media_links[$idx]}
+        echo [DOWNLOAD: ${infos[0]}]: ${pack_media_names[$idx]}...
         echo '-------------------------------------------------------------------------'
-        if [ $OPT_MEGA -eq 1 ]; then
+        echo '-------------------------------------------------------------------------'
+        if [ $OPT_LOCAL_INSTALL -eq 1 ] && [ ${OC_PATH_LOCAL} ]; then
+            cp $OC_PATH_LOCAL/${files[0]} ${OC_DWL_PATH}/${files[0]}
+            DDL=$?
+        elif  [ $OPT_MEGA -eq 1 ]; then
             megadl ${pack_media_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
         elif [ $OPT_DRIVE -eq 1 ]; then
@@ -116,6 +122,7 @@ function download_install_media() {
         mv ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]} && echo '[MOVE]: gamelist.xml to folder '${GAMELISTS_PATH}/${infos[1]}
         mv ${OC_DWL_PATH}/${infos[1]}/* ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures to folder '${PICTURES_PATH}/${infos[1]}
         #mv ${OC_DWL_PATH}/${infos[1]}/*.png ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .png to folder '${PICTURES_PATH}/${infos[1]}
+        rm -R ${OC_DWL_PATH}/${infos[1]}
 
         now=`date +%Y%m%d`
         echo '[DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_media_names[$idx]}': OK'
@@ -139,9 +146,10 @@ function usage() {
 OC_DRIVE_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.drive.ini'
 OC_FILE_INI='oc_bestsets.ini'
 OC_FILE_SYNC=${ROMS_PATH}'/oc_bestsets_sync'
+#OC_PATH_LOCAL='/home/pi/RetroPie/packages'
 OC_PATH='./oc_bestsets_downloader'
 OC_TMP_PATH=${OC_PATH}'/tmp'
-OC_DWL_PATH=${OC_PATH}'/dwl'
+OC_DWL_PATH=${OC_PATH}'/download_medias'
 # END GLOBAL VARIABLES
 
 # MAIN
@@ -149,7 +157,8 @@ OPT_MEGA=0
 OPT_DRIVE=1
 OPT_SHOW=0
 OPT_FORCE=0
-OPT_LOCAL=0
+[ ${OC_PATH_LOCAL} ] && OPT_LOCAL_INSTALL=1 || OPT_LOCAL_INSTALL=0
+[ ${OPT_LOCAL_INSTALL} = 1 ] && OPT_LOCAL=1 || OPT_LOCAL=0
 OPT_NOINSTALL=0
 OPT_PROMPT=0
 
