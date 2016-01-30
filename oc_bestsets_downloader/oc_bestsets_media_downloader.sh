@@ -146,7 +146,7 @@ function usage() {
 OC_DRIVE_FILE_INI='https://raw.githubusercontent.com/frthery/ES_RetroPie/master/oc_bestsets_downloader/oc_bestsets.drive.ini'
 OC_FILE_INI='oc_bestsets.ini'
 OC_FILE_SYNC=${ROMS_PATH}'/oc_bestsets_sync'
-#OC_PATH_LOCAL='/home/pi/RetroPie/packages'
+#OC_PATH_LOCAL='/media/usb0/OC_BESTSETS'
 OC_PATH='./oc_bestsets_downloader'
 OC_TMP_PATH=${OC_PATH}'/tmp'
 OC_DWL_PATH=${OC_PATH}'/download_medias'
