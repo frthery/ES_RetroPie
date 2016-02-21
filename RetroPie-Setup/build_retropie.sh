@@ -3,6 +3,7 @@
 #BUILD RPI: ./build_retropie.sh -b -name=?
 #BUILD RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
 #BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?
+#BUILD RPI: HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?
 #CROSS COMPILATION ARM: HOST_CC=arm-linux-gnueabihf ./build_retropie.sh -b -name=?
 #UBUNTU CROSS COMPILATION INSTALL: apt-get install gcc-arm-linux-gnueabihf && apt-get install g++-arm-linux-gnueabihf
 #DEFAULT COMPILER: HOST_CC=default ./build_retropie.sh -b -name=?
@@ -19,30 +20,41 @@ __default_makeflags=""
 __default_gcc_version="4.7"
 
 if [ "$HOST_CC" ]; then
-   #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
+   if [ "$HOST_CC" = "mipsel-gcw0-linux" ]; then 
+      # GCW TOOLCHAIN: http://boards.dingoonity.org/gcw-development/gcw-zero-toolchain-for-windows-(cygwin)-2013-10-04/
+      FORMAT_COMPILER_TARGET="gcw0"
 
-   [ "$HOST_CC" != "default" ] && export CC="\"${HOST_CC}-gcc\""
-   [ "$HOST_CC" != "default" ] && export CXX="\"${HOST_CC}-g++\""
-   #[ "$HOST_CC" != "default" ] && export STRIP=x86_64-w64-mingw32-strip
-   [ "$HOST_CC" != "default" ] && export COMPILER="CC=${CC} CXX=${CXX}"
+      export PATH=$PATH:/opt/gcw0-toolchain/usr/bin:/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/bin
+      export PKG_CONF_PATH=/opt/gcw0-toolchain/usr/bin/pkg-config
+      export PKG_CONFIG_PATH=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
+      export PKG_CONFIG_SYSROOT_DIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot
+      export PKG_CONFIG_LIBDIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux/uclibc/sysroot/usr/lib/pkgconfig
+   else
+      #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
 
-   [ "$HOST_CC" = "x86_64-w64-mingw32" ] || [ "$HOST_CC" = "i686-w64-mingw32" ] && FORMAT_COMPILER_TARGET="win"
+      [ "$HOST_CC" != "default" ] && export CC="\"${HOST_CC}-gcc\""
+      [ "$HOST_CC" != "default" ] && export CXX="\"${HOST_CC}-g++\""
+      #[ "$HOST_CC" != "default" ] && export STRIP=x86_64-w64-mingw32-strip
+      [ "$HOST_CC" != "default" ] && export COMPILER="CC=${CC} CXX=${CXX}"
 
-   if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
-       #echo "--- CROSS COMPILATION ---"
-       FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+      [ "$HOST_CC" = "x86_64-w64-mingw32" ] || [ "$HOST_CC" = "i686-w64-mingw32" ] && FORMAT_COMPILER_TARGET="win"
 
-       #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && __default_cflags+=" -I/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/include "
-       #/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/lib
-       #which gcc-arm-linux-gnueabi
+      if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
+         #echo "--- CROSS COMPILATION ---"
+        FORMAT_COMPILER_TARGET="armv6j-hardfloat"
 
-       #export RANLIB=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-ranlib
-       #export STRIP=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-strip
-       #export CFLAGS="-I/opt/cross/x-tools/arm-unknown-linux-gnueabi/include"
-       #export LDFLAGS="-L/opt/cross/x-tools/arm-unknown-linux-gnueabi/lib"
+        #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && __default_cflags+=" -I/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/include "
+        #/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/lib
+        #which gcc-arm-linux-gnueabi
 
-       #arm-unknown-linux-gnueabi-g++ --version
-       #echo "--- $? ---"
+        #export RANLIB=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-ranlib
+        #export STRIP=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-strip
+        #export CFLAGS="-I/opt/cross/x-tools/arm-unknown-linux-gnueabi/include"
+        #export LDFLAGS="-L/opt/cross/x-tools/arm-unknown-linux-gnueabi/lib"
+
+        #arm-unknown-linux-gnueabi-g++ --version
+        #echo "--- $? ---"
+      fi
    fi
 else
    # default raspberry compilation
@@ -307,6 +319,7 @@ function usage() {
     echo "BUILD RPI: ./build_retropie.sh -b -name=?"
     echo "BUILD RPI2: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD WIN64: HOST_CC=x86_64-w64-mingw32 ./build_retropie.sh -b -name=?"
+    echo "BUILD RPI: HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?"
 }
 # END FUNCTIONS
 
