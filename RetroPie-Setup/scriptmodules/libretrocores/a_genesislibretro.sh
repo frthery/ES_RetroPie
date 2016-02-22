@@ -9,7 +9,10 @@ function sources_a_genesislibretro() {
 function build_a_genesislibretro() {
     pushd "$rootdir/emulatorcores/Genesis-Plus-GX"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/Genesis-Plus-GX/Makefile.libretro" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/Genesis-Plus-GX/Makefile.libretro" .
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
     make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Genesis LibretroCore Genesis-Plus-GX!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.genesislibretro

@@ -9,7 +9,10 @@ function sources_a_stellalibretro() {
 function build_a_stellalibretro() {
     pushd "$rootdir/emulatorcores/stella-libretro"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/stella-libretro/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/stella-libretro/Makefile" .
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
         #FIX
         make -f Makefile platform=unix ${COMPILER} 2>&1 | tee makefile.log

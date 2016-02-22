@@ -11,7 +11,10 @@ function build_a_gpsplibretro() {
 
     pushd "$rootdir/emulatorcores/gpsp/"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile clean
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/gpsp/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/gpsp/Makefile" .
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile GBA LibretroCore GPSP!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.gpsplibretro

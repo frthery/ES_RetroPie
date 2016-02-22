@@ -9,7 +9,10 @@ function sources_a_fceunextlibretro() {
 function build_a_fceunextlibretro() {
     pushd "$rootdir/emulatorcores/fceu-next/fceumm-code"
 
-    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/fceu-next/fceumm-code/Makefile.libretro" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/fceu-next/fceumm-code/Makefile.libretro" .
+
+    [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean || echo "Failed to clean!"
     make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile NES LibretroCore fceu-next!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fceunextlibretro
