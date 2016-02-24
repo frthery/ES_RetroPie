@@ -10,7 +10,7 @@ mediafiredir='/cygdrive/c/Users/frthery/MediaFire/Datas/github-retroarch-build/'
 #git pull
 
 ./build_retropie.sh -u
-HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=a_retroarch,a_fbalibretro,a_fceunextlibretro,a_fmsxlibretro,a_gambattelibretro,a_genesislibretro,a_gpsplibretro,a_mednafenpcefastlibretro,a_mednafenpsxlibretro,a_mupen64libretro,a_picodrivelibretro,a_ppsspplibretro,a_prboomlibretro,a_snes9xnextlibretro,a_stellalibretro,a_virtualjaguarlibretro,a_yabauselibretro
+HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=a_retroarch,a_fbalibretro,a_fceunextlibretro,a_fmsxlibretro,a_gambattelibretro,a_genesislibretro,a_gpsplibretro,a_gwlibretro,a_mednafenpcefastlibretro,a_mednafenpsxlibretro,a_mupen64libretro,a_picodrivelibretro,a_ppsspplibretro,a_prboomlibretro,a_snes9xnextlibretro,a_stellalibretro,a_virtualjaguarlibretro,a_yabauselibretro
 
 zip "$outputdir/cores-win64-$now.zip" -j $outputdir/*.dll
 [ -f "$outputdir/retroarch-win64-1.0.zip" ] && cp "$outputdir/retroarch-win64-1.0.zip" "$mediafiredir/retroarch-win64-1.0-$now.zip"
