@@ -32,3 +32,6 @@ This command will build a specific module for RPI platform.
 
 Build a module for WIN64: ./build_win.sh -name=[idx]<br>
 This command will build a specific module for WIN64 platform.
+
+Build a module for GCW-ZERO: HOST_CC=mipsel-gcw0-linux MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]<br>
+This command will build a specific module for WIN64 platform.
