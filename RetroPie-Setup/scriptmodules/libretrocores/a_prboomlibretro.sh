@@ -9,6 +9,9 @@ function sources_a_prboomlibretro() {
 function build_a_prboomlibretro() {
     pushd "$rootdir/emulatorcores/libretro-prboom"
 
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/libretro-prboom/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/libretro-prboom/Makefile" .
+
     [ -z "${NOCLEAN}" ] && make -f Makefile clean
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile DOOM LibretroCore PRBOOM!"
