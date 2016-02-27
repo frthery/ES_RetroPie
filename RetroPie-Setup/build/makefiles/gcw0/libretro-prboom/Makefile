@@ -218,6 +218,7 @@ else ifeq ($(platform), gcw0)
 	LIBM :=
 	DONT_COMPILE_IN_ZLIB = 1
 	CFLAGS += -DFAMEC_NO_GOTOS
+	CFLAGS += -march=mips32 -mtune=mips32r2 -mhard-float
 
 	asm_memory = 0
 	asm_render = 0

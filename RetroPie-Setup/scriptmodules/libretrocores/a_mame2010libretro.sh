@@ -12,8 +12,13 @@ function build_a_mame2010libretro() {
     # OVERRIDE MAKEFILE IF NECESSARY
     [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/mame2010-libretro/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/mame2010-libretro/Makefile" .
 
-    [ -z "${NOCLEAN}" ] && make -f makefile clean
-    make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
+    if [[ ${FORMAT_COMPILER_TARGET} =~ "win" ]]; then
+        export PTR64=1
+        make -f Makefile platform="${FORMAT_COMPILER_TARGET}" "VRENDER=soft" ${COMPILER} 2>&1 | tee makefile.log
+    else
+        make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    fi
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile iMAME4all LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mame2010libretro
 
