@@ -15,7 +15,7 @@ function build_a_fbacorescps1libretro() {
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean || echo "Failed to clean!"
     make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile FBA CPS1 LibretroCore fbacps1!"
-    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mednafencps1libretro
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbacps1libretro
 
     popd
 }

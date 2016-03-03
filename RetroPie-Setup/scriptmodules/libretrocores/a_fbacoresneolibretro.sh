@@ -15,7 +15,7 @@ function build_a_fbacoresneolibretro() {
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile FBA NEO LibretroCore fbaneo!"
-    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mednafenlynxlibretro
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbaneolibretro
 
     popd
 }

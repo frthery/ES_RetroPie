@@ -213,7 +213,7 @@ else ifeq ($(platform), gcw0)
 	CC = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
 	CXX = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
-	SHARED := -shared -nostdlib
+	SHARED := -shared -Wl,--version-script=libretro/link.T -Wl,-no-undefined
 	fpic := -fPIC
 	CFLAGS += -DFAMEC_NO_GOTOS
 	CFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float

@@ -273,7 +273,6 @@ else ifeq ($(platform), gcw0)
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
 	SHARED := -shared -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined
 	fpic := -fPIC
-	#CFLAGS += -DFAMEC_NO_GOTOS
 	CFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 	CXXFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 

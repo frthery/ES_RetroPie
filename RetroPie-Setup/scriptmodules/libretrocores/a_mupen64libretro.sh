@@ -3,7 +3,7 @@ rp_module_desc="N64 LibretroCore Mupen64Plus"
 rp_module_menus="4+"
 
 function sources_a_mupen64libretro() {
-    rmDirExists "$rootdir/emulatorcores/mupen64plus"
+    #rmDirExists "$rootdir/emulatorcores/mupen64plus"
     
     # Base repo:
     #[ ${FORMAT_COMPILER_TARGET} = "win" ] && gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git

@@ -15,7 +15,7 @@ function build_a_mame2000libretro() {
     [ -z "${NOCLEAN}" ] && make -f makefile clean
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile iMAME4all LibretroCore!"
-    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mame2010libretro
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mame2000libretro
 
     popd
 }

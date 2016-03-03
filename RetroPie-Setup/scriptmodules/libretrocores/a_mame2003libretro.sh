@@ -12,10 +12,10 @@ function build_a_mame2003libretro() {
     # OVERRIDE MAKEFILE IF NECESSARY
     [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/mame2003-libretro/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/mame2003-libretro/Makefile" .
 
-    [ -z "${NOCLEAN}" ] && make -f makefile clean
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile iMAME4all LibretroCore!"
-    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mame2010libretro
+    [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.mame2003libretro
 
     popd
 }

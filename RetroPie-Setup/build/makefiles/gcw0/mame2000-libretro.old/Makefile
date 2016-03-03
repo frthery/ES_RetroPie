@@ -159,12 +159,12 @@ else ifeq ($(platform), gcw0)
 	#SHARED := -shared -nostdlib
 	SHARED := -shared -Wl,--version-script=link.T -Wl,-no-undefined
 	LDFLAGS += $(PTHREAD_FLAGS) -lrt
+	CFLAGS += -DFAMEC_NO_GOTOS
 	CFLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
 	CFLAGS += -march=mips32 -mtune=mips32r2 -mhard-float
 	fpic := -fPIC
 	LIBM :=
 	HAVE_RZLIB = 0
-	CFLAGS += -DFAMEC_NO_GOTOS
 
 # Windows
 else
