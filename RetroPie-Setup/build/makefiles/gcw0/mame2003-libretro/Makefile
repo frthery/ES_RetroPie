@@ -183,22 +183,10 @@ else ifeq ($(platform), gcw0)
 	LIBS := -lc -lgcc
 	fpic := -fPIC -nostdlib
 	LIBM :=
-	HAVE_RZLIB = 0
 	#CFLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
 	CFLAGS += -DFAMEC_NO_GOTOS
 	CFLAGS += -lm -march=mips32 -mtune=mips32r2 -mhard-float
 
-	asm_memory = 0
-	asm_render = 0
-	asm_ym2612 = 0
-	asm_misc = 0
-	asm_cdpico = 0
-	asm_cdmemory = 0
-	asm_mix = 0
-	use_cyclone = 0
-	use_fame = 1
-	use_drz80 = 0
-	use_cz80 = 1
 else
    EXE = .exe
    

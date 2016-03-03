@@ -25,7 +25,7 @@ function build_a_fbalibretro() {
             make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" CC="gcc-4.8" CXX="g++-4.8" 2>&1 | tee makefile.log
         fi
     else
-        make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+        make -f makefile.libretro platform="${FORMAT_COMPILER_TARGET}" profile=performance ${COMPILER} 2>&1 | tee makefile.log
     fi
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile FBA LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbalibretro

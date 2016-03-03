@@ -245,6 +245,9 @@ else ifeq ($(platform), gcw0)
 	DONT_COMPILE_IN_ZLIB = 1
 	CFLAGS += -DFAMEC_NO_GOTOS
 
+	GLES = 1
+	GL_LIB := -lGLESv2
+
 	asm_memory = 0
 	asm_render = 0
 	asm_ym2612 = 0
