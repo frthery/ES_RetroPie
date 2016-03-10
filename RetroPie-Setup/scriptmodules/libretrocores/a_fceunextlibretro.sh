@@ -1,5 +1,5 @@
 rp_module_id="a_fceunextlibretro"
-rp_module_desc="NES LibretroCore fceu-next"
+rp_module_desc="NES LibretroCore fceu-next (Additional)"
 rp_module_menus="2+"
 
 function sources_a_fceunextlibretro() {

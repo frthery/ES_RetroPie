@@ -1,5 +1,5 @@
 rp_module_id="a_dolphinlibretro"
-rp_module_desc="DOLPHIN LibretroCore (Additional)"
+rp_module_desc="GAMECUBE/WII LibretroCore dolphin (Additional)"
 rp_module_menus="2+"
 
 function sources_a_dolphinlibretro() {
@@ -22,7 +22,7 @@ function build_a_dolphinlibretro() {
         make -f Makefile ${COMPILER} 2>&1 | tee makefile.log
     fi
     
-    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile DOLPHIN LibretroCore!"
+    [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile GAMECUBE/WII LibretroCore dolphin!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.dolphinlibretro
 
     popd

@@ -1,5 +1,5 @@
 rp_module_id="a_fmsxlibretro"
-rp_module_desc="MSX LibretroCore FMSX"
+rp_module_desc="MSX LibretroCore FMSX (Additional)"
 rp_module_menus="4+"
 
 function sources_a_fmsxlibretro() {

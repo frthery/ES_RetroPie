@@ -1,5 +1,5 @@
 rp_module_id="a_mupen64libretro"
-rp_module_desc="N64 LibretroCore Mupen64Plus"
+rp_module_desc="N64 LibretroCore Mupen64Plus (Additional)"
 rp_module_menus="4+"
 
 function sources_a_mupen64libretro() {
