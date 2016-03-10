@@ -367,6 +367,7 @@ else ifeq ($(platform), gcw0)
 	CFLAGS += -DFAMEC_NO_GOTOS
 	CFLAGS += -march=mips32 -mtune=mips32r2 -mhard-float
 
+
 	asm_memory = 0
 	asm_render = 0
 	asm_ym2612 = 0

@@ -213,11 +213,24 @@ else ifeq ($(platform), gcw0)
 	CC = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
 	CXX = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
-	SHARED := -shared -Wl,--version-script=libretro/link.T -Wl,-no-undefined
+	SHARED := -shared -nostdlib
 	fpic := -fPIC
+	LIBM :=
+	DONT_COMPILE_IN_ZLIB = 1
 	CFLAGS += -DFAMEC_NO_GOTOS
-	CFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
+	CFLAGS += -march=mips32 -mtune=mips32r2 -mhard-float
 
+	asm_memory = 0
+	asm_render = 0
+	asm_ym2612 = 0
+	asm_misc = 0
+	asm_cdpico = 0
+	asm_cdmemory = 0
+	asm_mix = 0
+	use_cyclone = 0
+	use_fame = 1
+	use_drz80 = 0
+	use_cz80 = 1
 else
 	EXT?=dll
    TARGET := $(TARGET_NAME)_libretro.$(EXT)

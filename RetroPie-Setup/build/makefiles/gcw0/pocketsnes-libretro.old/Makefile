@@ -105,9 +105,22 @@ else ifeq ($(platform), gcw0)
 	fpic := -fPIC
 	LDFLAGS += $(PTHREAD_FLAGS) -lrt
 	FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
-	FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
+	FLAGS += -O2 -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
+	LIBM :=
+	DONT_COMPILE_IN_ZLIB = 1
 	CFLAGS += -DFAMEC_NO_GOTOS -std=gnu11
 
+	asm_memory = 0
+	asm_render = 0
+	asm_ym2612 = 0
+	asm_misc = 0
+	asm_cdpico = 0
+	asm_cdmemory = 0
+	asm_mix = 0
+	use_cyclone = 0
+	use_fame = 1
+	use_drz80 = 0
+	use_cz80 = 1
 else
    TARGET := $(TARGET_NAME)_libretro.dll
    CC = gcc
