@@ -9,6 +9,9 @@ function sources_a_vecxlibretro() {
 function build_a_vecxlibretro() {
     pushd "$rootdir/emulatorcores/vecx-libretro"
 
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/vecx-libretro/Makefile.libretro" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/vecx-libretro/Makefile.libretro" .
+
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean
     make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile Vectrex LibretroCore vecx!"

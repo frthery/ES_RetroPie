@@ -9,6 +9,9 @@ function sources_a_craftlibretro() {
 function build_a_craftlibretro() {
     pushd "$rootdir/emulatorcores/craft-libretro"
 
+    # OVERRIDE MAKEFILE IF NECESSARY
+    [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/craft-libretro/Makefile.libretro" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/craft-libretro/Makefile.libretro" .
+
     [ -z "${NOCLEAN}" ] && make -f Makefile.libretro clean
     make -f Makefile.libretro platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile CRAFT LibretroCore!"
