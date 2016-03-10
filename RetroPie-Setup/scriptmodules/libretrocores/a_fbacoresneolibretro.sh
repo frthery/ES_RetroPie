@@ -22,8 +22,6 @@ function build_a_fbacoresneolibretro() {
 
 function configure_a_fbacoresneolibretro() {
     mkdir -p $romdir/neogeo
-
-    #setESSystem "TurboGrafx 16 (PC Engine)" "pcengine" "~/RetroPie/roms/pcengine" ".pce .PCE" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/mednafenpcefast/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/pcengine/retroarch.cfg %ROM%\"" "pcengine" "pcengine"
 }
 
 function copy_a_fbacoresneolibretro() {

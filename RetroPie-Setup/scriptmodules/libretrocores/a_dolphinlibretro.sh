@@ -29,7 +29,7 @@ function build_a_dolphinlibretro() {
 }
 
 function configure_a_dolphinlibretro() {
-    mkdir -p $romdir/gc
+    mkdir -p $romdir/gamecube
     mkdir -p $romdir/wii
 
     #rps_retronet_prepareConfig

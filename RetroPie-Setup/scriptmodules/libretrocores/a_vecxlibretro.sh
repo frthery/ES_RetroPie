@@ -18,7 +18,7 @@ function build_a_vecxlibretro() {
 }
 
 function configure_a_vecxlibretro() {
-    mkdir -p $romdir/vecx
+    mkdir -p $romdir/vectrex
 }
 
 function copy_a_vecxlibretro() {
