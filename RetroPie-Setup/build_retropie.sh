@@ -138,9 +138,15 @@ function registerAllModules() {
 
 function showModules() {
     local module_idx=$1
-    while [ "${__mod_id[$module_idx]}" != "" ]; do
-        logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+    local show_all=$2
 
+    # DISPLAY NONE
+    [ $show_all -eq 2 ] && return;
+
+    while [ "${__mod_id[$module_idx]}" != "" ]; do
+        [ $show_all -eq 0 ] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+        [ $show_all -eq 1 ] && [[ "${__mod_id[$module_idx]}" =~ ^a\_* ]] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+        
         ((module_idx++))
     done
 }
@@ -428,10 +434,10 @@ registerModuleDir 200 "libretrocores"
 
 #exit on --list option
 if [ $opt_list -eq 1 ]; then
-    logger 1 "--- EMULATORS ---------------------------------------------"
-    showModules 100
+    #logger 1 "--- EMULATORS ---------------------------------------------"
+    showModules 100 2
     logger 1 "--- LIBRETROCORES -----------------------------------------"
-    showModules 200
+    showModules 200 1
 
     showModuleFunctions $mod_id
     exit
