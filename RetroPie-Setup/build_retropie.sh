@@ -274,9 +274,12 @@ function updateModules() {
     logger 1 "COPY: ES_RetroPie Modules"
     cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/scriptmodules/ ./
     cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/supplementary/ ./
+    cp -R ./tmp/ES_RetroPie-master/RetroPie-Setup/build/ ./
 
     rm ./tmp/ES_RetroPie-master/RetroPie-Setup/build_retropie.sh
     cp ./tmp/ES_RetroPie-master/RetroPie-Setup/*.sh ./
+
+    chmod 755 ./*.sh
 
     # clean
     logger 1 "CLEAN: ES_RetroPie ./tmp"
