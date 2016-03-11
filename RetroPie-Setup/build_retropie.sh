@@ -28,7 +28,7 @@ if [ "$HOST_CC" ]; then
       export PKG_CONF_PATH=/opt/gcw0-toolchain/usr/bin/pkg-config
       export PKG_CONFIG_PATH=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
       export PKG_CONFIG_SYSROOT_DIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot
-      export PKG_CONFIG_LIBDIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux/uclibc/sysroot/usr/lib/pkgconfig
+      export PKG_CONFIG_LIBDIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
    else
       #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
 
