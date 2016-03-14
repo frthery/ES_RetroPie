@@ -177,14 +177,14 @@ else ifeq ($(platform), gcw0)
 	CC = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc-4.9.1
 	CXX = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
-	LDFLAGS += -shared -Wl,--version-script=link.T -Wl,-no-undefined
+	LDFLAGS += -fPIC -shared -Wl,--version-script=link.T -Wl,-no-undefined
 	PLATCFLAGS += -Dstricmp=strcasecmp
 	#LDFLAGS += $(PTHREAD_FLAGS) -lrt
 	LIBS := -lc -lgcc
 	fpic := -fPIC -nostdlib
 	LIBM :=
 	#CFLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
-	CFLAGS += -DFAMEC_NO_GOTOS
+	#CFLAGS += -DFAMEC_NO_GOTOS -ffast-math
 	CFLAGS += -lm -march=mips32 -mtune=mips32r2 -mhard-float
 
 else

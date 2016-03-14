@@ -192,10 +192,8 @@ else ifeq ($(platform), gcw0)
 	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
 	#HAVE_PTHREADS = 1
 	LDFLAGS += $(PTHREAD_FLAGS) -lrt
-	FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
 	FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 	fpic := -fPIC
-	CFLAGS += -DFAMEC_NO_GOTOS
 
 # Windows
 else

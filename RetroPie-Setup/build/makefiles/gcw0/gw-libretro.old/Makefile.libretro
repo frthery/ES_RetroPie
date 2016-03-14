@@ -272,9 +272,10 @@ else ifeq ($(platform), gcw0)
 	CXX = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
 	SHARED := -shared -Wl,-version-script=$(BUILD_DIR)/link.T -Wl,-no-undefined
+	PLATFORM_DEFINES := -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 	fpic := -fPIC
-	CFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
-	CXXFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
+	#CFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
+	#CXXFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 
 # Windows
 else

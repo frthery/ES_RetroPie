@@ -156,28 +156,11 @@ else ifeq ($(platform), gcw0)
 	CC = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
 	CXX = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
-	#SHARED := -shared -nostdlib
 	SHARED := -shared -Wl,--version-script=link.T -Wl,-no-undefined
-	LDFLAGS += $(PTHREAD_FLAGS) -lrt
-	CFLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
-	CFLAGS += -march=mips32 -mtune=mips32r2 -mhard-float
+	#LDFLAGS += $(PTHREAD_FLAGS) -lrt
+	CFLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
 	fpic := -fPIC
-	LIBM :=
-	HAVE_RZLIB = 0
-	CFLAGS += -DFAMEC_NO_GOTOS
-
-	asm_memory = 0
-	asm_render = 0
-	asm_ym2612 = 0
-	asm_misc = 0
-	asm_cdpico = 0
-	asm_cdmemory = 0
-	asm_mix = 0
-	use_cyclone = 0
-	use_fame = 1
-	use_drz80 = 0
-	use_cz80 = 1
-
+	
 # Windows
 else
    TARGET := $(TARGET_NAME)_libretro.dll

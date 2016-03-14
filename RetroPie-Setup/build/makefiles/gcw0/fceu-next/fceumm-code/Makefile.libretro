@@ -146,8 +146,9 @@ else ifeq ($(platform), gcw0)
    AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
    #SHARED := -shared -nostdlib
    SHARED := -shared -Wl,--version-script=src/drivers/libretro/link.T -Wl,-no-undefined
-   fpic := -fPIC
+   PLATFORM_DEFINES := -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
    ENDIANNESS_DEFINES = -DLSB_FIRST -DLOCAL_LE=1
+   fpic := -fPIC
    ZLIB_DIR := ./src/zlib
 else
    TARGET := $(TARGET_NAME)_libretro.dll

@@ -213,12 +213,11 @@ else ifeq ($(platform), gcw0)
 	CC = /opt/gcw0-toolchain/usr/bin/mipsel-linux-gcc
 	CXX = /opt/gcw0-toolchain/usr/bin/mipsel-linux-g++
 	AR = /opt/gcw0-toolchain/usr/bin/mipsel-linux-ar
-	fpic := -fPIC
 	SHARED := -shared -Wl,--no-undefined -Wl,--version-script=link.T
 	LDFLAGS += $(PTHREAD_FLAGS) -lrt
 	FLAGS += $(PTHREAD_FLAGS) -DHAVE_MKDIR
-    FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
-
+	FLAGS += -ffast-math -march=mips32 -mtune=mips32r2 -mhard-float
+	fpic := -fPIC
 else
    TARGET := $(TARGET_NAME).dll
    CC = gcc
