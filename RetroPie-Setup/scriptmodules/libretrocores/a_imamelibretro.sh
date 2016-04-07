@@ -12,8 +12,12 @@ function build_a_imamelibretro() {
     # OVERRIDE MAKEFILE IF NECESSARY
     [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/imame4all-libretro/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/imame4all-libretro/Makefile" .
 
-    [ -z "${NOCLEAN}" ] && make -f makefile clean
-    make -f makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    [ -z "${NOCLEAN}" ] && make -f Makefile clean
+    if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
+        make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ARM=1 USE_CYCLONE=1 2>&1 | tee makefile.log
+    else
+        make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
+    fi
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile iMAME4all LibretroCore!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.imame4alllibretro
 
