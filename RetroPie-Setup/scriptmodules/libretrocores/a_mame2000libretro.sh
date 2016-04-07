@@ -14,7 +14,7 @@ function build_a_mame2000libretro() {
 
     [ -z "${NOCLEAN}" ] && make -f Makefile clean
     if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
-        make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ARM=1 USE_CYCLONE=1 2>&1 | tee makefile.log
+        make -f Makefile ARM=1 USE_CYCLONE=1 2>&1 | tee makefile.log
     else
         make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     fi
