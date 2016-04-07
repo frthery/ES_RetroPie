@@ -3,7 +3,7 @@ build_retropie.sh
 A simple script for building, installing and configuring emulators and libretrocores.
 
 - Install build_retropie.sh script into your RetroPie-Setup folder 
-"wget https://github.com/frthery/ES_RetroPie/blob/master/RetroPie-Setup/build_retropie.sh"
+"wget https://raw.githubusercontent.com/frthery/ES_RetroPie/master/RetroPie-Setup/build_retropie.sh"
 - Execute "sudo chmod 755 build_retropie.sh"
 - Execute "git pull" command for updating your repository (get latest version of retropie's scripts)
 - Execute "./build_retropie.sh -u" command for updating modules
