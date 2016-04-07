@@ -32,8 +32,8 @@ function build_a_retroarch() {
     else
         #./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --disable-oss --disable-pulse --enable-floathard
         #./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-vg --disable-opengl --disable-gles --disable-fbo --disable-egl --enable-dispmanx --disable-x11 --disable-sdl2 --enable-floathard --disable-ffmpeg --disable-netplay --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-freetype --disable-7zip --disable-libxml2
-        ./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
-        
+        ./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --disable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
+
         [ -z "${NOCLEAN}" ] && make -f Makefile clean
         make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
@@ -55,12 +55,12 @@ function copy_a_retroarch() {
     else
         #DESTDIR=$outputdir/retroarch make install
         #PREFIX="$ouputdir/RetroArch/installdir" GLOBAL_CONFIG_DIR="$ouputdir/RetroArch/installdir" make install
-        
+
         [ -d $outputdir/RetroArch ] && rm -R $outputdir/RetroArch
         mkdir -p $outputdir/RetroArch/installdir/bin
         mkdir -p $outputdir/RetroArch/installdir/tools
         mkdir -p $outputdir/RetroArch/installdir/share/pixmaps
-        
+
         cp retroarch $outputdir/RetroArch/installdir/bin && cp retroarch.cfg $outputdir/RetroArch/installdir/bin
         cp tools/cg2glsl.py $outputdir/RetroArch/installdir/tools/retroarch-cg2glsl && cp tools/retroarch-joyconfig $outputdir/RetroArch/installdir/tools/
         cp media/retroarch.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
