@@ -30,7 +30,10 @@ function build_a_retroarch() {
         ZIP_BASE="`find . | grep "retroarch-win" | head -n1`"
         zip "./$ZIP_BASE" *.dll retroarch-redist-version || die "Failed to build full/redist!"
     else
-        ./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --disable-oss --disable-pulse --enable-floathard
+        #./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --disable-oss --disable-pulse --enable-floathard
+        #./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-vg --disable-opengl --disable-gles --disable-fbo --disable-egl --enable-dispmanx --disable-x11 --disable-sdl2 --enable-floathard --disable-ffmpeg --disable-netplay --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-freetype --disable-7zip --disable-libxml2
+        ./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
+        
         [ -z "${NOCLEAN}" ] && make -f Makefile clean
         make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
