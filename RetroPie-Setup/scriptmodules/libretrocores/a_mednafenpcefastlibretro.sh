@@ -12,6 +12,8 @@ function build_a_mednafenpcefastlibretro() {
     # OVERRIDE MAKEFILE IF NECESSARY
     [ -f "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/mednafen-pce-fast-libretro/Makefile" ] && cp "$rootdir/makefiles/${FORMAT_COMPILER_TARGET}/mednafen-pce-fast-libretro/Makefile" .
 
+    [ ${FORMAT_COMPILER_TARGET} == "armv6j-hardfloat" ] && FORMAT_COMPILER_TARGET="rpi1"
+
     [ -z "${NOCLEAN}" ] && make -f Makefile clean || echo "Failed to clean!"
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile PCE LibretroCore mednafen-pce-fast!"
