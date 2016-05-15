@@ -23,8 +23,8 @@ function initialize() {
     
     # CREATE FOLDERS
     mkdir ${OC_DWL_PATH} && echo '[INIT]: create folder '${OC_DWL_PATH}
-    [ ! -d ${GAMELISTS_PATH} ] && mkdir ${GAMELISTS_PATH} && echo '[INIT]: create folder '${GAMELISTS_PATH}
-    [ ! -d ${PICTURES_PATH} ] && mkdir ${PICTURES_PATH} && echo '[INIT]: create folder '${PICTURES_PATH}
+    [ ${GAMELISTS_PATH} != ${ROMS_PATH} ] && [ ! -d ${GAMELISTS_PATH} ] && mkdir ${GAMELISTS_PATH} && echo '[INIT]: create folder '${GAMELISTS_PATH}
+    [ ${PICTURES_PATH} != ${ROMS_PATH} ] && [ ! -d ${PICTURES_PATH} ] && mkdir ${PICTURES_PATH} && echo '[INIT]: create folder '${PICTURES_PATH}
 
     # UPDATE SYNC FILE
     touch $OC_FILE_SYNC
@@ -89,9 +89,11 @@ function download_install_media() {
         [ $DDL -ne 0 ] && continue
 
         # CREATE OUTPUT FOLDERS
+        PICTURES_PATH_TMP=${PICTURES_PATH}/${infos[1]}
+        [ ${PICTURES_PATH} = ${ROMS_PATH} ] && PICTURES_PATH_TMP=${PICTURES_PATH}/${infos[1]}/downloaded_images
         [ ! -d ${OC_DWL_PATH}/${infos[1]} ] && mkdir ${OC_DWL_PATH}/${infos[1]} && echo '[INIT]: create folder '${OC_DWL_PATH}/${infos[1]}
         [ ! -d ${GAMELISTS_PATH}/${infos[1]} ] && mkdir ${GAMELISTS_PATH}/${infos[1]} && echo '[INIT]: create folder '${GAMELISTS_PATH}/${infos[1]}
-        [ ! -d ${PICTURES_PATH}/${infos[1]} ] && mkdir ${PICTURES_PATH}/${infos[1]} && echo '[INIT]: create folder '${PICTURES_PATH}/${infos[1]}
+        [ ! -d ${PICTURES_PATH_TMP} ] && mkdir ${PICTURES_PATH_TMP} && echo '[INIT]: create folder '${PICTURES_PATH_TMP}
 
         # UNRAR BESTSET
         echo [UNZIP]: ${files[0]} to ${OC_DWL_PATH}/${infos[1]}...
@@ -108,15 +110,14 @@ function download_install_media() {
         [ $UNZIP -ne 0 ] && continue
 
         sed -i "s|\[ROMS_PATH\]|$ROMS_PATH\/${infos[1]}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: ROMS_PATH into gamelist.xml'
-        sed -i "s|\[PICTURES_PATH\]|$PICTURES_PATH\/${infos[1]}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: PICTURES_PATH into gamelist.xml'
+        sed -i "s|\[PICTURES_PATH\]|${PICTURES_PATH_TMP}|g" ${OC_DWL_PATH}/${infos[1]}/gamelist.xml && echo '[REPLACE]: PICTURES_PATH into gamelist.xml'
 
         now=`date +%Y%m%d.%s`
         # MOVE (NO-MERGE)
         [ -f ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml ] && mv ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]}/gamelist.xml.$now && echo '[BACKUP]: gamelist.xml from folder '${GAMELISTS_PATH}/${infos[1]}
         mv ${OC_DWL_PATH}/${infos[1]}/gamelist.xml ${GAMELISTS_PATH}/${infos[1]} && echo '[MOVE]: gamelist.xml to folder '${GAMELISTS_PATH}/${infos[1]}
-        mv ${OC_DWL_PATH}/${infos[1]}/* ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures to folder '${PICTURES_PATH}/${infos[1]}
-        #mv ${OC_DWL_PATH}/${infos[1]}/*.png ${PICTURES_PATH}/${infos[1]} && echo '[MOVE]: pictures .png to folder '${PICTURES_PATH}/${infos[1]}
-
+        mv ${OC_DWL_PATH}/${infos[1]}/* ${PICTURES_PATH_TMP} && echo '[MOVE]: pictures to folder '${PICTURES_PATH_TMP}
+        
         now=`date +%Y%m%d`
         echo '[DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_media_names[$idx]}': OK'
         echo '['$now'] [DOWNLOAD|UNZIP: '${infos[0]}']: '${pack_media_names[$idx]}': OK' >> ${OC_FILE_SYNC}
