@@ -51,7 +51,6 @@ function download_install_media() {
     while [ $seq -lt ${#deploy_seq[@]} ]; do
         idx=${deploy_seq[$seq]}
         if [ "${packs_media[$idx]}" == "" ];then
-            echo '[WARNING]: pack media not found, check deploy_seq into .ini file!'
            ((seq++))
            continue
         fi
@@ -61,7 +60,6 @@ function download_install_media() {
         #echo [FOUND: ${infos[0]}]: ${pack_media_names[$idx]}... && echo ${pack_media_links[$idx]}
 
         if [ "${infos[0]}" == "" ] || [ "${infos[1]}" == "" ];then
-            echo '[WARNING]: infos not found, check deploy_seq into .ini file!'
            ((seq++))
            continue
         fi

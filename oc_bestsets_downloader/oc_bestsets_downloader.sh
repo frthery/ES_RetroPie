@@ -83,7 +83,7 @@ function download_install() {
     while [ $seq -lt ${#deploy_seq[@]} ]; do
         idx=${deploy_seq[$seq]}
         if [ "${packs[$idx]}" == "" ];then
-            echo '[WARNING]: pack not found, check deploy_seq into .ini file!'
+            echo '[WARNING]: pack ['$idx'] not found, check deploy_seq into .ini file!'
            ((seq++))
            continue
         fi
@@ -93,7 +93,7 @@ function download_install() {
         #echo [FOUND: ${infos[0]}]: ${pack_names[$idx]}... && echo ${pack_links[$idx]}
 
         if [ "${infos[0]}" == "" ] || [ "${infos[1]}" == "" ];then
-            echo '[WARNING]: infos not found, check deploy_seq into .ini file!'
+            echo '[WARNING]: infos ['$idx'] not found, check deploy_seq into .ini file!'
            ((seq++))
            continue
         fi
