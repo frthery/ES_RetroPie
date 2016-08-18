@@ -75,16 +75,21 @@ function copy_a_retroarch() {
         #DESTDIR=$outputdir/retroarch make install
         #PREFIX="$ouputdir/RetroArch/installdir" GLOBAL_CONFIG_DIR="$ouputdir/RetroArch/installdir" make install
 
+		# GET ASSETS: git://github.com/libretro/retroarch-assets.git
+		gitPullOrClone "$rootdir/emulators/RetroArch/assets" git://github.com/libretro/retroarch-assets.git
+		
         [ -d $outputdir/RetroArch ] && rm -R $outputdir/RetroArch
         mkdir -p $outputdir/RetroArch/installdir/bin
+		mkdir -p $outputdir/RetroArch/installdir/assets
         mkdir -p $outputdir/RetroArch/installdir/tools
         mkdir -p $outputdir/RetroArch/installdir/share/pixmaps
 
         cp retroarch $outputdir/RetroArch/installdir/bin && cp retroarch.cfg $outputdir/RetroArch/installdir/bin
+		cp -R assets/* $outputdir/RetroArch/installdir/assets
         cp tools/cg2glsl.py $outputdir/RetroArch/installdir/tools/retroarch-cg2glsl && cp tools/retroarch-joyconfig $outputdir/RetroArch/installdir/tools/
         cp media/retroarch.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
 		
-		# GET ASSETS: https://github.com/libretro/retroarch-assets.git
+		
     fi
 
     popd
