@@ -51,10 +51,10 @@ function build_a_retroarch() {
 
         echo "FORMAT_COMPILER_TARGET: ${FORMAT_COMPILER_TARGET}"
         echo "CONFIGURE FLAGS: ${PARAMS[@]}"
-        #./configure "${PARAMS[@]}"
+        ./configure "${PARAMS[@]}"
 
         [ -z "${NOCLEAN}" ] && make -f Makefile clean
-        #make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+        make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
 
         if [[ ! -f "$rootdir/emulators/RetroArch/retroarch" ]]; then
