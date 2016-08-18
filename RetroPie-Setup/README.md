@@ -8,8 +8,8 @@ A simple script for building, installing and configuring emulators and libretroc
 - Execute "sudo chmod 755 build_retropie.sh"
 
 Get Latest Version:
-- Execute "git pull" command for updating your repository (get latest version of retropie's scripts)
-- Execute "./build_retropie.sh -u" command for updating modules
+- Command for updating your repository (get latest version of retropie's scripts) : "git pull"
+- Command for updating modules : "./build_retropie.sh -u"
 
 Usage:
 ======
