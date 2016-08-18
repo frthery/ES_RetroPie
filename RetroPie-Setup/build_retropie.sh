@@ -68,7 +68,7 @@ fi
 so_filter='*libretro*.so'
 [ "$HOST_CC" = "x86_64-w64-mingw32" ] && so_filter='*libretro*.dll'
 
-if [ "$FORMAT_COMPILER_TARGET" = "armv6j-hardfloat" ] || [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ]; then
+if [[ ${FORMAT_COMPILER_TARGET} =~ "armv" ]]; then
    [[ -z "${CFLAGS}" ]] && export CFLAGS="${__default_cflags}"
    [[ -z "${CXXFLAGS}" ]] && export CXXFLAGS="${__default_cflags}"
    #[[ -z "${LDFLAGS}" ]] && export LDFLAGS="${__default_ldflags}"
