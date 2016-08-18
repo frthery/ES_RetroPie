@@ -87,9 +87,7 @@ function copy_a_retroarch() {
         cp retroarch $outputdir/RetroArch/installdir/bin && cp retroarch.cfg $outputdir/RetroArch/installdir/bin
 		cp -R assets/* $outputdir/RetroArch/installdir/assets
         cp tools/cg2glsl.py $outputdir/RetroArch/installdir/tools/retroarch-cg2glsl && cp tools/retroarch-joyconfig $outputdir/RetroArch/installdir/tools/
-        cp media/retroarch.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
-		
-		
+        cp media/retroarch-*.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
     fi
 
     popd
