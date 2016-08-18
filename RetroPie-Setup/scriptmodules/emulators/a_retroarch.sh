@@ -39,22 +39,22 @@ function build_a_retroarch() {
         PARAMS=(--disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack)
         if [ ${FORMAT_COMPILER_TARGET} = "armv7-cortexa8-hardfloat" ]; then
            # POCKETCHIP BUILD : --enable-mali_fbdev --disable-sdl --enable-sdl2 --enable-floathard --enable-neon --disable-opengl --disable-gles --disable-vg --disable-fbo --disable-egl --disable-pulse --disable-oss --disable-x11 --disable-wayland --disable-ffmpeg --disable-7zip --disable-libxml2 --disable-freetype
-           PARAMS+=( --enable-mali_fbdev --enable-neon --enable-floathard)
+           PARAMS+=(--enable-mali_fbdev --enable-neon --enable-floathard)
         else 
            # RPI BUILD  : --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
            # RPI2 BUILD : --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard --enable-neon
            PARAMS+=(--prefix="$rootdir/emulators/RetroArch/installdir" --enable-dispmanx --enable-floathard)
            if [ ${FORMAT_COMPILER_TARGET} = "armv7-cortexa7-hardfloat" ]; then
-              PARAMS+=( --enable-neon)
-           end
-        end
+              PARAMS+=(--enable-neon)
+           fi
+        fi
 
         echo "FORMAT_COMPILER_TARGET: ${FORMAT_COMPILER_TARGET}"
-        echo "CONFIGURE FLAGS: ${params[@]}"
-        ./configure "${params[@]}"
+        echo "CONFIGURE FLAGS: ${PARAMS[@]}"
+        #./configure "${PARAMS[@]}"
 
         [ -z "${NOCLEAN}" ] && make -f Makefile clean
-        make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
+        #make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
         [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
 
         if [[ ! -f "$rootdir/emulators/RetroArch/retroarch" ]]; then
