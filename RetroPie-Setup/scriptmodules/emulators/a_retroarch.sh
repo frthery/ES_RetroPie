@@ -3,6 +3,10 @@ rp_module_desc="RetroArch (Additional)"
 rp_module_menus="2+"
 
 function depends_a_retroarch() {
+    # sudo apt-get install build-essential git pkg-config libsdl2-dev libsdl1.2-dev
+    # sudo apt-get install libudev-dev libxkbcommon-dev libsdl2-dev
+    # sudo apt-get install mali-fbdev
+
     rps_checkNeededPackages libudev-dev libxkbcommon-dev
 #    cat > "/etc/udev/rules.d/99-evdev.rules" << _EOF_
 #KERNEL=="event*", NAME="input/%k", MODE="666"
@@ -20,6 +24,8 @@ function build_a_retroarch() {
     pushd "$rootdir/emulators/RetroArch"
 
     if [ ${FORMAT_COMPILER_TARGET} = "win" ]; then
+        #./configure --disable-sdl --enable-sdl2 --enable-floathard --enable-neon --disable-opengl --disable-gles --disable-vg --disable-fbo --disable-egl --disable-pulse --disable-oss --disable-x11 --disable-wayland --disable-ffmpeg --disable-7zip --disable-libxml2 --disable-freetype
+
         # ONLY WIN X64
         make -f Makefile.win libs_x86_64 || echo "Failed to extract libraries!"
         make -f Makefile.win clean
@@ -30,9 +36,22 @@ function build_a_retroarch() {
         ZIP_BASE="`find . | grep "retroarch-win" | head -n1`"
         zip "./$ZIP_BASE" *.dll retroarch-redist-version || die "Failed to build full/redist!"
     else
-        #./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --disable-oss --disable-pulse --enable-floathard
-        #./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-vg --disable-opengl --disable-gles --disable-fbo --disable-egl --enable-dispmanx --disable-x11 --disable-sdl2 --enable-floathard --disable-ffmpeg --disable-netplay --enable-udev --disable-sdl --disable-pulse --disable-oss --disable-freetype --disable-7zip --disable-libxml2
-        ./configure --prefix="$rootdir/emulators/RetroArch/installdir" --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --disable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
+        PARAMS=(--disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack)
+        if [ ${FORMAT_COMPILER_TARGET} = "armv7-cortexa8-hardfloat" ]; then
+           # POCKETCHIP BUILD : --enable-mali_fbdev --disable-sdl --enable-sdl2 --enable-floathard --enable-neon --disable-opengl --disable-gles --disable-vg --disable-fbo --disable-egl --disable-pulse --disable-oss --disable-x11 --disable-wayland --disable-ffmpeg --disable-7zip --disable-libxml2 --disable-freetype
+           PARAMS+=( --enable-mali_fbdev --enable-neon --enable-floathard)
+        else 
+           # RPI BUILD  : --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
+           # RPI2 BUILD : --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard --enable-neon
+           PARAMS+=(--prefix="$rootdir/emulators/RetroArch/installdir" --enable-dispmanx --enable-floathard)
+           if [ ${FORMAT_COMPILER_TARGET} = "armv7-cortexa7-hardfloat" ]; then
+              PARAMS+=( --enable-neon)
+           end
+        end
+
+        echo "FORMAT_COMPILER_TARGET: ${FORMAT_COMPILER_TARGET}"
+        echo "CONFIGURE FLAGS: ${params[@]}"
+        ./configure "${params[@]}"
 
         [ -z "${NOCLEAN}" ] && make -f Makefile clean
         make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
@@ -64,6 +83,8 @@ function copy_a_retroarch() {
         cp retroarch $outputdir/RetroArch/installdir/bin && cp retroarch.cfg $outputdir/RetroArch/installdir/bin
         cp tools/cg2glsl.py $outputdir/RetroArch/installdir/tools/retroarch-cg2glsl && cp tools/retroarch-joyconfig $outputdir/RetroArch/installdir/tools/
         cp media/retroarch.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
+		
+		# GET ASSETS: https://github.com/libretro/retroarch-assets.git
     fi
 
     popd
