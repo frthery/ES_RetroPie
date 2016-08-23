@@ -26,11 +26,12 @@ if [ "$HOST_CC" ]; then
       # GCW TOOLCHAIN: http://boards.dingoonity.org/gcw-development/gcw-zero-toolchain-for-windows-(cygwin)-2013-10-04/
       FORMAT_COMPILER_TARGET="gcw0"
 
-      export PATH=$PATH:/opt/gcw0-toolchain/usr/bin:/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/bin
-      export PKG_CONF_PATH=/opt/gcw0-toolchain/usr/bin/pkg-config
-      export PKG_CONFIG_PATH=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
-      export PKG_CONFIG_SYSROOT_DIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot
-      export PKG_CONFIG_LIBDIR=/opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
+      export CCBASEDIR=/opt/gcw0-toolchain/usr
+      export PATH=$PATH:/opt/gcw0-toolchain/usr/bin:$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/bin
+      export PKG_CONF_PATH=$CCBASEDIR/bin/pkg-config
+      export PKG_CONFIG_PATH=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
+      export PKG_CONFIG_SYSROOT_DIR=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot
+      export PKG_CONFIG_LIBDIR=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
    else
       #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
 
@@ -44,7 +45,17 @@ if [ "$HOST_CC" ]; then
 
       # CROSS COMPILATION ARM
       if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
-        echo "--- CROSS COMPILATION ARM ---"
+         echo "--- CROSS COMPILATION ARM ---"
+
+         if [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ]; then
+            export CCBASEDIR=/home/vagrant/CHIP-buildroot/output/host/usr
+            export PATH=$PATH:$CCBASEDIR/bin:$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/bin
+            export PKG_CONF_PATH=$CCBASEDIR/bin/pkg-config
+            export PKG_CONFIG_PATH=$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/lib/pkgconfig
+            export PKG_CONFIG_SYSROOT_DIR=$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot
+            export PKG_CONFIG_LIBDIR=$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/lib/pkgconfig
+         fi
+
         #FORMAT_COMPILER_TARGET="armv6j-hardfloat"
 
         #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && __default_cflags+=" -I/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/include "
