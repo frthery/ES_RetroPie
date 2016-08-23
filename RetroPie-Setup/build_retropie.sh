@@ -42,7 +42,7 @@ if [ "$HOST_CC" ]; then
    else
       # CROSS COMPILATION ARM
       if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
-         echo "--- CROSS COMPILATION ARM ---"
+         #echo "--- CROSS COMPILATION ARM ---"
 
          if [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ]; then
             export CCBASEDIR=/home/vagrant/CHIP-buildroot/output/host/usr
