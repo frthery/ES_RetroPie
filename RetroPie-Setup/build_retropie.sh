@@ -39,11 +39,13 @@ if [ "$HOST_CC" ]; then
       #[ "$HOST_CC" != "default" ] && export STRIP=x86_64-w64-mingw32-strip
       [ "$HOST_CC" != "default" ] && export COMPILER="CC=${CC} CXX=${CXX}"
 
+      # CROSS COMPILATION WIN
       [ "$HOST_CC" = "x86_64-w64-mingw32" ] || [ "$HOST_CC" = "i686-w64-mingw32" ] && FORMAT_COMPILER_TARGET="win"
 
+      # CROSS COMPILATION ARM
       if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
-         #echo "--- CROSS COMPILATION ---"
-        FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+        echo "--- CROSS COMPILATION ARM ---"
+        #FORMAT_COMPILER_TARGET="armv6j-hardfloat"
 
         #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && __default_cflags+=" -I/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/include "
         #/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/lib
@@ -58,12 +60,13 @@ if [ "$HOST_CC" ]; then
         #echo "--- $? ---"
       fi
    fi
-else
-   # default rpi1 compilation
-   [ -z "$FORMAT_COMPILER_TARGET" ] && FORMAT_COMPILER_TARGET="armv6j-hardfloat"
-   [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
-   [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ] && __default_cflags="-O2 -march=armv7-r -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 fi
+
+# default rpi1 compilation
+[ -z "$FORMAT_COMPILER_TARGET" ] && FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
+#[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ] && __default_cflags="-O2 -march=armv7-r -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
+[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 
 so_filter='*libretro*.so'
 [ "$HOST_CC" = "x86_64-w64-mingw32" ] && so_filter='*libretro*.dll'
@@ -373,7 +376,6 @@ source $scriptdir/scriptmodules/helpers.sh
 logger 0 "LOADED: ./scriptmodules/helpers.sh"
 source $scriptdir/scriptmodules/packages.sh
 logger 0 "LOADED: ./scriptmodules/packages.sh"
-
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
