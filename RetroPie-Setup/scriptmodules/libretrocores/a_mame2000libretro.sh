@@ -1,5 +1,5 @@
 rp_module_id="a_mame2000libretro"
-rp_module_desc="MAME 2010 LibretroCore (Additional)"
+rp_module_desc="MAME 2000 LibretroCore (Additional)"
 rp_module_menus="2+"
 
 function sources_a_mame2000libretro() {
