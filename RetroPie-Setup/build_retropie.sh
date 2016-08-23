@@ -22,6 +22,11 @@ __default_makeflags=""
 __default_gcc_version="4.7"
 
 if [ "$HOST_CC" ]; then
+   [ "$HOST_CC" != "default" ] && export CC="\"${HOST_CC}-gcc\""
+   [ "$HOST_CC" != "default" ] && export CXX="\"${HOST_CC}-g++\""
+   #[ "$HOST_CC" != "default" ] && export STRIP=x86_64-w64-mingw32-strip
+   [ "$HOST_CC" != "default" ] && export COMPILER="CC=${CC} CXX=${CXX}"
+
    if [ "$HOST_CC" = "mipsel-gcw0-linux" ]; then 
       # GCW TOOLCHAIN: http://boards.dingoonity.org/gcw-development/gcw-zero-toolchain-for-windows-(cygwin)-2013-10-04/
       FORMAT_COMPILER_TARGET="gcw0"
@@ -32,17 +37,9 @@ if [ "$HOST_CC" ]; then
       export PKG_CONFIG_PATH=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
       export PKG_CONFIG_SYSROOT_DIR=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot
       export PKG_CONFIG_LIBDIR=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
+   elif [ "$HOST_CC" = "x86_64-w64-mingw32" ] || [ "$HOST_CC" = "i686-w64-mingw32" ]; then
+      FORMAT_COMPILER_TARGET="win"
    else
-      #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
-
-      [ "$HOST_CC" != "default" ] && export CC="\"${HOST_CC}-gcc\""
-      [ "$HOST_CC" != "default" ] && export CXX="\"${HOST_CC}-g++\""
-      #[ "$HOST_CC" != "default" ] && export STRIP=x86_64-w64-mingw32-strip
-      [ "$HOST_CC" != "default" ] && export COMPILER="CC=${CC} CXX=${CXX}"
-
-      # CROSS COMPILATION WIN
-      [ "$HOST_CC" = "x86_64-w64-mingw32" ] || [ "$HOST_CC" = "i686-w64-mingw32" ] && FORMAT_COMPILER_TARGET="win"
-
       # CROSS COMPILATION ARM
       if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
          echo "--- CROSS COMPILATION ARM ---"
@@ -56,19 +53,21 @@ if [ "$HOST_CC" ]; then
             export PKG_CONFIG_LIBDIR=$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/lib/pkgconfig
          fi
 
-        #FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+         #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && PATH_CC=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin && export PATH=$PATH_CC:$PATH
 
-        #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && __default_cflags+=" -I/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/include "
-        #/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/lib
-        #which gcc-arm-linux-gnueabi
+         #FORMAT_COMPILER_TARGET="armv6j-hardfloat"
 
-        #export RANLIB=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-ranlib
-        #export STRIP=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-strip
-        #export CFLAGS="-I/opt/cross/x-tools/arm-unknown-linux-gnueabi/include"
-        #export LDFLAGS="-L/opt/cross/x-tools/arm-unknown-linux-gnueabi/lib"
+         #[ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] && __default_cflags+=" -I/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/include "
+         #/opt/cross/x-tools/arm-unknown-linux-gnueabi/arm-unknown-linux-gnueabi/sysroot/usr/lib
+         #which gcc-arm-linux-gnueabi
 
-        #arm-unknown-linux-gnueabi-g++ --version
-        #echo "--- $? ---"
+         #export RANLIB=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-ranlib
+         #export STRIP=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/arm-unknown-linux-gnueabi-strip
+         #export CFLAGS="-I/opt/cross/x-tools/arm-unknown-linux-gnueabi/include"
+         #export LDFLAGS="-L/opt/cross/x-tools/arm-unknown-linux-gnueabi/lib"
+
+         #arm-unknown-linux-gnueabi-g++ --version
+         #echo "--- $? ---"
       fi
    fi
 fi
@@ -179,11 +178,11 @@ function showModuleFunctions() {
         local funcConfigure="configure_${mod_id}"
         local functions=""
 
-        fn_exists $funcDepends && functions+="$funcDepends "
-        fn_exists $funcSrc && functions+="$funcSrc "
-        fn_exists $funcBuild && functions+="$funcBuild "
-        fn_exists $funcInstall && functions+="$funcInstall "
-        fn_exists $funcConfigure && functions+="$funcConfigure "
+        fnExists $funcDepends && functions+="$funcDepends "
+        fnExists $funcSrc && functions+="$funcSrc "
+        fnExists $funcBuild && functions+="$funcBuild "
+        fnExists $funcInstall && functions+="$funcInstall "
+        fnExists $funcConfigure && functions+="$funcConfigure "
 
         logger 1 "MOD: [$mod_id] [ $functions ]"
     fi
@@ -205,8 +204,8 @@ function execModule() {
 
     if [ $opt_build -eq 1 ]; then
         # echo "Checking, if function ${!__function} exists"
-        fn_exists $funcSrc || logger 0 "WARN: function -> $funcSrc not found" # __ERRMSGS="function -> $funcSrc not found"
-        fn_exists $funcBuild || logger 0 "WARN: function -> $funcBuild not found" # __ERRMSGS="function -> $funcBuild not found"
+        fnExists $funcSrc || logger 0 "WARN: function -> $funcSrc not found" # __ERRMSGS="function -> $funcSrc not found"
+        fnExists $funcBuild || logger 0 "WARN: function -> $funcBuild not found" # __ERRMSGS="function -> $funcBuild not found"
         #[ -z "$__ERRMSGS" ] || return
     fi
 
@@ -214,15 +213,15 @@ function execModule() {
     #logger "$desc ${__mod_desc[$idx]}"
 
     # echo "Executing function"
-    if fn_exists $funcDepends; then
+    if fnExists $funcDepends; then
         logger 1 "EXEC: [$mod_id] function -> $funcDepends"
         $funcDepends
     fi
-    if [ $opt_build -eq 1 ] && fn_exists $funcSrc; then
+    if [ $opt_build -eq 1 ] && fnExists $funcSrc; then
         logger 1 "EXEC: [$mod_id] function -> $funcSrc"
         $funcSrc
     fi
-    if [ $opt_build -eq 1 ] && fn_exists $funcBuild; then
+    if [ $opt_build -eq 1 ] && fnExists $funcBuild; then
         logger 1 "EXEC: [$mod_id] function -> $funcBuild"
         $funcBuild
 
@@ -231,17 +230,17 @@ function execModule() {
         [ -z "$__ERRMSGS" ] || return
     fi
 
-    if [ $opt_install -eq 1 ] && fn_exists $funcInstall; then
+    if [ $opt_install -eq 1 ] && fnExists $funcInstall; then
         logger 1 "EXEC: [$mod_id] function -> $funcInstall"
         $funcInstall
     fi
 
-    if [ $opt_configure -eq 1 ] && fn_exists $funcConfigure; then
+    if [ $opt_configure -eq 1 ] && fnExists $funcConfigure; then
         logger 1 "EXEC: [$mod_id] function -> $funcConfigure"
         $funcConfigure
     fi
 
-    if [ $opt_build -eq 1 ] && fn_exists $funcCopy; then
+    if [ $opt_build -eq 1 ] && fnExists $funcCopy; then
         logger 1 "EXEC: [$mod_id] function -> $funcCopy"
         $funcCopy
     fi
