@@ -39,7 +39,8 @@ function build_a_retroarch() {
         PARAMS=(--disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack)
         if [ ${FORMAT_COMPILER_TARGET} = "armv7-cortexa8-hardfloat" ]; then
            # POCKETCHIP BUILD : --enable-mali_fbdev --disable-sdl --enable-sdl2 --enable-floathard --enable-neon --disable-opengl --disable-gles --disable-vg --disable-fbo --disable-egl --disable-pulse --disable-oss --disable-x11 --disable-wayland --disable-ffmpeg --disable-7zip --disable-libxml2 --disable-freetype
-           PARAMS+=(--enable-mali_fbdev --enable-neon --enable-floathard)
+           #PARAMS+=(--enable-mali_fbdev --enable-neon --enable-floathard)
+           PARAMS=(--enable-sdl --disable-sdl2 --enable-floathard --enable-neon --disable-opengl --disable-gles --disable-vg --disable-fbo --disable-egl --disable-pulse --disable-oss --disable-x11 --disable-wayland --disable-ffmpeg --disable-7zip --disable-libxml2 --disable-freetype)
         else 
            # RPI BUILD  : --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard
            # RPI2 BUILD : --disable-x11 --enable-gles --disable-ffmpeg --disable-sdl --enable-sdl2 --disable-oss --disable-pulse --disable-al --disable-jack --enable-dispmanx --enable-floathard --enable-neon
@@ -80,17 +81,17 @@ function copy_a_retroarch() {
         #DESTDIR=$outputdir/retroarch make install
         #PREFIX="$ouputdir/RetroArch/installdir" GLOBAL_CONFIG_DIR="$ouputdir/RetroArch/installdir" make install
 
-		# GET ASSETS: git://github.com/libretro/retroarch-assets.git
-		gitPullOrClone "$rootdir/emulators/RetroArch/assets" git://github.com/libretro/retroarch-assets.git
-		
+        # GET ASSETS: git://github.com/libretro/retroarch-assets.git
+        gitPullOrClone "$rootdir/emulators/RetroArch/assets" git://github.com/libretro/retroarch-assets.git
+
         [ -d $outputdir/RetroArch ] && rm -R $outputdir/RetroArch
         mkdir -p $outputdir/RetroArch/installdir/bin
-		mkdir -p $outputdir/RetroArch/installdir/assets
+        mkdir -p $outputdir/RetroArch/installdir/assets
         mkdir -p $outputdir/RetroArch/installdir/tools
         mkdir -p $outputdir/RetroArch/installdir/share/pixmaps
 
         cp retroarch $outputdir/RetroArch/installdir/bin && cp retroarch.cfg $outputdir/RetroArch/installdir/bin
-		cp -R assets/* $outputdir/RetroArch/installdir/assets
+        cp -R assets/* $outputdir/RetroArch/installdir/assets
         cp tools/cg2glsl.py $outputdir/RetroArch/installdir/tools/retroarch-cg2glsl && cp tools/retroarch-joyconfig $outputdir/RetroArch/installdir/tools/
         cp media/retroarch-*.png $outputdir/RetroArch/installdir/share/pixmaps && cp media/retroarch.svg $outputdir/RetroArch/installdir/share/pixmaps
     fi
