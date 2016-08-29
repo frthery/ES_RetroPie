@@ -18,3 +18,5 @@ zip "$outputdir/cores-win64-$now.zip" -j $outputdir/*.dll
 
 popd
 
+exit 0
+
