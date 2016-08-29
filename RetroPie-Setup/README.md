@@ -34,10 +34,10 @@ Build a module for RPI2: ./build_rpi.sh -rpi2 -name=[idx]<br>
 This command will build a specific module for RPI2 platform.
 
 Build a module for POCKETCHIP: FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat ./build_retropie.sh -b -name=[idx]<br>
-This command will build a specific module for RPI2 platform.
-
-Build a module for WIN64: ./build_win.sh -name=[idx]<br>
-This command will build a specific module for WIN64 platform.
+This command will build a specific module for PocketCHIP platform.
 
 Build a module for GCW-ZERO: HOST_CC=mipsel-gcw0-linux MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]<br>
 This command will build a specific module for GCW-ZERO platform.
+
+Build a module for WIN64: ./build_win.sh -name=[idx]<br>
+This command will build a specific module for WIN64 platform.
