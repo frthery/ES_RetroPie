@@ -3,7 +3,7 @@ rp_module_desc="AMIGA emulator uae4all-src-rc3.chips.0.5 (Additional)"
 rp_module_menus="2+"
 
 function depends_a_uae4all_rc3_05() {
-    rps_checkNeededPackages libsdl1.2-dev libsdl-mixer1.2-dev libasound2-dev
+    getDepends libsdl1.2-dev libsdl-mixer1.2-dev libasound2-dev
 }
 
 function sources_a_uae4all_rc3_05() {

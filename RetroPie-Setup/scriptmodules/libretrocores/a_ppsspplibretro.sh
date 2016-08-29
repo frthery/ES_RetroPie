@@ -4,7 +4,7 @@ rp_module_menus="2+"
 
 function sources_a_ppsspplibretro() {
     gitPullOrClone "$rootdir/emulatorcores/libretro-ppsspp" git://github.com/libretro/libretro-ppsspp.git
-    
+
     pushd "$rootdir/emulatorcores/libretro-ppsspp"
     git submodule init && git submodule update
     popd

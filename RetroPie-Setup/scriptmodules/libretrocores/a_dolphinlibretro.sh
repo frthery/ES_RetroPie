@@ -4,7 +4,7 @@ rp_module_menus="2+"
 
 function sources_a_dolphinlibretro() {
     gitPullOrClone "$rootdir/emulatorcores/libretro-dolphin" git://github.com/libretro/dolphin.git
-    
+
     #pushd "$rootdir/emulatorcores/libretro-dolphin"
     #git submodule init && git submodule update
     #popd

@@ -3,7 +3,7 @@ rp_module_desc="Playstation 1 pcsx_rearmed (Additional)"
 rp_module_menus="2+"
 
 function depends_a_pcsx_rearmed() {
-    rps_checkNeededPackages libpng-dev libsdl1.2-dev
+    getDepends libpng-dev libsdl1.2-dev
 }
 
 function sources_a_pcsx_rearmed() {

@@ -7,7 +7,7 @@ function depends_a_retroarch() {
     # sudo apt-get install libudev-dev libxkbcommon-dev libsdl2-dev
     # sudo apt-get install mali-fbdev
 
-    rps_checkNeededPackages libudev-dev libxkbcommon-dev
+    getDepends libudev-dev libxkbcommon-dev
 #    cat > "/etc/udev/rules.d/99-evdev.rules" << _EOF_
 #KERNEL=="event*", NAME="input/%k", MODE="666"
 #_EOF_
@@ -53,13 +53,18 @@ function build_a_retroarch() {
         echo "CONFIGURE FLAGS: ${PARAMS[@]}"
         ./configure "${PARAMS[@]}"
 
-        [ -z "${NOCLEAN}" ] && make -f Makefile clean
-        make -f Makefile 2>&1 | tee makefile.log || echo -e "Failed to compile!"
-        [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
+        if [ $? -eq 0 ]; then
+           [ -z "${NOCLEAN}" ] && make -f Makefile clean
+           make -f Makefile 2>&1 | tee makefile.log
+           #[ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile RetroArch!"
+           [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.retroarch
 
-        if [[ ! -f "$rootdir/emulators/RetroArch/retroarch" ]]; then
-            __ERRMSGS="$__ERRMSGS Could not successfully compile RetroArch."
-        fi
+           if [[ ! -f "$rootdir/emulators/RetroArch/retroarch" ]]; then
+              __ERRMSGS="Could not successfully compile RetroArch!"
+           fi
+         else
+             __ERRMSGS="Could not successfully configure RetroArch!"
+         fi
     fi
 
     popd
