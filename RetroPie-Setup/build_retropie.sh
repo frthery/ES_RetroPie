@@ -33,8 +33,9 @@ if [ "$HOST_CC" ]; then
       # GCW TOOLCHAIN: http://boards.dingoonity.org/gcw-development/gcw-zero-toolchain-for-windows-(cygwin)-2013-10-04/
       FORMAT_COMPILER_TARGET="gcw0"
 
+      # CROSS COMPILATION GCW0
       export CCBASEDIR=/opt/gcw0-toolchain/usr
-      export PATH=$PATH:/opt/gcw0-toolchain/usr/bin:$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/bin
+      export PATH=$PATH:$CCBASEDIR/bin:$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/bin
       export PKG_CONF_PATH=$CCBASEDIR/bin/pkg-config
       export PKG_CONFIG_PATH=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot/usr/lib/pkgconfig
       export PKG_CONFIG_SYSROOT_DIR=$CCBASEDIR/mipsel-gcw0-linux-uclibc/sysroot
@@ -47,7 +48,8 @@ if [ "$HOST_CC" ]; then
          #echo "--- CROSS COMPILATION ARM ---"
 
          if [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ]; then
-            export CCBASEDIR=/home/vagrant/CHIP-buildroot/output/host/usr
+            # CROSS COMPILATION POCKETCHIP
+            export CCBASEDIR=/opt/CHIP-buildroot/usr
             export PATH=$PATH:$CCBASEDIR/bin:$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/bin
             export PKG_CONF_PATH=$CCBASEDIR/bin/pkg-config
             export PKG_CONFIG_PATH=$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/lib/pkgconfig
