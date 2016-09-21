@@ -153,7 +153,7 @@ function registerModuleDir() {
 function registerAllModules() {
     registerModuleDir 100 "emulators" 
     registerModuleDir 200 "libretrocores" 
-    registerModuleDir 300 "supplementary"
+    registerModuleDir 400 "supplementary"
 }
 
 function showModules() {
@@ -165,7 +165,7 @@ function showModules() {
 
     while [ "${__mod_id[$module_idx]}" != "" ]; do
         [ $show_all -eq 0 ] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
-        [ $show_all -eq 1 ] && [[ "${__mod_id[$module_idx]}" =~ ^a\_* ]] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+        [ $show_all -eq 1 ] && [[ "${__mod_id[$module_idx]}" == "a_"* ]] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
         
         ((module_idx++))
     done
@@ -221,17 +221,44 @@ function execModule() {
         logger 1 "EXEC: [$mod_id] function -> $funcDepends"
         $funcDepends
     fi
+
     if [ $opt_build -eq 1 ] && fnExists $funcSrc; then
         logger 1 "EXEC: [$mod_id] function -> $funcSrc"
         $funcSrc
     fi
-    if [ $opt_build -eq 1 ] && fnExists $funcBuild; then
-        logger 1 "EXEC: [$mod_id] function -> $funcBuild"
-        $funcBuild
 
-        # check compilation errors
-        [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id}!"
-        [ -z "$__ERRMSGS" ] || return
+    if [ $opt_build -eq 1 ] && fnExists $funcBuild; then
+        if [[ "${mod_id}" == "a_"* ]]; then
+           logger 1 "EXEC: [$mod_id] function -> $funcBuild"
+           $funcBuild
+
+           # check compilation errors
+           [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id}!"
+           [ -z "$__ERRMSGS" ] || return
+        else
+           # TODO, SCRIPTS RETROPIE
+           pushd "$md_build"
+
+           logger 1 "EXEC-RETROPIE: [$mod_id] function -> $funcBuild"
+           $funcBuild
+
+           logger 1 "EXEC-RETROPIE: [$mod_id] function -> $funcInstall"
+           $funcInstall
+
+           [ ! -d "$md_inst" ] && mkdir "$md_inst"
+           # check for existance and copy any files/directories returned
+           if [[ -n "$md_ret_files" ]]; then
+               for file in "${md_ret_files[@]}"; do
+                   #if [[ ! -e "$md_build/$file" ]]; then
+                       #md_ret_errors+=("Could not successfully install $md_desc ($md_build/$file not found).")
+                       #break
+                   #fi
+                   cp -Rvf "$md_build/$file" "$md_inst"
+               done
+           fi
+
+           popd
+        fi
     fi
 
     if [ $opt_install -eq 1 ] && fnExists $funcInstall; then
@@ -365,6 +392,7 @@ romdir='/home/pi/RetroPie/roms'
 log_file=$scriptdir'/build_retropie.log'
 [ -f $log_file ] && rm $log_file
 
+__builddir="$rootdir"
 __swapdir="$scriptdir/tmp/"
 [ -f free ] && __memory=$(free -t -m | awk '/^Total:/{print $2}')
 
@@ -400,7 +428,9 @@ while [ "$1" != "" ]; do
             exit
             ;;
         -l | --list)
+            [ ! $VALUE ] && VALUE='libretrocores'
             opt_list=1
+            mod_id=$VALUE
             ;;
         -u | --update)
             opt_update=1
@@ -452,15 +482,26 @@ logger 0 "DIR: outputdir=[$outputdir]"
 
 [ $opt_update -eq 1 ] && updateModules
 
-registerModuleDir 100 "emulators" 
-registerModuleDir 200 "libretrocores" 
+registerModuleDir 100 "emulators"
+registerModuleDir 200 "libretrocores"
+registerModuleDir 400 "supplementary"
 
 #exit on --list option
 if [ $opt_list -eq 1 ]; then
-    #logger 1 "--- EMULATORS ---------------------------------------------"
-    showModules 100 2
-    logger 1 "--- LIBRETROCORES -----------------------------------------"
-    showModules 200 1
+    show_opt=1
+    [ $mod_id == "list-all" ] && show_opt=0 && mod_id='all'
+    [ $mod_id == "emulators-all" ] && show_opt=0 && mod_id='emulators'
+    [ $mod_id == "libretrocores-all" ] && show_opt=0 && mod_id='libretrocores'
+    [ $mod_id == "supplementary-all" ] && show_opt=0 && mod_id='supplementary'
+
+    [ $mod_id == "emulators" ] || [ $mod_id == "all" ] && logger 1 "--- EMULATORS ---------------------------------------------"
+    [ $mod_id == "emulators" ] || [ $mod_id == "all" ] && showModules 100 $show_opt
+
+    [ $mod_id == "libretrocores" ] || [ $mod_id == "all" ] && logger 1 "--- LIBRETROCORES -----------------------------------------"
+    [ $mod_id == "libretrocores" ] || [ $mod_id == "all" ] && showModules 200 $show_opt
+
+    [ $mod_id == "supplementary" ] || [ $mod_id == "all" ] && logger 1 "--- SUPPLEMENTARY -----------------------------------------"
+    [ $mod_id == "supplementary" ] || [ $mod_id == "all" ] && showModules 400 $show_opt
 
     showModuleFunctions $mod_id
     exit
@@ -479,8 +520,13 @@ fi
 if [ $opt_all -eq 1 ]; then
     # EXEC ALL LIBRETRO MODULES
     #execAllModules 100
-    execAllModules 200
+    #execAllModules 200
+    #execAllModules 400
+    logger 1 "--- BUILD ALL NOT AVAILABLE ---"
 else
+    md_build="$__builddir/$mod_id"
+    md_inst="$outputdir/$mod_id"
+
     execModules $mod_id
 fi
 
