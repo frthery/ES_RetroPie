@@ -19,6 +19,7 @@ Commands:<br>
 Updating current modules and listing them: ./build_retropie.sh -u -l<br>
 
 Listing all modules: ./build_retropie.sh -l
+./build_retropie.sh -l -name=list-all|emulators|libretrocores|supplementary<br/>
 
 Build a module: ./build_retropie.sh -b -name=[idx]<br>
 This command will build a specific module, result is dropped into ./bin folder.
@@ -28,9 +29,11 @@ This command will execute all module's functions. (b:source and build functions,
 Some actions need more privileges, in this case execute this command with sudo.
 
 Build a module for RPI: ./build_rpi.sh -rpi -name=[idx]<br>
+or: ./build_retropie.sh -b -name=[idx]
 This command will build a specific module for RPI platform.
 
 Build a module for RPI2: ./build_rpi.sh -rpi2 -name=[idx]<br>
+or: FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=[idx]
 This command will build a specific module for RPI2 platform.
 
 Build a module for POCKETCHIP: FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat ./build_retropie.sh -b -name=[idx]<br>
