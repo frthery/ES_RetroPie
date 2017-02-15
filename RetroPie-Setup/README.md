@@ -4,7 +4,7 @@ A simple script for building, installing and configuring emulators and libretroc
 
 - Install RetroPie-Setup "git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git" 
 - Install build_retropie.sh script into your RetroPie-Setup folder 
-"wget https://raw.githubusercontent.com/frthery/ES_RetroPie/master/RetroPie-Setup/build_retropie.sh"
+"wget -O https://raw.githubusercontent.com/frthery/ES_RetroPie/master/RetroPie-Setup/build_retropie.sh"
 - Execute "sudo chmod 755 build_retropie.sh"
 
 Get Latest Version:
