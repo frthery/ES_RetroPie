@@ -2,7 +2,7 @@
 
 #BUILD RPI (DEFAULT) : ./build_retropie.sh -b -name=?
 #BUILD RPI2          : FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
-#BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat ./build_retropie.sh -b -name=?
+#BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat-neon ./build_retropie.sh -b -name=?
 #BUILD WIN64         : HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
 #BUILD CC GCW0       : HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?
 #BUILD CC ARM        : HOST_CC=arm-linux-gnueabihf ./build_retropie.sh -b -name=?
@@ -47,7 +47,7 @@ if [ "$HOST_CC" ]; then
       if [ "$HOST_CC" = "arm-unknown-linux-gnueabi" ] || [ "$HOST_CC" = "arm-linux-gnueabihf" ]; then
          #echo "--- CROSS COMPILATION ARM ---"
 
-         if [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ]; then
+         if [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat-neon" ]; then
             # CROSS COMPILATION POCKETCHIP
             export CCBASEDIR=/opt/CHIP-buildroot/usr
             export PATH=$PATH:$CCBASEDIR/bin:$CCBASEDIR/arm-builroot-linux-gnueabihf/sysroot/usr/bin
@@ -79,8 +79,8 @@ fi
 # default rpi1 compilation
 [ -z "$FORMAT_COMPILER_TARGET" ] && FORMAT_COMPILER_TARGET="armv6j-hardfloat"
 [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
-#[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ] && __default_cflags="-O2 -march=armv7-r -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
-[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
+#[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat-neon" ] && __default_cflags="-O2 -march=armv7-r -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
+[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat-neon" ] && __default_cflags="-O2 -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 
 so_filter='*libretro*.so'
 [ "$HOST_CC" = "x86_64-w64-mingw32" ] && so_filter='*libretro*.dll'
@@ -374,7 +374,7 @@ function usage() {
     echo ""
     echo "BUILD RPI (DEFAULT) : ./build_retropie.sh -b -name=?"
     echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
-    echo "BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat ./build_retropie.sh -b -name=?"
+    echo "BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat-neon ./build_retropie.sh -b -name=?"
     echo "BUILD WIN64         : HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD CC GCW0       : HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?"
 }
