@@ -2,6 +2,7 @@
 
 #BUILD RPI (DEFAULT) : ./build_retropie.sh -b -name=?
 #BUILD RPI2          : FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
+#BUILD RPI3          : FORMAT_COMPILER_TARGET=armv8-cortexa53-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
 #BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat-neon ./build_retropie.sh -b -name=?
 #BUILD WIN64         : HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?
 #BUILD CC GCW0       : HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?
@@ -14,9 +15,6 @@
 #LIBRETRO SAMPLE: make -f Makefile platform=win CC="x86_64-w64-mingw32-gcc" CXX="x86_64-w64-mingw32-g++" -j7
 
 # INIT COMPILER FLAGS
-#__default_cflags="-O2 -mfpu=vfp -march=armv6j -mfloat-abi=hard"
-#__default_cflags="-O3 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -funsafe-math-optimizations"
-#__default_cflags="-O3 -mcpu=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -funsafe-math-optimizations"
 __default_cflags="-O2 -pipe -mfpu=vfp -march=armv6j -mfloat-abi=hard"
 __default_asflags=""
 #__default_ldflags=""
@@ -76,10 +74,17 @@ if [ "$HOST_CC" ]; then
    fi
 fi
 
-# default rpi1 compilation
+# DEFAULT RPI1 COMPILATION FLAGS
 [ -z "$FORMAT_COMPILER_TARGET" ] && FORMAT_COMPILER_TARGET="armv6j-hardfloat"
+
+# RPI2 COMPILATION FLAGS
 [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard"
-#[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat-neon" ] && __default_cflags="-O2 -march=armv7-r -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
+#[ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa7-hardfloat" ] && __default_cflags="-O2 -mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -ftree-vectorize -funsafe-math-optimizations"
+
+# RPI3 COMPILATION FLAGS
+[ "$FORMAT_COMPILER_TARGET" = "armv8-cortexa53-hardfloat" ] && __default_cflags="-O2 -march=armv8-a+crc -mtune=cortex-a53 -mfpu=neon-fp-armv8 -mfloat-abi=hard -ftree-vectorize -funsafe-math-optimizations"
+
+# POCKETCHIP COMPILATION FLAGS
 [ "$FORMAT_COMPILER_TARGET" = "armv7-cortexa8-hardfloat-neon" ] && __default_cflags="-O2 -mcpu=cortex-a8 -mfpu=neon -mfloat-abi=hard"
 
 so_filter='*libretro*.so'
@@ -447,6 +452,7 @@ function usage() {
     echo ""
     echo "BUILD RPI (DEFAULT) : ./build_retropie.sh -b -name=?"
     echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
+	echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv8-cortexa53-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat-neon ./build_retropie.sh -b -name=?"
     echo "BUILD WIN64         : HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD CC GCW0       : HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?"
