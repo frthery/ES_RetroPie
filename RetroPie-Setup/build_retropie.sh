@@ -234,8 +234,8 @@ function getModule() {
     local mod_id=$1
     local idx="$(rp_getIdxFromId $mod_id)"
 
-	logger 1 "DOWNLOAD [$mod_id] MODULE"
-	
+    logger 1 "DOWNLOAD [$mod_id] MODULE"
+
     [ "$idx" = "" ] && logger 1 "ERROR: [$mod_id] MODULE - NOT FOUND!" && return
     [ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && logger 1 "WARN: [$mod_id] MODULE - NOT A RetroPie LIBRETROCORE!" && return 
 
@@ -448,8 +448,7 @@ function logger() {
 }
 
 function usage() {
-    echo "build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
-    #echo "variables: FORMAT_COMPILER_TARGET=? HOST_CC=?"
+    echo "build_libretro.sh [-u|--update] [-l|--list] [-a|--all] [-binary|--binary] [-b|--build] [-i|--install] [-c|--configure] -name=[idx,?]"
     echo ""
     echo "BUILD RPI (DEFAULT) : ./build_retropie.sh -b -name=?"
     echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
@@ -557,7 +556,7 @@ while [ "$1" != "" ]; do
 done
 
 #VERBOSE
-logger 0 "OPTIONS: -update[$opt_update],-build[$opt_build],-install[$opt_install],-config[$opt_configure],-all[$opt_all]"
+logger 0 "OPTIONS: -update[$opt_update],-binary[$opt_binary],-build[$opt_build],-install[$opt_install],-config[$opt_configure],-all[$opt_all]"
 logger 0 "OPTIONS: -name=[$mod_id]"
 logger 0 "OPTIONS: filter:[$so_filter]"
 logger 0 "DIR: scriptdir=[$scriptdir]"
