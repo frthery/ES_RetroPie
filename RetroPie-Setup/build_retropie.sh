@@ -236,8 +236,8 @@ function getModule() {
 
 	logger 1 "DOWNLOAD [$mod_id] MODULE"
 	
-    [ "$idx" = "" ] && logger 1 "ERROR: [$mod_id] not found!" && return
-    [ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && logger 1 "WARN: [$mod_id] not a RetroPie libretrocore!" && return 
+    [ "$idx" = "" ] && logger 1 "ERROR: [$mod_id] MODULE - NOT FOUND!" && return
+    [ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && logger 1 "WARN: [$mod_id] MODULE - NOT A RetroPie LIBRETROCORE!" && return 
 
     if [ opt_binary_system != 'default' ]; then
        __system=$opt_binary_system
@@ -262,12 +262,12 @@ function getModule() {
     if [ $? -eq 0 ]; then
        wget -O ${binarypath} ${url}
        if [ -f $binarypath ]; then
-          logger 1 "WGET MODULE [$mod_id] SUCCESS!"
+          logger 1 "WGET [$mod_id] MODULE SUCCESS!"
        else
-          logger 1 "WGET MODULE [$mod_id] FAILED - DOWNLOAD KO"
+          logger 1 "ERROR: WGET [$mod_id] MODULE - DOWNLOAD FAILED"
        fi
     else
-       logger 1 "WGET MODULE [$mod_id] FAILED - URL NOT FOUND"
+       logger 1 "ERROR: WGET [$mod_id] MODULE - URL NOT FOUND"
     fi
 }
 
@@ -431,7 +431,7 @@ function showCompilerFlags() {
     #logger 0 "CXX:       [$CXX]"
     logger 0 "CFLAGS:    [$CFLAGS]"
     logger 0 "CXXFLAGS:  [$CXXFLAGS]"
-    logger 0 "LDFLAGS:  [$LDFLAGS]"
+    logger 0 "LDFLAGS:   [$LDFLAGS]"
     logger 0 "ASFLAGS:   [$ASFLAGS]"
     logger 0 "MAKEFLAGS: [$MAKEFLAGS]"
     #echo "PATH: [$PATH]"
