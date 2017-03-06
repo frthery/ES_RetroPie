@@ -9,7 +9,7 @@ outputdir=$(pwd)/bin/$now
 #git reset --hard HEAD
 #git pull
 
-#./build_retropie.sh -u
+./build_retropie.sh -u
 
 if [ "$1" == "-binary-all" ]; then
     echo '--- [WGET:BINARIES] [RPI1] ---'
