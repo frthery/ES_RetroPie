@@ -166,12 +166,13 @@ function showModules() {
     local show_all=$2
 
     # DISPLAY NONE
-    [ $show_all -eq 2 ] && return;
+    [ $show_all -eq 3 ] && return;
 
     while [ "${__mod_id[$module_idx]}" != "" ]; do
-        [ $show_all -eq 0 ] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
-        [ $show_all -eq 1 ] && [[ "${__mod_id[$module_idx]}" == "a_"* ]] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
-        
+        [ $show_all -eq 0 ] && [[ "${__mod_id[$module_idx]}" == "a_"* ]] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+        [ $show_all -eq 1 ] && [[ "${__mod_id[$module_idx]}" != "a_"* ]] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+        [ $show_all -eq 2 ] && logger 0 "Module: [$module_idx] | ${__mod_id[$module_idx]} | [${__mod_desc[$module_idx]}]"
+
         ((module_idx++))
     done
 }
@@ -452,7 +453,7 @@ function usage() {
     echo ""
     echo "BUILD RPI (DEFAULT) : ./build_retropie.sh -b -name=?"
     echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv7-cortexa7-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
-	echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv8-cortexa53-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
+    echo "BUILD RPI2          : FORMAT_COMPILER_TARGET=armv8-cortexa53-hardfloat MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD POCKETCHIP    : FORMAT_COMPILER_TARGET=armv7-cortexa8-hardfloat-neon ./build_retropie.sh -b -name=?"
     echo "BUILD WIN64         : HOST_CC=x86_64-w64-mingw32 MAKEFLAGS=-j4 ./build_retropie.sh -b -name=?"
     echo "BUILD CC GCW0       : HOST_CC=mipsel-gcw0-linux ./build_retropie.sh -b -name=?"
@@ -573,19 +574,22 @@ registerModuleDir 400 "supplementary"
 
 #exit on --list option
 if [ $opt_list -eq 1 ]; then
-    show_opt=1
-    [ $mod_id == "list-all" ] && show_opt=0 && mod_id='all'
-    [ $mod_id == "emulators-all" ] && show_opt=0 && mod_id='emulators'
-    [ $mod_id == "libretrocores-all" ] && show_opt=0 && mod_id='libretrocores'
-    [ $mod_id == "supplementary-all" ] && show_opt=0 && mod_id='supplementary'
+    show_opt=0
+    [[ $mod_id == *"-rp" ]] && show_opt=1
+    [[ $mod_id == *"-all" ]] && show_opt=2
 
-    [ $mod_id == "emulators" ] || [ $mod_id == "all" ] && logger 1 "--- EMULATORS ---------------------------------------------"
+    [ $mod_id == "list-all" ] && mod_id='all'
+    [[ $mod_id == "emulators"* ]] && mod_id='emulators'
+    [[ $mod_id == "libretrocores"* ]] && mod_id='libretrocores'
+    [[ $mod_id == "supplementary"* ]] && mod_id='supplementary'
+
+    [ $mod_id == "emulators" ] || [ $mod_id == "all" ] && logger 1 "--- EMULATORS ($show_opt) -----------------------------------------"
     [ $mod_id == "emulators" ] || [ $mod_id == "all" ] && showModules 100 $show_opt
 
-    [ $mod_id == "libretrocores" ] || [ $mod_id == "all" ] && logger 1 "--- LIBRETROCORES -----------------------------------------"
+    [ $mod_id == "libretrocores" ] || [ $mod_id == "all" ] && logger 1 "--- LIBRETROCORES ($show_opt) -------------------------------------"
     [ $mod_id == "libretrocores" ] || [ $mod_id == "all" ] && showModules 200 $show_opt
 
-    [ $mod_id == "supplementary" ] || [ $mod_id == "all" ] && logger 1 "--- SUPPLEMENTARY -----------------------------------------"
+    [ $mod_id == "supplementary" ] || [ $mod_id == "all" ] && logger 1 "--- SUPPLEMENTARY ($show_opt) -------------------------------------"
     [ $mod_id == "supplementary" ] || [ $mod_id == "all" ] && showModules 400 $show_opt
 
     showModuleFunctions $mod_id
