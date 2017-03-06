@@ -510,7 +510,7 @@ while [ "$1" != "" ]; do
             exit
             ;;
         -l | --list)
-            [ ! $VALUE ] && VALUE='libretrocores'
+            [ ! $VALUE ] && VALUE='all'
             opt_list=1
             mod_id=$VALUE
             ;;
@@ -578,7 +578,6 @@ if [ $opt_list -eq 1 ]; then
     [[ $mod_id == *"-rp" ]] && show_opt=1
     [[ $mod_id == *"-all" ]] && show_opt=2
 
-    [ $mod_id == "list-all" ] && mod_id='all'
     [[ $mod_id == "emulators"* ]] && mod_id='emulators'
     [[ $mod_id == "libretrocores"* ]] && mod_id='libretrocores'
     [[ $mod_id == "supplementary"* ]] && mod_id='supplementary'
