@@ -192,6 +192,79 @@ function showModuleFunctions() {
     fi
 }
 
+function getAllModules() {
+    local module_idx=$1
+    while [ "${__mod_id[$module_idx]}" != "" ]; do
+        __ERRMSGS=""
+        
+        getModule ${__mod_id[$module_idx]}
+
+        # check errors
+        #[ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
+
+        ((module_idx++))
+    done
+}
+
+function getModules() {
+    # split modules
+    local mods=($(echo $1 | sed 's/,/\n/g'))
+
+    while [ "${mods[$module_idx]}" != "" ]; do
+        __ERRMSGS=""
+
+        getModule ${mods[$module_idx]}
+
+        # check errors
+        #[ -z "$__ERRMSGS" ] || logger 1 "ERROR: $__ERRMSGS"
+
+       ((module_idx++))
+    done
+}
+
+function getModule() {
+    # exit if no module idx
+    [ "$1" = "" ] && return
+    
+    local mod_id=$1
+    local idx="$(rp_getIdxFromId $mod_id)"
+
+    [ "$idx" = "" ] && logger 0 "ERROR: [$mod_id] not found!" && return 
+    [[ "${mod_id}" != "lr-"* ]] && logger 0 "WARN: [$mod_id] not a RetroPie libretrocore!" && return 
+
+    if [ opt_binary_system != 'default' ]; then
+       __system=$opt_binary_system
+    fi
+    #__system="$__os_codename/$__platform"
+
+    # set location of binary downloads
+    __binary_host="files.retropie.org.uk"
+    __binary_url="http://$__binary_host/binaries/$__system"
+    #__archive_url="http://files.retropie.org.uk/archives"
+
+    url="$__binary_url/${__mod_type[$idx]}/${__mod_id[$idx]}.tar.gz"
+    logger 1 "DOWNLOAD [$mod_id] MODULE"
+    logger 0 "GET MODULE[$idx]: NAME: [$mod_id] SYSTEM: [$__system]"
+    logger 0 "URL: [$url]"
+
+    binarydir="$outputdir/$__system"
+    binarypath="$binarydir/${__mod_id[$idx]}.tar.gz"
+    [ ! -d $binarydir ] && mkdir -p $binarydir
+
+    # CHECK URL
+    wget --spider -q ${url}
+    if [ $? -eq 0 ]; then
+       wget -O ${binarypath} ${url}
+       if [ -f $binarypath ]; then
+          logger 1 "WGET MODULE [$mod_id] SUCCESS"
+       else
+          logger 1 "WGET MODULE [$mod_id] FAILED"
+       fi
+    else
+       logger 1 "WGET MODULE [$mod_id] FAILED"
+    fi
+}
+
 function execModule() {
     # exit if no module idx
     [ "$1" = "" ] && return
@@ -399,6 +472,8 @@ __swapdir="$scriptdir/tmp/"
 opt_update=0
 opt_compiler=0
 opt_build=0
+opt_binary=0
+opt_binary_system=''
 opt_install=0
 opt_configure=0
 opt_all=0
@@ -446,6 +521,10 @@ while [ "$1" != "" ]; do
             ;;
         -b | --build)
             opt_build=1
+            ;;
+        -binary | --binary)
+            [ $VALUE != '' ] && opt_binary_system=$VALUE || opt_binary_system='default'
+            opt_binary=1
             ;;
         -i | --install)
             opt_install=1
@@ -518,16 +597,24 @@ fi
 [ ! -d $rootdir/emulators ] && mkdir $rootdir/emulators
 
 if [ $opt_all -eq 1 ]; then
-    # EXEC ALL LIBRETRO MODULES
-    #execAllModules 100
-    #execAllModules 200
-    #execAllModules 400
-    logger 1 "--- BUILD ALL NOT AVAILABLE ---"
+    if [ $opt_build -eq 1 ]; then
+       # EXEC ALL LIBRETRO MODULES
+       #execAllModules 100
+       #execAllModules 200
+       #execAllModules 400
+       logger 1 "--- BUILD ALL NOT AVAILABLE ---"
+    elif [ $opt_binary -eq 1 ]; then
+       getAllModules 200
+    fi
 else
     md_build="$__builddir/$mod_id"
     md_inst="$outputdir/$mod_id"
 
-    execModules $mod_id
+    if [ $opt_build -eq 1 ]; then
+       execModules $mod_id
+    elif [ $opt_binary -eq 1 ]; then
+       getModules $mod_id
+    fi
 fi
 
 logger 1 "--- EXIT --------------------------------------------------"
