@@ -10,7 +10,10 @@ function binaries() {
    ls ${outputbin}/*.tar.gz | xargs -i tar -xzf {} -C ${outputbin}/output
    [ ! -d $outputbin/binaries ] && mkdir $outputbin/binaries
    find ${outputbin}/output -name \*.so | xargs -i cp {} $outputbin/binaries
-   zip ${outputzip} build_retropie.log -j $outputbin/binaries/*.so
+   
+   ./build_retropie.sh -binary=$system -name=retroarch
+   
+   zip ${outputzip} build_retropie.log $outputbin/retroarch.tar.gz -j $outputbin/binaries/*.so
 }
 
 echo '--- [START] [RPIBOT] ---'

@@ -234,8 +234,10 @@ function getModule() {
     local mod_id=$1
     local idx="$(rp_getIdxFromId $mod_id)"
 
-    [ "$idx" = "" ] && logger 0 "ERROR: [$mod_id] not found!" && return 
-    [[ "${mod_id}" != "lr-"* ]] && logger 0 "WARN: [$mod_id] not a RetroPie libretrocore!" && return 
+	logger 1 "DOWNLOAD [$mod_id] MODULE"
+	
+    [ "$idx" = "" ] && logger 1 "ERROR: [$mod_id] not found!" && return
+    [ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && logger 1 "WARN: [$mod_id] not a RetroPie libretrocore!" && return 
 
     if [ opt_binary_system != 'default' ]; then
        __system=$opt_binary_system
@@ -248,7 +250,6 @@ function getModule() {
     #__archive_url="http://files.retropie.org.uk/archives"
 
     url="$__binary_url/${__mod_type[$idx]}/${__mod_id[$idx]}.tar.gz"
-    logger 1 "DOWNLOAD [$mod_id] MODULE"
     logger 0 "GET MODULE[$idx]: NAME: [$mod_id] SYSTEM: [$__system]"
     logger 0 "URL: [$url]"
 
@@ -261,12 +262,12 @@ function getModule() {
     if [ $? -eq 0 ]; then
        wget -O ${binarypath} ${url}
        if [ -f $binarypath ]; then
-          logger 1 "WGET MODULE [$mod_id] SUCCESS"
+          logger 1 "WGET MODULE [$mod_id] SUCCESS!"
        else
-          logger 1 "WGET MODULE [$mod_id] FAILED"
+          logger 1 "WGET MODULE [$mod_id] FAILED - DOWNLOAD KO"
        fi
     else
-       logger 1 "WGET MODULE [$mod_id] FAILED"
+       logger 1 "WGET MODULE [$mod_id] FAILED - URL NOT FOUND"
     fi
 }
 
