@@ -315,35 +315,37 @@ function execModule() {
            # check compilation errors
            [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id}!"
            [ -z "$__ERRMSGS" ] || return
+
+           if [ $opt_install -eq 1 ] && fnExists $funcInstall; then
+               logger 1 "EXEC: [$mod_id] function -> $funcInstall"
+               $funcInstall
+           fi
         else
-           # TODO, SCRIPTS RETROPIE
+           # MODULES RETROPIE
            pushd "$md_build"
 
            logger 1 "EXEC-RETROPIE: [$mod_id] function -> $funcBuild"
            $funcBuild
 
-           logger 1 "EXEC-RETROPIE: [$mod_id] function -> $funcInstall"
-           $funcInstall
+           if [ $opt_install -eq 1 ] && fnExists $funcInstall; then
+               logger 1 "EXEC-RETROPIE: [$mod_id] function -> $funcInstall"
+               $funcInstall
 
-           [ ! -d "$md_inst" ] && mkdir "$md_inst"
-           # check for existance and copy any files/directories returned
-           if [[ -n "$md_ret_files" ]]; then
-               for file in "${md_ret_files[@]}"; do
-                   #if [[ ! -e "$md_build/$file" ]]; then
-                       #md_ret_errors+=("Could not successfully install $md_desc ($md_build/$file not found).")
-                       #break
-                   #fi
-                   cp -Rvf "$md_build/$file" "$md_inst"
-               done
+               [ ! -d "$md_inst" ] && mkdir "$md_inst"
+               # check for existance and copy any files/directories returned
+               if [[ -n "$md_ret_files" ]]; then
+                   for file in "${md_ret_files[@]}"; do
+                       #if [[ ! -e "$md_build/$file" ]]; then
+                           #md_ret_errors+=("Could not successfully install $md_desc ($md_build/$file not found).")
+                           #break
+                       #fi
+                       cp -Rvf "$md_build/$file" "$md_inst"
+                   done
+               fi
            fi
 
            popd
         fi
-    fi
-
-    if [ $opt_install -eq 1 ] && fnExists $funcInstall; then
-        logger 1 "EXEC: [$mod_id] function -> $funcInstall"
-        $funcInstall
     fi
 
     if [ $opt_configure -eq 1 ] && fnExists $funcConfigure; then
