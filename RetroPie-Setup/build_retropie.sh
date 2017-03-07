@@ -316,6 +316,11 @@ function execModule() {
            [ -z "$__ERRMSGS" ] && logger 1 "SUCCESS: successfully compile ${mod_id}!"
            [ -z "$__ERRMSGS" ] || return
 
+           if [ $opt_build -eq 1 ] && fnExists $funcCopy; then
+               logger 1 "EXEC: [$mod_id] function -> $funcCopy"
+               $funcCopy
+           fi
+
            if [ $opt_install -eq 1 ] && fnExists $funcInstall; then
                logger 1 "EXEC: [$mod_id] function -> $funcInstall"
                $funcInstall
@@ -351,11 +356,6 @@ function execModule() {
     if [ $opt_configure -eq 1 ] && fnExists $funcConfigure; then
         logger 1 "EXEC: [$mod_id] function -> $funcConfigure"
         $funcConfigure
-    fi
-
-    if [ $opt_build -eq 1 ] && fnExists $funcCopy; then
-        logger 1 "EXEC: [$mod_id] function -> $funcCopy"
-        $funcCopy
     fi
 }
 
