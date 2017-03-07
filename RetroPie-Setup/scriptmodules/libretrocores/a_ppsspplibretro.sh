@@ -28,10 +28,6 @@ function build_a_ppsspplibretro() {
     popd
 }
 
-function configure_a_ppsspplibretro() {
-    mkdir -p $romdir/psp
-}
-
 function copy_a_ppsspplibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/libretro-ppsspp/libretro/ -name $so_filter | xargs cp -t $outputdir

@@ -20,10 +20,6 @@ function build_a_mednafenwswanlibretro() {
     popd
 }
 
-function configure_a_mednafenwswanlibretro() {
-    mkdir -p $romdir/wswan
-}
-
 function copy_a_mednafenwswanlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/mednafen-wswan-libretro/ -name $so_filter | xargs cp -t $outputdir

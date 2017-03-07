@@ -20,10 +20,6 @@ function build_a_mednafenngplibretro() {
     popd
 }
 
-function configure_a_mednafenngplibretro() {
-    mkdir -p $romdir/ngp
-}
-
 function copy_a_mednafenngplibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/mednafen-ngp-libretro/ -name $so_filter | xargs cp -t $outputdir

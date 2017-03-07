@@ -14,7 +14,7 @@ function sources_a_fbalibretro() {
 function build_a_fbalibretro() {
     #pushd "$rootdir/emulatorcores/fba-libretro"
     pushd "$rootdir/emulatorcores/libretro-fba"
-    
+
     #cd $rootdir/emulatorcores/fba-libretro/svn-current/trunk/
 
     [ -z "${NOCLEAN}" ] && make -f makefile.libretro clean
@@ -31,13 +31,6 @@ function build_a_fbalibretro() {
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.fbalibretro
 
     popd
-}
-
-function configure_a_fbalibretro() {
-    mkdir -p $romdir/fba-libretro
-
-    #rps_retronet_prepareConfig
-    #setESSystem "Final Burn Alpha" "fba-libretro" "~/RetroPie/roms/fba-libretro" ".zip .ZIP .fba .FBA" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/fba-libretro/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/fba/retroarch.cfg $__tmpnetplaymode$__tmpnetplayhostip_cfile$__tmpnetplayport$__tmpnetplayframes %ROM%\"" "arcade" "fba"
 }
 
 function copy_a_fbalibretro() {

@@ -20,10 +20,6 @@ function build_a_mednafenvblibretro() {
     popd
 }
 
-function configure_a_mednafenvblibretro() {
-    mkdir -p $romdir/vb
-}
-
 function copy_a_mednafenvblibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/mednafen-vb-libretro/ -name $so_filter | xargs cp -t $outputdir

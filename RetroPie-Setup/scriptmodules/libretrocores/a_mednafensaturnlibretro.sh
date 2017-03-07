@@ -20,10 +20,6 @@ function build_a_mednafensaturnlibretro() {
     popd
 }
 
-function configure_a_mednafensaturnlibretro() {
-    mkdir -p $romdir/saturn
-}
-
 function copy_a_mednafensaturnlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/mednafen-saturn-libretro/ -name $so_filter | xargs cp -t $outputdir

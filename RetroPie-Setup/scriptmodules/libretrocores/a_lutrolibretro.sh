@@ -17,10 +17,6 @@ function build_a_lutrolibretro() {
     popd
 }
 
-function configure_a_lutrolibretro() {
-    mkdir -p $romdir/lutro
-}
-
 function copy_a_lutrolibretro() {
     #[ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/libretro-lutro/ -name "lutro_retro.*" | xargs cp -t $outputdir

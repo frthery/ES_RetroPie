@@ -12,7 +12,7 @@ function sources_a_mupen64libretro() {
     
     #gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/libretro/mupen64plus-libretro.git
     #gitPullOrClone "$rootdir/emulatorcores/mupen64plus" git://github.com/gizmo98/mupen64plus-libretro.git
-	gitPullOrClone "$rootdir/emulatorcores/mupen64plus" https://github.com/libretro/mupen64plus-libretro.git
+    gitPullOrClone "$rootdir/emulatorcores/mupen64plus" https://github.com/libretro/mupen64plus-libretro.git
 }
 
 function build_a_mupen64libretro() {
@@ -38,32 +38,6 @@ function build_a_mupen64libretro() {
     popd
 
     #rpSwap off
-}
-
-function configure_a_mupen64libretro() {
-    mkdir -p $romdir/n64
-
-    ensureSystemretroconfig "n64"
-
-    # Set core options
-    ensureKeyValue "mupen64-gfxplugin" "rice" "$rootdir/configs/all/retroarch-core-options.cfg"
-    ensureKeyValue "mupen64-gfxplugin-accuracy" "low" "$rootdir/configs/all/retroarch-core-options.cfg"
-    ensureKeyValue "mupen64-screensize" "640x480" "$rootdir/configs/all/retroarch-core-options.cfg"
-
-    # Copy config files
-    cp $rootdir/emulatorcores/mupen64plus/mupen64plus/mupen64plus-core/data/mupen64plus.cht $home/RetroPie/BIOS/mupen64plus.cht
-    cp $rootdir/emulatorcores/mupen64plus/mupen64plus/mupen64plus-core/data/mupencheat.txt $home/RetroPie/BIOS/mupencheat.txt
-    cp $rootdir/emulatorcores/mupen64plus/mupen64plus/mupen64plus-core/data/mupen64plus.ini $home/RetroPie/BIOS/mupen64plus.ini 
-    cp $rootdir/emulatorcores/mupen64plus/mupen64plus/mupen64plus-core/data/font.ttf $home/RetroPie/BIOS/font.ttf
-
-    # Set permissions
-    chmod +x "$home/RetroPie/BIOS/mupen64plus.cht"
-    chmod +x "$home/RetroPie/BIOS/mupencheat.txt"
-    chmod +x "$home/RetroPie/BIOS/mupen64plus.ini"
-    chmod +x "$home/RetroPie/BIOS/font.ttf"
-
-    rps_retronet_prepareConfig
-    setESSystem "Nintendo 64" "n64" "~/RetroPie/roms/n64" ".z64 .Z64 .n64 .N64 .v64 .V64" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/mupen64plus/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/n64/retroarch.cfg $__tmpnetplaymode$__tmpnetplayhostip_cfile $__tmpnetplayport$__tmpnetplayframes %ROM%\"" "n64" "n64"
 }
 
 function copy_a_mupen64libretro() {

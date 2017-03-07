@@ -4,8 +4,8 @@ rp_module_menus="4+"
 
 function sources_a_glupen64libretro() {
     gitPullOrClone "$rootdir/emulatorcores/paralleln64-libretro" https://github.com/libretro/parallel-n64.git
-	git submodule update --init
-	#git submodule init && git submodule update
+    git submodule update --init
+    #git submodule init && git submodule update
 }
 
 function build_a_glupen64libretro() {
@@ -16,17 +16,13 @@ function build_a_glupen64libretro() {
     [ -z "${NOCLEAN}" ] && make -f Makefile clean
     #make platform=rpi ${COMPILER} 2>&1 | tee makefile.log
     make -f Makefile platform="${FORMAT_COMPILER_TARGET}" ${COMPILER} 2>&1 | tee makefile.log
-    
+
     [ ${PIPESTATUS[0]} -ne 0 ] && __ERRMSGS="Could not successfully compile N64 LibretroCore Paralleln64Plus!"
     [ -f makefile.log ] && cp makefile.log $outputdir/_log.makefile.glupen64libretro
 
     popd
 
     #rpSwap off
-}
-
-function configure_a_glupen64libretro() {
-    mkdir -p $romdir/n64
 }
 
 function copy_a_glupen64libretro() {

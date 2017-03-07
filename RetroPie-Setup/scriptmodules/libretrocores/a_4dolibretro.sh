@@ -17,10 +17,6 @@ function build_a_4dolibretro() {
     popd
 }
 
-function configure_a_4dolibretro() {
-    mkdir -p $romdir/3do
-}
-
 function copy_a_4dolibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/4do-libretro/ -name $so_filter | xargs cp -t $outputdir

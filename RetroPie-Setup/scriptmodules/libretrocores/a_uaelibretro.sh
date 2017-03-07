@@ -17,10 +17,6 @@ function build_a_uaelibretro() {
     popd
 }
 
-function configure_a_uaelibretro() {
-    mkdir -p $romdir/amiga
-}
-
 function copy_a_uaelibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/libretro-uae/build/ -name $so_filter | xargs cp -t $outputdir

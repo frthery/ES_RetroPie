@@ -20,13 +20,6 @@ function build_a_genesislibretro() {
     popd
 }
 
-function configure_a_genesislibretro() {
-    mkdir -p $romdir/gamegear
-
-    #ensureSystemretroconfig "gamegear"
-    #setESSystem "Sega Game Gear" "gamegear" "~/RetroPie/roms/gamegear" ".gg .GG" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/RetroArch/installdir/bin/retroarch -L `find $rootdir/emulatorcores/Genesis-Plus-GX/ -name \"*libretro*.so\" | head -1` --config $rootdir/configs/all/retroarch.cfg --appendconfig $rootdir/configs/gamegear/retroarch.cfg  %ROM%\"" "gamegear" "gamegear"
-}
-
 function copy_a_genesislibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/Genesis-Plus-GX/ -name $so_filter | xargs cp -t $outputdir

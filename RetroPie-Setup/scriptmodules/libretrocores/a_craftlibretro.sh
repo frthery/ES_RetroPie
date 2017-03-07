@@ -20,10 +20,6 @@ function build_a_craftlibretro() {
     popd
 }
 
-function configure_a_craftlibretro() {
-    mkdir -p $romdir/craft
-}
-
 function copy_a_craftlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/craft-libretro/ -name $so_filter | xargs cp -t $outputdir

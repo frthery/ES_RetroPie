@@ -17,10 +17,6 @@ function build_a_reicastlibretro() {
     popd
 }
 
-function configure_a_reicastlibretro() {
-    mkdir -p $romdir/dc
-}
-
 function copy_a_reicastlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/reicast-libretro/ -name $so_filter | xargs cp -t $outputdir

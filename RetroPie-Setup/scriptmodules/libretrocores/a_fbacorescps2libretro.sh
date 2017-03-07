@@ -20,10 +20,6 @@ function build_a_fbacorescps2libretro() {
     popd
 }
 
-function configure_a_fbacorescps2libretro() {
-    mkdir -p $romdir/cps2
-}
-
 function copy_a_fbacorescps2libretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/fba-cores-cps2/ -name $so_filter | xargs cp -t $outputdir

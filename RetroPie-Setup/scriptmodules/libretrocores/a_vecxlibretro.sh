@@ -20,10 +20,6 @@ function build_a_vecxlibretro() {
     popd
 }
 
-function configure_a_vecxlibretro() {
-    mkdir -p $romdir/vectrex
-}
-
 function copy_a_vecxlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/vecx-libretro/ -name $so_filter | xargs cp -t $outputdir

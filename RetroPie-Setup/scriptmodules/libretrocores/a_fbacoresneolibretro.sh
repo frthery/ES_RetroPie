@@ -20,10 +20,6 @@ function build_a_fbacoresneolibretro() {
     popd
 }
 
-function configure_a_fbacoresneolibretro() {
-    mkdir -p $romdir/neogeo
-}
-
 function copy_a_fbacoresneolibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/fba-cores-neo/ -name $so_filter | xargs cp -t $outputdir

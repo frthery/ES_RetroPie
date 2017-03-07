@@ -17,10 +17,6 @@ function build_a_dosboxlibretro() {
     popd
 }
 
-function configure_a_dosboxlibretro() {
-    mkdir -p $romdir/dosbox
-}
-
 function copy_a_dosboxlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/dosbox-libretro/ -name $so_filter | xargs cp -t $outputdir

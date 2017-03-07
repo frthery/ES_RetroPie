@@ -20,10 +20,6 @@ function build_a_mednafenlynxlibretro() {
     popd
 }
 
-function configure_a_mednafenlynxlibretro() {
-    mkdir -p $romdir/lynx
-}
-
 function copy_a_mednafenlynxlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/mednafen-lynx-libretro/ -name $so_filter | xargs cp -t $outputdir

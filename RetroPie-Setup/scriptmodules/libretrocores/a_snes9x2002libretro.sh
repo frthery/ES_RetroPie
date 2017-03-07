@@ -24,10 +24,6 @@ function build_a_snes9x2002libretro() {
     popd
 }
 
-function configure_a_snes9x2002libretro() {
-    mkdir -p $romdir/snes
-}
-
 function copy_a_snes9x2002libretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/snes9x2002-libretro/ -name $so_filter | xargs cp -t $outputdir

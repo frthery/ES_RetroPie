@@ -17,10 +17,6 @@ function build_a_cap32libretro() {
     popd
 }
 
-function configure_a_cap32libretro() {
-    mkdir -p $romdir/cpc
-}
-
 function copy_a_cap32libretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/cap32-libretro/ -name $so_filter | xargs cp -t $outputdir

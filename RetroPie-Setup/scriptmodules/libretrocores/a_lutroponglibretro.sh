@@ -17,10 +17,6 @@ function build_a_lutroponglibretro() {
     popd
 }
 
-function configure_a_lutroponglibretro() {
-    mkdir -p $romdir/pong
-}
-
 function copy_a_lutroponglibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/lutro-pong/ -name $so_filter | xargs cp -t $outputdir

@@ -20,10 +20,6 @@ function build_a_gwlibretro() {
     popd
 }
 
-function configure_a_gwlibretro() {
-    mkdir -p $romdir/gw
-}
-
 function copy_a_gwlibretro() {
     [ -z "$so_filter" ] && so_filter="*libretro*.so"
     find $rootdir/emulatorcores/gw-libretro/ -name $so_filter | xargs cp -t $outputdir
