@@ -34,8 +34,3 @@ function build_a_reicast() {
 
     #rpSwap off
 }
-
-function configure_a_reicast() {
-    return 0
-}
-

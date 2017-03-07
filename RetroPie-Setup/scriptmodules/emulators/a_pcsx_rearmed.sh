@@ -24,11 +24,3 @@ function build_a_pcsx_rearmed() {
 
     popd
 }
-
-function configure_a_pcsx_rearmed() {
-    mkdir -p $romdir/psx
-
-    #rps_retronet_prepareConfig
-    #sample: ./pcsx -cdfile /home/pi/RidgeRacer/ridgeracer.cue
-    #setESSystem "Sony Playstation 1" "psx" "~/RetroPie/roms/psx" ".img .IMG .bin .BIN .cue .CUE" "$rootdir/supplementary/runcommand/runcommand.sh 1 \"$rootdir/emulators/pcsx_rearmed/pcsx -cdfile %ROM%\"" "psx" "psx"
-}
