@@ -119,8 +119,8 @@ struct {
 	{  4,     KEY_DOWN     	},
 	{  27,    KEY_X 		},   // A/Fire/jump/primary
 	{  22,    KEY_Z  		},   // B/Bomb/secondary
-	{  14,    KEY_X 		},   // X
-	{  15,    KEY_Z  		},   // Y
+	{  14,    KEY_LEFTALT	},   // X
+	{  15,    KEY_LEFTCTRL	},   // Y
 	{  18,    KEY_5 		},   // Credit
 	{  23,    KEY_1  		},   // Start 1P
 	// For credit/start/etc., use USB keyboard or add more buttons.
@@ -137,7 +137,7 @@ struct {
 // Also key auto-repeat times are set here.  This is for navigating the
 // game menu using the 'gamera' utility; MAME disregards key repeat
 // events (as it should).
-const unsigned long vulcanMask = (1L << 6) | (1L << 7);
+const unsigned long vulcanMask = (1L << 8) | (1L << 9);
 const int           vulcanKey  = KEY_ESC, // Keycode to send
                     vulcanTime = 1500,    // Pinch time in milliseconds
                     repTime1   = 500,     // Key hold time to begin repeat
