@@ -155,8 +155,8 @@ function show_sync() {
 
     while [ $seq -lt ${#deploy_seq[@]} ]; do
         idx=${deploy_seq[$seq]}
-        local infos=($(echo ${packs_media[$idx]} | sed 's/,/\n/g'))
-        [ "${infos[0]}" != "" ] && cat $OC_FILE_SYNC | grep ${infos[0]} | grep "OK" | tail -n 1
+        local infos=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
+        [ "${infos[0]}" != "" ] && cat $OC_FILE_SYNC | grep ": ${infos[0]}" | grep "OK" | tail -n 1
         ((seq++))
     done
 }
