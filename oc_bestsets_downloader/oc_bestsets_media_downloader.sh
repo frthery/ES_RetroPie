@@ -1,9 +1,12 @@
 #!/bin/bash
 
 # CONFIGURE YOUR PATHS
-ROMS_PATH='/home/pi/RetroPie/roms'
-GAMELISTS_PATH='/home/pi/.emulationstation/gamelists'
-PICTURES_PATH='/home/pi/.emulationstation/downloaded_images'
+#ROMS_PATH='/home/pi/RetroPie/roms'
+ROMS_PATH='/home/roms'
+#GAMELISTS_PATH='/home/pi/.emulationstation/gamelists'
+GAMELISTS_PATH='/home/.emulationstation/gamelists'
+#PICTURES_PATH='/home/pi/.emulationstation/downloaded_images'
+PICTURES_PATH='/home/.emulationstation/downloaded_images'
 
 # FUNCTIONS
 function initialize() {
@@ -74,18 +77,28 @@ function download_install_media() {
             [ $SYNC -eq 0 ] && continue
         fi
 
+        if [ $OPT_MEDIA_RECALBOX_FR -eq 1 ]; then
+            ext=".zip"
+            [ $(echo $files[0] | grep '.rar') ] && ext=".rar"
+            media=$(echo ${pack_media_links[$idx]} | sed -e "s/${ext}/_recalbox_fr${ext}/g")
+            file=$(echo ${files[0]} | sed -e "s/${ext}/_recalbox_fr${ext}/g")
+        else
+           media=${pack_media_links[$idx]}
+           file=${files[0]}
+        fi
+
         # DOWNLOAD MEDIA BESTSET
-        echo [DOWNLOAD: ${infos[0]}]: ${pack_media_names[$idx]}... && echo ${pack_media_links[$idx]}
+        echo [DOWNLOAD: ${infos[0]}]: ${file}... && echo ${media}
         echo '-------------------------------------------------------------------------'
         if [ $OPT_MEGA -eq 1 ]; then
-            megadl ${pack_media_links[$idx]} --path ${OC_DWL_PATH} 2> /dev/null
+            megadl ${media} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
         elif [ $OPT_DRIVE -eq 1 ]; then
-            wget --no-check-certificate ${pack_media_links[$idx]} -O ${OC_DWL_PATH}/${files[0]}
+            wget --no-check-certificate ${media} -O ${OC_DWL_PATH}/${file}
             DDL=$?
         fi
         echo '-------------------------------------------------------------------------'
-        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${pack_media_names[$idx]} && ((seq++)) 
+        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${file} && ((seq++)) 
         [ $DDL -ne 0 ] && continue
 
         # CREATE OUTPUT FOLDERS
@@ -96,13 +109,13 @@ function download_install_media() {
         [ ! -d ${PICTURES_PATH_TMP} ] && mkdir ${PICTURES_PATH_TMP} && echo '[INIT]: create folder '${PICTURES_PATH_TMP}
 
         # UNRAR BESTSET
-        echo [UNZIP]: ${files[0]} to ${OC_DWL_PATH}/${infos[1]}...
+        echo [UNZIP]: ${file} to ${OC_DWL_PATH}/${infos[1]}...
         echo '-------------------------------------------------------------------------'
-        if [ $(echo $files[0] | grep '.rar') ]; then
-            unrar-nonfree e -o+ ${OC_DWL_PATH}/${files[0]} ${OC_DWL_PATH}/${infos[1]}
+        if [ $(echo $file | grep '.rar') ]; then
+            unrar-nonfree e -o+ ${OC_DWL_PATH}/${file} ${OC_DWL_PATH}/${infos[1]}
             UNZIP=$?
-        elif [ $(echo $files[0] | grep '.zip') ]; then
-            unzip -o ${OC_DWL_PATH}/${files[0]} -d ${OC_DWL_PATH}/${infos[1]}
+        elif [ $(echo $file | grep '.zip') ]; then
+            unzip -o ${OC_DWL_PATH}/${file} -d ${OC_DWL_PATH}/${infos[1]}
             UNZIP=$?
         fi
         echo '-------------------------------------------------------------------------'
@@ -126,13 +139,27 @@ function download_install_media() {
     done
 }
 
+function show_sync() {
+    local seq=0
+    local idx=0
+
+    while [ $seq -lt ${#deploy_seq[@]} ]; do
+        idx=${deploy_seq[$seq]}
+        local infos=($(echo ${packs_media[$idx]} | sed 's/,/\n/g'))
+        [ "${infos[0]}" != "" ] && cat $OC_FILE_SYNC | grep ${infos[0]} | grep "OK" | tail -n 1
+        ((seq++))
+    done
+}
+
 function usage() {
     echo "oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]"
     echo ""
     echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
+    echo "Show synchronized packages: oc_bestsets_downloader.sh --show-sync"
     echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
     echo "use --force-sync argument to force local packages synchronization"
     echo "use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
+    echo "use --media-recalbox-fr argument to get recalbox medias"
 }
 # END FUNCTIONS
 
@@ -149,10 +176,12 @@ OC_DWL_PATH=${OC_PATH}'/dwl'
 OPT_MEGA=0
 OPT_DRIVE=1
 OPT_SHOW=0
+OPT_SHOW_SYNC=0
 OPT_FORCE=0
 OPT_LOCAL=0
 OPT_NOINSTALL=0
 OPT_PROMPT=0
+OPT_MEDIA_RECALBOX_FR=0
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -170,9 +199,18 @@ while [ "$1" != "" ]; do
             OPT_DRIVE=1
             OPT_MEGA=0
             ;;
+        --media-recalbox-fr)
+            # RECALBOX SCRAPER MEDIAS
+            OPT_MEDIA_RECALBOX_FR=1
+            ;;
         --show-packages)
             # SHOW AVAILABLE PACKAGES
             OPT_SHOW=1
+            OPT_NOINSTALL=1
+            ;;
+        --show-sync)
+            # SHOW SYNC PACKAGES
+            OPT_SHOW_SYNC=1
             OPT_NOINSTALL=1
             ;;
         --force-sync)
@@ -207,18 +245,19 @@ echo '-------------------- START oc_bestsets_media_downloader ------------------
 initialize 0
 [ $? -ne 0 ] && echo '[ERROR]: initialize!' && exit -1
 
-if [ $OPT_SHOW -eq 1 ] || [ $OPT_PROMPT -eq 1 ]; then
-    # SHOW PACKAGES
-    echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
-    cat ${OC_FILE_INI} | grep '# PACK '
-fi
-
-# PROMPT FOR PACKAGES SELECTION
-[ $OPT_PROMPT -eq 1 ] && echo "> Select Package(s) for deployment (0,1,2,...): " && read OPT_SEQ
-
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
+
+    # PROMPT FOR PACKAGES SELECTION
+    if [ $OPT_PROMPT -eq 1 ]; then
+       cat ${OC_FILE_INI} | grep '# PACK '
+       echo "> Select Package(s) for deployment (0,1,2,...): " && read OPT_SEQ
+    fi
+
     download_install_media
+else
+    if [ $OPT_SHOW -eq 1 ]; then echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'; cat ${OC_FILE_INI} | grep '# PACK '; fi
+    if [ $OPT_SHOW_SYNC -eq 1 ]; then source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'; show_sync; fi
 fi
 
 echo '--------------------  END oc_bestsets_media_downloader  -----------------------'

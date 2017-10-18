@@ -149,10 +149,23 @@ function download_install() {
     done
 }
 
+function show_sync() {
+    local seq=0
+    local idx=0
+
+    while [ $seq -lt ${#deploy_seq[@]} ]; do
+        idx=${deploy_seq[$seq]}
+        local infos=($(echo ${packs_media[$idx]} | sed 's/,/\n/g'))
+        [ "${infos[0]}" != "" ] && cat $OC_FILE_SYNC | grep ${infos[0]} | grep "OK" | tail -n 1
+        ((seq++))
+    done
+}
+
 function usage() {
     echo "oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]"
     echo ""
     echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
+    echo "Show synchronized packages: oc_bestsets_downloader.sh --show-sync"
     echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
     echo "use --force-sync argument to force local packages synchronization"
     echo "use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
@@ -173,6 +186,7 @@ OC_DWL_PATH=${OC_PATH}'/dwl'
 OPT_MEGA=0
 OPT_DRIVE=1
 OPT_SHOW=0
+OPT_SHOW_SYNC=0
 OPT_FORCE=0
 OPT_LOCAL=0
 OPT_NOINSTALL=0
@@ -197,6 +211,11 @@ while [ "$1" != "" ]; do
         --show-packages)
             # SHOW AVAILABLE PACKAGES
             OPT_SHOW=1
+            OPT_NOINSTALL=1
+            ;;
+        --show-sync)
+            # SHOW SYNC PACKAGES
+            OPT_SHOW_SYNC=1
             OPT_NOINSTALL=1
             ;;
         --force-sync)
@@ -231,18 +250,19 @@ echo '-------------------- START oc_bestsets_downloader -----------------------'
 initialize 0
 [ $? -ne 0 ] && echo '[ERROR]: initialize!' && exit -1
 
-if [ $OPT_SHOW -eq 1 ] || [ $OPT_PROMPT -eq 1 ]; then
-    # SHOW PACKAGES
-    echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
-    cat ${OC_FILE_INI} | grep '# PACK '
-fi
-
-# PROMPT FOR PACKAGES SELECTION
-[ $OPT_PROMPT -eq 1 ] && echo "> Select Package(s) for deployment (0,1,2,...): " && read OPT_SEQ
-
 if [ $OPT_NOINSTALL -eq 0 ]; then
     source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
+
+    # PROMPT FOR PACKAGES SELECTION
+    if [ $OPT_PROMPT -eq 1 ]; then
+       cat ${OC_FILE_INI} | grep '# PACK '
+       echo "> Select Package(s) for deployment (0,1,2,...): " && read OPT_SEQ
+    fi
+
     download_install
+else
+    if [ $OPT_SHOW -eq 1 ]; then echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'; cat ${OC_FILE_INI} | grep '# PACK '; fi
+    if [ $OPT_SHOW_SYNC -eq 1 ]; then source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'; show_sync; fi
 fi
 
 echo '--------------------  END oc_bestsets_downloader  -----------------------'
