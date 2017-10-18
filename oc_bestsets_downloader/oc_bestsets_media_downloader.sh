@@ -149,14 +149,15 @@ function show_sync() {
 }
 
 function usage() {
-    echo "oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]"
-    echo ""
+    echo "Synchronize all packages: oc_bestsets_media_downloader.sh"
     echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
     echo "Show synchronized packages: oc_bestsets_downloader.sh --show-sync"
-    echo "Deploy specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
-    echo "use --force-sync argument to force local packages synchronization"
-    echo "use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
-    echo "use --media-recalbox-fr argument to get recalbox medias"
+    echo "Synchronize specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
+    echo "Synchronize specific packages with interactive mode: oc_bestsets_downloader.sh --prompt-deploy"
+    echo ""
+    echo "Use --force-sync argument to force local packages synchronization"
+    echo "Use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
+    echo "Use --media-recalbox-fr argument to get recalbox medias"
 }
 # END FUNCTIONS
 
@@ -247,8 +248,12 @@ if [ $OPT_NOINSTALL -eq 0 ]; then
 
     # PROMPT FOR PACKAGES SELECTION
     if [ $OPT_PROMPT -eq 1 ]; then
-       cat ${OC_FILE_INI} | grep '# PACK '
-       echo "> Select Package(s) for deployment (0,1,2,...): " && read OPT_SEQ
+       echo '-------------------------------------------------------------------------'
+       echo 'DEFAULT SEQUENCE: '$(cat ${OC_FILE_INI} | grep 'deploy_seq=' | sed 's/deploy_seq=//g')
+       echo '-------------------------------------------------------------------------'
+       cat ${OC_FILE_INI} | grep '# PACK ' | grep 'MEDIAS:'
+       echo '-------------------------------------------------------------------------'
+       echo "> Select Package(s) to synchronized (0,1,2,...) (to force synchonization restart with --force-sync argument): " && read OPT_SEQ
     fi
 
     download_install_media
