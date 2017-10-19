@@ -8,13 +8,15 @@ A script for synchronizing Open-Consoles BestSets (http://www.open-consoles.com/
 
 Usage:
 ======
-oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]
+oc_bestsets_downloader.sh [--mega-dl|--drive-dl] [--show-packages] [--show-sync] [--prompt-deploy] [--deploy-seq] [--force-sync] [--local-ini]
 
 Commands:<br/>
-Synchronize: ./oc_bestsets_downloader.sh<br/>
-Synchronize (with prompt): ./oc_bestsets_downloader.sh --prompt-deploy<br/>
-Show available packages: ./oc_bestsets_downloader.sh --show-packages<br/>
-Deploy specific packages: ./oc_bestsets_downloader.sh --deploy-seq=0,1,...<br/>
+Synchronize all packages                    : ./oc_bestsets_downloader.sh<br/>
+Synchronize specific packages               : ./oc_bestsets_downloader.sh --deploy-seq=0,1,...<br/>
+Synchronize specific packages (interactive) : ./oc_bestsets_downloader.sh --prompt-deploy<br/>
+
+Show available packages    : ./oc_bestsets_downloader.sh --show-packages<br/>
+Show synchronized packages : ./oc_bestsets_downloader.sh --show-sync<br/>
 
 Use --force-sync argument to force local packages synchronization<br/>
 Use --local-ini argument to force using your local ini file (oc_bestsets.ini)<br/>
