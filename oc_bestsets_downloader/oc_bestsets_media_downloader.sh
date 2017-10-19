@@ -74,11 +74,11 @@ function download_install_media() {
             [ $SYNC -eq 0 ] && continue
         fi
 
-        if [ $OPT_MEDIA_RECALBOX_FR -eq 1 ]; then
+        if [ $OPT_MEDIA_RECALBOX -eq 1 ]; then
             ext=".zip"
             [ $(echo $files[0] | grep '.rar') ] && ext=".rar"
-            media=$(echo ${pack_media_links[$idx]} | sed -e "s/${ext}/_recalbox_fr${ext}/g")
-            file=$(echo ${files[0]} | sed -e "s/${ext}/_recalbox_fr${ext}/g")
+            media=$(echo ${pack_media_links[$idx]} | sed -e "s/${ext}/_recalbox${ext}/g")
+            file=$(echo ${files[0]} | sed -e "s/${ext}/_recalbox${ext}/g")
         else
            media=${pack_media_links[$idx]}
            file=${files[0]}
@@ -157,7 +157,7 @@ function usage() {
     echo ""
     echo "Use --force-sync argument to force local packages synchronization"
     echo "Use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
-    echo "Use --media-recalbox-fr argument to get recalbox medias"
+    echo "Use --media-recalbox argument to get recalbox medias"
 }
 # END FUNCTIONS
 
@@ -179,7 +179,7 @@ OPT_FORCE=0
 OPT_LOCAL=0
 OPT_NOINSTALL=0
 OPT_PROMPT=0
-OPT_MEDIA_RECALBOX_FR=0
+OPT_MEDIA_RECALBOX=0
 
 while [ "$1" != "" ]; do
     PARAM=`echo $1 | awk -F= '{print $1}'`
@@ -197,9 +197,9 @@ while [ "$1" != "" ]; do
             OPT_DRIVE=1
             OPT_MEGA=0
             ;;
-        --media-recalbox-fr)
+        --media-recalbox)
             # RECALBOX SCRAPER MEDIAS
-            OPT_MEDIA_RECALBOX_FR=1
+            OPT_MEDIA_RECALBOX=1
             ;;
         --show-packages)
             # SHOW AVAILABLE PACKAGES
@@ -266,4 +266,3 @@ echo '--------------------  END oc_bestsets_media_downloader  ------------------
 # END MAIN
 
 exit 0
-
