@@ -149,24 +149,36 @@ function download_install() {
     done
 }
 
+function show_packages() {
+    echo '[LOAD|INI]: loading '${OC_FILE_INI}'...';
+
+    echo '-------------------------------------------------------------------------'
+    cat ${OC_FILE_INI} | grep '# PACK '
+    echo '-------------------------------------------------------------------------'
+}
+
 function show_sync() {
     local seq=0
     local idx=0
 
+    echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'
+
+    echo '-------------------------------------------------------------------------'
     while [ $seq -lt ${#deploy_seq[@]} ]; do
         idx=${deploy_seq[$seq]}
         local infos=($(echo ${pack_names[$idx]} | sed 's/,/\n/g'))
         [ "${infos[0]}" != "" ] && cat $OC_FILE_SYNC | grep ": ${infos[0]}" | grep "OK" | tail -n 1
         ((seq++))
     done
+    echo '-------------------------------------------------------------------------'
 }
 
 function usage() {
-    echo "Synchronize all packages: oc_bestsets_downloader.sh"
-    echo "Show available packages: oc_bestsets_downloader.sh --show-packages"
-    echo "Show synchronized packages: oc_bestsets_downloader.sh --show-sync"
-    echo "Synchronize specific packages: oc_bestsets_downloader.sh --deploy-seq=0,1,..."
-    echo "Synchronize specific packages with interactive mode: oc_bestsets_downloader.sh --prompt-deploy"
+    echo "Synchronize all packages                         : oc_bestsets_downloader.sh"
+    echo "Synchronize specific packages                    : oc_bestsets_downloader.sh --deploy-seq=0,1,..."
+    echo "Synchronize specific packages (interactive mode) : oc_bestsets_downloader.sh --prompt-deploy"
+    echo "Show available packages                          : oc_bestsets_downloader.sh --show-packages"
+    echo "Show synchronized packages                       : oc_bestsets_downloader.sh --show-sync"
     echo ""
     echo "Use --force-sync argument to force local packages synchronization"
     echo "Use --local-ini argument to force using your local ini file (oc_bestsets.ini)"
@@ -266,8 +278,8 @@ if [ $OPT_NOINSTALL -eq 0 ]; then
 
     download_install
 else
-    if [ $OPT_SHOW -eq 1 ]; then echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'; cat ${OC_FILE_INI} | grep '# PACK '; fi
-    if [ $OPT_SHOW_SYNC -eq 1 ]; then source ${OC_FILE_INI} && echo '[LOAD|INI]: loading '${OC_FILE_INI}'...'; show_sync; fi
+    if [ $OPT_SHOW -eq 1 ]; then show_packages; fi
+    if [ $OPT_SHOW_SYNC -eq 1 ]; then source ${OC_FILE_INI} && show_sync; fi
 fi
 
 echo '--------------------  END oc_bestsets_downloader  -----------------------'
