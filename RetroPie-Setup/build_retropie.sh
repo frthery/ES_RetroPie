@@ -235,10 +235,11 @@ function getModule() {
     local mod_id=$1
     local idx="$(rp_getIdxFromId $mod_id)"
 
-    logger 1 "DOWNLOAD [$mod_id] MODULE"
-
     [ "$idx" = "" ] && logger 1 "ERROR: [$mod_id] MODULE - NOT FOUND!" && return
-    [ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && logger 1 "WARN: [$mod_id] MODULE - NOT A RetroPie LIBRETROCORE!" && return 
+    #[ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && logger 1 "WARN: [$mod_id] MODULE - NOT A RetroPie LIBRETROCORE!" && return 
+    [ ${__mod_type[$idx]} == "libretrocores" ] && [[ "${mod_id}" != "lr-"* ]] && return 
+
+    logger 1 "DOWNLOAD [$mod_id] MODULE"
 
     if [ opt_binary_system != 'default' ]; then
        __system=$opt_binary_system
