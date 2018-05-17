@@ -97,7 +97,7 @@ function download_install_media() {
             filename="$(curl -sc /tmp/gcokie "${ggURL}&id=${ggID}" | grep -o '="uc-name.*</span>' | sed 's/.*">//;s/<.a> .*//')"
             getcode="$(awk '/_warning_/ {print $NF}' /tmp/gcokie)"
             curl -Lb /tmp/gcokie "${ggURL}&confirm=${getcode}&id=${ggID}" -o "${OC_DWL_PATH}/${file}"
-            unzip -t "${OC_DWL_PATH}/${files[0]}" &> /dev/null
+            unzip -t "${OC_DWL_PATH}/${file}" &> /dev/null
             DDL=$?
         fi
         echo '-------------------------------------------------------------------------'
