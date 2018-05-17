@@ -91,11 +91,17 @@ function download_install_media() {
             megadl ${media} --path ${OC_DWL_PATH} 2> /dev/null
             DDL=$?
         elif [ $OPT_DRIVE -eq 1 ]; then
-            wget --no-check-certificate ${media} -O ${OC_DWL_PATH}/${file}
+            #wget --no-check-certificate ${media} -O ${OC_DWL_PATH}/${file}
+            ggID=$(echo ${media} | egrep -o '(\w|-){26,}')
+            ggURL='https://drive.google.com/uc?export=download'
+            filename="$(curl -sc /tmp/gcokie "${ggURL}&id=${ggID}" | grep -o '="uc-name.*</span>' | sed 's/.*">//;s/<.a> .*//')"
+            getcode="$(awk '/_warning_/ {print $NF}' /tmp/gcokie)"
+            curl -Lb /tmp/gcokie "${ggURL}&confirm=${getcode}&id=${ggID}" -o "${OC_DWL_PATH}/${file}"
+            unzip -t "${OC_DWL_PATH}/${files[0]}" &> /dev/null
             DDL=$?
         fi
         echo '-------------------------------------------------------------------------'
-        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${file} && ((seq++)) 
+        [ $DDL -ne 0 ] && echo '[ERROR|DOWNLOAD: '${infos[0]}']: '${file} && ((seq++))
         [ $DDL -ne 0 ] && continue
 
         # CREATE OUTPUT FOLDERS
